@@ -15,20 +15,20 @@ El juego se basara en un estilo tipo Final Fantasy.
 
 *	Habrá dos vistas diferentes modo combate y modo exploración.
   **	Modo combate, la vista serán los enemigos y los jugadores con una interfaz de ataques.
-    ***	Sera por turnos y cuando uno acabe su turno le tocara al siguiente, tanto si es enemigo o es el turno del jugador.
+    **	Sera por turnos y cuando uno acabe su turno le tocara al siguiente, tanto si es enemigo o es el turno del jugador.
   **	Modo exploración, el jugador podrá moverse por el mapa, explorando e interactuando con el entorno.
-2.	Enemigos en el mapa, chocar con ellos y combatir.
-3.	El nivel será un mapa de tiles.
-4.	Se podrá subir de nivel con lo que ataques serán más fuertes.
-5.	Los enemigos se harán más fuertes a medida que el jugador tiene más nivel.
-6.	Habrá distintos tipos de enemigos, que dependiendo que jugador les golpee les hará más daño.
-7.	Solo habrá 3 personajes principales que se verán solo en combate, en exploración solo camina uno.
-  a.	En combate, los turnos definirán que personaje va atacar.
-  b.	Habrá dos tipos de ataque uno fuerte contra el enemigo débil a este jugador.
-8.	Para cambiar al siguiente nivel, tienes que resolver un pequeño puzzle.
-  a.	Coger llave para una puerta.
-  b.	Pulsadores orden concreto.
-9.	El jugador tendrá dos tipos de ataque.
+*	Enemigos en el mapa, chocar con ellos y combatir.
+*	El nivel será un mapa de tiles.
+*	Se podrá subir de nivel con lo que ataques serán más fuertes.
+*	Los enemigos se harán más fuertes a medida que el jugador tiene más nivel.
+*	Habrá distintos tipos de enemigos, que dependiendo que jugador les golpee les hará más daño.
+*	Solo habrá 3 personajes principales que se verán solo en combate, en exploración solo camina uno.
+  **	En combate, los turnos definirán que personaje va atacar.
+  **	Habrá dos tipos de ataque uno fuerte contra el enemigo débil a este jugador.
+*	Para cambiar al siguiente nivel, tienes que resolver un pequeño puzzle.
+  **	Coger llave para una puerta.
+  **	Pulsadores orden concreto.
+*	El jugador tendrá dos tipos de ataque.
 
 ## Objective
 
