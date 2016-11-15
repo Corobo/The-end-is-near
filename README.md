@@ -13,10 +13,10 @@ Juego de temática libre para la asignatura Software de entretenimiento y Videoj
 
 El juego se basara en un estilo tipo Final Fantasy.
 
-1.	Habrá dos vistas diferentes modo combate y modo exploración.
-  a.	Modo combate, la vista serán los enemigos y los jugadores con una interfaz de ataques.
-    i.	Sera por turnos y cuando uno acabe su turno le tocara al siguiente, tanto si es enemigo o es el turno del jugador.
-  b.	Modo exploración, el jugador podrá moverse por el mapa, explorando e interactuando con el entorno.
+*	Habrá dos vistas diferentes modo combate y modo exploración.
+  **	Modo combate, la vista serán los enemigos y los jugadores con una interfaz de ataques.
+    ***	Sera por turnos y cuando uno acabe su turno le tocara al siguiente, tanto si es enemigo o es el turno del jugador.
+  **	Modo exploración, el jugador podrá moverse por el mapa, explorando e interactuando con el entorno.
 2.	Enemigos en el mapa, chocar con ellos y combatir.
 3.	El nivel será un mapa de tiles.
 4.	Se podrá subir de nivel con lo que ataques serán más fuertes.
