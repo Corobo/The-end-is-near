@@ -44,8 +44,9 @@ Imágenes de juegos similares.
 
 Sistema de combate:
  
-https://www.google.es/imgres?imgurl=http%3A%2F%2Ffantasyanime.com%2Ffinalfantasy%2Fff%2Fimages%2FFinalFantasyPSP_04.jpg&imgrefurl=http%3A%2F%2Ffantasyanime.com%2Ffinalfantasy%2Fff%2Fffpsp_shots.htm&docid=esM9q6qYMoneeM&tbnid=aBf4hDmj2Otw2M%3A&vet=1&w=480&h=272&bih=918&biw=1280&ved=0ahUKEwj4267olqvQAhUp3IMKHcdRDY8QMwgqKA8wDw&iact=mrc&uact=8
+![Combate](https://i.ytimg.com/vi/tSZvCgqQiXU/maxresdefault.jpg)
+
 
 Exploración:
  
-https://www.google.es/imgres?imgurl=http%3A%2F%2F199.101.98.242%2Fmedia%2Fimages%2F157296-Final_Fantasy_(USA)-2.jpg&imgrefurl=http%3A%2F%2Fwww.emuparadise.me%2FPSP_ISOs%2FFinal_Fantasy_(USA)%2F157296&docid=HiEVvAk5chhxvM&tbnid=5rksi3XvC321oM%3A&vet=1&w=480&h=272&bih=918&biw=1280&ved=0ahUKEwj4267olqvQAhUp3IMKHcdRDY8QMwgmKAswCw&iact=mrc&uact=8
+![Exploracion](http://199.101.98.242/media/images/157296-Final_Fantasy_(USA)-2.jpg)
