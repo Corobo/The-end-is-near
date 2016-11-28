@@ -2,20 +2,16 @@ package com.grupo.the_end_is_near;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Path;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.plataformas.gestores.GestorAudio;
-import com.plataformas.gestores.Opciones;
-import com.plataformas.modelos.escenarios.Nivel;
-import com.plataformas.modelos.controles.BotonDisparar;
-import com.plataformas.modelos.controles.BotonSaltar;
-import com.plataformas.modelos.controles.Contador;
-import com.plataformas.modelos.controles.Pad;
+import com.grupo.the_end_is_near.escenario.Nivel;
+import com.grupo.the_end_is_near.gestores.GestorAudio;
+import com.grupo.the_end_is_near.gestores.Opciones;
+import com.grupo.the_end_is_near.modelos.controles.Pad;
 
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
@@ -31,10 +27,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
     public int numeroNivel = 0;
 
     private Pad pad;
-    private BotonSaltar botonSaltar;
-    public static Contador contador;
 
-    private BotonDisparar botonDisparar;
     public GestorAudio gestorAudio;
 
     public boolean pausa=false;
@@ -113,37 +106,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
                         nivel.nivelPausado = false;
                 }
 
-                if (botonDisparar.estaPulsado(x[i], y[i])) {
-
-                    float orientacion = botonDisparar.getOrientacionX(x[i]);
-                    float orientacionY = botonDisparar.getOrientacionY(y[i]);
-
-                    int anguloDisparo = botonDisparar.calcularAngulo(orientacion,orientacionY);
-
-                    if (accion[i] == ACTION_DOWN) {
-                        if(orientacion!=0 && orientacionY!=0) {
-                            nivel.botonDispararPulsado = true;
-                            nivel.orientacionDisparoY = orientacionY;
-                            nivel.anguloDisparo=anguloDisparo;
-                        }
-                        else if(orientacion!=0 && orientacionY==0) {
-                            nivel.botonDispararPulsado = true;
-                            nivel.orientacionDisparoY = orientacionY;
-                            nivel.anguloDisparo=anguloDisparo;
-                        }
-                        else{
-                            nivel.botonDispararPulsado=true;
-                        }
-
-                    }
-                }
-
-
-                if (botonSaltar.estaPulsado(x[i], y[i])) {
-                    if (accion[i] == ACTION_DOWN) {
-                        nivel.botonSaltarPulsado = true;
-                    }
-                }
 
                 if (pad.estaPulsado(x[i], y[i])) {
 
@@ -158,19 +120,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
                         else if(orientacionY<0){
                             pulsacionPadMover=false;
                             nivel.orientacionPadY = orientacionY;
-                            nivel.entraPuerta=true;
                             nivel.padAbajoPulsado=true;
                         }
                         else if(orientacionY>0){
                             pulsacionPadMover=false;
                             nivel.orientacionPadY = orientacionY;
-                            nivel.entraPuerta=true;
                             nivel.padArribaPulsado=true;
                         }
                         else if(orientacionY==0){
                             pulsacionPadMover=false;
                             nivel.orientacionPadY = orientacionY;
-                            nivel.entraPuerta=false;
                             nivel.padArribaPulsado=false;
                         }
                     }
@@ -183,10 +142,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
     }
 
     protected void inicializar() throws Exception {
-        contador = new Contador(context);
         pad = new Pad(context);
-        botonSaltar = new BotonSaltar(context);
-        botonDisparar = new BotonDisparar(context);
         nivel = new Nivel(context,numeroNivel);
         nivel.gameView = this;
         if(!Opciones.musica)
@@ -213,9 +169,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
         nivel.dibujar(canvas);
         if (!nivel.nivelPausado) {
             pad.dibujar(canvas);
-            botonSaltar.dibujar(canvas);
-            contador.dibujar(canvas);
-            botonDisparar.dibujar(canvas);
         }
     }
 
@@ -275,12 +228,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
         if( keyCode == 51) {
             nivel.orientacionPadY = 0.5f;
             nivel.padArribaPulsado = true;
-        }
-        if( keyCode == 33) {
-            nivel.botonSaltarPulsado = true;
-        }
-        if( keyCode == 62) {
-            nivel.botonDispararPulsado = true;
         }
         return super.onKeyDown(keyCode, event);
     }
