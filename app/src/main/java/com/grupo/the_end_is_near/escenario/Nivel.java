@@ -65,7 +65,7 @@ public class Nivel {
 
     public void actualizar(long tiempo) throws Exception {
         if (inicializado) {
-            jugador.procesarOrdenes(orientacionPad);
+            jugador.procesarOrdenes(orientacionPad,orientacionPadY);
             jugador.actualizar(tiempo);
             aplicarReglasMovimiento();
         }
@@ -149,7 +149,7 @@ public class Nivel {
             case '#':
                 // bloque de musgo, no se puede pasar
                 return new Tile(CargadorGraficos.cargarDrawable(context,
-                        R.drawable.musgo), Tile.SOLIDO);
+                        R.drawable.mundo_15), Tile.SOLIDO);
             default:
                 //cualquier otro caso
                 return new Tile(null, Tile.PASABLE);
@@ -235,8 +235,6 @@ public class Nivel {
                 = (int) jugador.y / Tile.altura;
         int tileYJugadorSuperior
                 = (int) (jugador.y - (jugador.altura / 2 - 1)) / Tile.altura;
-        int tileXJugador = (int) jugador.x / Tile.ancho;
-
 
         // derecha o parado
         if (jugador.getVelocidadX() > 0) {
@@ -333,18 +331,14 @@ public class Nivel {
             // Tile superior PASABLE
             // Podemos seguir moviendo hacia arriba
             if (tileYJugadorSuperior - 1 >= 0 &&
-                    mapaTiles[tileXJugadorIzquierda][tileYJugadorSuperior - 1].tipoDeColision
+                    mapaTiles[tileXJugadorIzquierda][tileYJugadorSuperior].tipoDeColision
                             == Tile.PASABLE
-                    && mapaTiles[tileXJugadorDerecha][tileYJugadorSuperior - 1].tipoDeColision
+                    && mapaTiles[tileXJugadorDerecha][tileYJugadorSuperior].tipoDeColision
                     == Tile.PASABLE) {
                 jugador.y += jugador.getVelocidadY();
 
-                // Tile superior != de PASABLE
-                // O es un tile SOLIDO, o es el TECHO del mapa
             } else {
 
-                // Si en el propio tile del jugador queda espacio para
-                // subir más, subo
                 int TileJugadorBordeSuperior = (tileYJugadorSuperior) * Tile.altura;
                 double distanciaY = (jugador.y - jugador.altura / 2) - TileJugadorBordeSuperior;
 
@@ -369,11 +363,7 @@ public class Nivel {
                             == Tile.PASABLE
                     && mapaTiles[tileXJugadorDerecha][tileYJugadorInferior + 1].tipoDeColision
                     == Tile.PASABLE) {
-                // si los dos están libres cae
                 jugador.y += jugador.getVelocidadY();
-                jugador.enElAire = true; // Sigue en el aire o se cae
-                // Tile inferior SOLIDO
-                // El ULTIMO, es un caso especial
 
             } else if (tileYJugadorInferior + 1 <= altoMapaTiles() - 1 &&
                     (mapaTiles[tileXJugadorIzquierda][tileYJugadorInferior + 1].tipoDeColision
@@ -389,7 +379,6 @@ public class Nivel {
                 double distanciaY =
                         TileJugadorBordeInferior - (jugador.y + jugador.altura / 2);
 
-                jugador.enElAire = true; // Sigue en el aire o se cae
                 if (distanciaY > 0) {
                     jugador.y += Math.min(distanciaY, jugador.getVelocidadY());
 
@@ -397,23 +386,10 @@ public class Nivel {
                     // Toca suelo, nos aseguramos de que está bien
                     jugador.y = TileJugadorBordeInferior - jugador.altura / 2;
                     jugador.setVelocidadY(0);
-                    jugador.enElAire = false;
                 }
 
                 // Esta cayendo por debajo del ULTIMO
                 // va a desaparecer y perder.
-            } else {
-
-                jugador.y += jugador.getVelocidadY();
-                jugador.enElAire = true;
-
-                if (jugador.y + jugador.altura / 2 > GameView.pantallaAlto) {
-                    // ha perdido
-                    nivelPausado = true;
-                    mensaje = CargadorGraficos.cargarBitmap(context, R.drawable.you_lose);
-                    inicializar();
-                    jugador.restablecerPosicionInicial();
-                }
 
             }
         }

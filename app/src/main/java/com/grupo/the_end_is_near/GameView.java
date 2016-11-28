@@ -116,21 +116,25 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
                         if(orientacion!=0) {
                             pulsacionPadMover = true;
                             nivel.orientacionPad = orientacion;
+                            nivel.orientacionPadY = 0.0f;
                         }
                         else if(orientacionY<0){
                             pulsacionPadMover=false;
                             nivel.orientacionPadY = orientacionY;
                             nivel.padAbajoPulsado=true;
+                            nivel.orientacionPad = 0.0f;
                         }
                         else if(orientacionY>0){
                             pulsacionPadMover=false;
                             nivel.orientacionPadY = orientacionY;
                             nivel.padArribaPulsado=true;
+                            nivel.orientacionPad = 0.0f;
                         }
                         else if(orientacionY==0){
                             pulsacionPadMover=false;
                             nivel.orientacionPadY = orientacionY;
                             nivel.padArribaPulsado=false;
+                            nivel.orientacionPad = 0.0f;
                         }
                     }
                 }
@@ -217,17 +221,21 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
 
         if( keyCode == 32) {
             nivel.orientacionPad = -0.5f;
+            nivel.orientacionPadY = 0.0f;
         }
         if( keyCode == 29) {
             nivel.orientacionPad = 0.5f;
+            nivel.orientacionPadY = 0.0f;
         }
         if( keyCode == 47) {
             nivel.orientacionPadY = -0.5f;
             nivel.padAbajoPulsado = true;
+            nivel.orientacionPad =  0.0f;
         }
         if( keyCode == 51) {
             nivel.orientacionPadY = 0.5f;
             nivel.padArribaPulsado = true;
+            nivel.orientacionPad =  0.0f;
         }
         return super.onKeyDown(keyCode, event);
     }

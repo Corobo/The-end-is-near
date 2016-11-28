@@ -21,12 +21,12 @@ public class Jugador extends Modelo {
     //Animaciones
     public static final String PARADO_DERECHA = "Parado_derecha";
     public static final String PARADO_IZQUIERDA = "Parado_izquierda";
-    public static final String SALTANDO_DERECHA = "saltando_derecha";
-    public static final String SALTANDO_IZQUIERDA = "saltando_izquierda";
+    public static final String PARADO_ARRIBA = "Parado_arriba";
+    public static final String PARADO_ABAJO = "Parado_abajo";
     public static final String CAMINANDO_DERECHA = "Caminando_derecha";
     public static final String CAMINANDO_IZQUIERDA = "Caminando_izquierda";
-    public static final String GOLPEADO_DERECHA = "golpeado_derecha";
-    public static final String GOLPEADO_IZQUIERDA = "golpeado_izquierda";
+    public static final String CAMINANDO_ARRIBA = "Caminando_arriba";
+    public static final String CAMINANDO_ABAJO = "Caminando_abajo";
 
     public int vidas;
     // ACTUAL
@@ -54,6 +54,8 @@ public class Jugador extends Modelo {
     public int orientacion;
     public static final int DERECHA = 1;
     public static final int IZQUIERDA = -1;
+    public static final int ARRIBA = 2;
+    public static final int ABAJO = -2;
 
     public boolean disparando;
     public static final String DISPARANDO_DERECHA = "disparando_derecha";
@@ -76,69 +78,57 @@ public class Jugador extends Modelo {
 
     public void inicializar (){
         Sprite paradoDerecha = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.playeridleright),
+                CargadorGraficos.cargarDrawable(context, R.drawable.personaje_derecha_parado),
                 ancho, altura,
-                4, 8, true);
+                1, 1, true);
         sprites.put(PARADO_DERECHA, paradoDerecha);
 
         Sprite paradoIzquierda = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.playeridle),
+                CargadorGraficos.cargarDrawable(context, R.drawable.personaje_izquierda_parado),
                 ancho, altura,
-                4, 8, true);
+                1, 1, true);
         sprites.put(PARADO_IZQUIERDA, paradoIzquierda);
 
         Sprite caminandoDerecha = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.playerrunright),
+                CargadorGraficos.cargarDrawable(context, R.drawable.personaje_derecha_moviendo),
                 ancho, altura,
-                4, 8, true);
+                1, 2, true);
         sprites.put(CAMINANDO_DERECHA, caminandoDerecha);
 
         Sprite caminandoIzquierda = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.playerrun),
+                CargadorGraficos.cargarDrawable(context, R.drawable.personaje_izquierda_moviendo),
                 ancho, altura,
-                4, 8, true);
+                1, 2, true);
         sprites.put(CAMINANDO_IZQUIERDA, caminandoIzquierda);
 
-        Sprite saltandoDerecha = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.playerjumpright),
+        Sprite arribaParado = new Sprite(
+                CargadorGraficos.cargarDrawable(context, R.drawable.personaje_arriba_parado),
                 ancho, altura,
-                4, 4, true);
-        sprites.put(SALTANDO_DERECHA, saltandoDerecha);
+                1, 1, true);
+        sprites.put(PARADO_ARRIBA, arribaParado);
 
-        Sprite saltandoIzquierda = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.playerjump),
+        Sprite arribaMoviendo = new Sprite(
+                CargadorGraficos.cargarDrawable(context, R.drawable.personaje_arriba_moviendo),
                 ancho, altura,
-                4, 4, true);
-        sprites.put(SALTANDO_IZQUIERDA, saltandoIzquierda);
+                1, 2, true);
+        sprites.put(CAMINANDO_ARRIBA, arribaMoviendo);
 
 
-        Sprite disparandoDerecha = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.playershootright),
+        Sprite abajoParado = new Sprite(
+                CargadorGraficos.cargarDrawable(context, R.drawable.personaje_abajo_parado),
                 ancho, altura,
-                4, 4, false);
-        sprites.put(DISPARANDO_DERECHA, disparandoDerecha);
+                1, 1, false);
+        sprites.put(PARADO_ABAJO, abajoParado);
 
-        Sprite disparandoIzquierda = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.playershoot),
+        Sprite abajoMoviendo = new Sprite(
+                CargadorGraficos.cargarDrawable(context, R.drawable.personaje_abajo_moviendo),
                 ancho, altura,
-                4, 4, false);
-        sprites.put(DISPARANDO_IZQUIERDA, disparandoIzquierda);
+                1, 2, false);
+        sprites.put(CAMINANDO_ABAJO, abajoMoviendo);
 
-
-        Sprite golpeadoDerecha = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.playerimpactright),
-                ancho, altura,
-                4, 4, false);
-        sprites.put(GOLPEADO_DERECHA, golpeadoDerecha);
-
-        Sprite golpeadoIzquierda = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.playerimpact),
-                ancho, altura,
-                4, 4, false);
-        sprites.put(GOLPEADO_IZQUIERDA, golpeadoIzquierda);
 
         // animación actual
-        sprite = paradoDerecha;
+        sprite = abajoParado;
     }
 
     public void actualizar (long tiempo) {
@@ -152,17 +142,9 @@ public class Jugador extends Modelo {
         if (golpeado && finSprite){
             golpeado = false;
         }
-
         if(disparando && finSprite){
             disparando = false;
         }
-
-        if (saltoPendiente){
-            saltoPendiente = false;
-            enElAire = true;
-            velocidadY = velcidadSalto;
-        }
-
         if (velocidadX > 0 ) {
             sprite = sprites.get(CAMINANDO_DERECHA);
             orientacion = DERECHA;
@@ -171,7 +153,6 @@ public class Jugador extends Modelo {
             sprite = sprites.get(CAMINANDO_IZQUIERDA);
             orientacion = IZQUIERDA;
         }
-
         if (velocidadX == 0 ){
             if (orientacion == DERECHA){
                 sprite = sprites.get(PARADO_DERECHA);
@@ -179,30 +160,21 @@ public class Jugador extends Modelo {
                 sprite = sprites.get(PARADO_IZQUIERDA);
             }
         }
-
-        if (enElAire && orientacion == IZQUIERDA ){
-            sprite = sprites.get(SALTANDO_IZQUIERDA);
+        if(velocidadY >0 ){
+            sprite = sprites.get(CAMINANDO_ABAJO);
+            orientacion = ABAJO;
         }
-        if (enElAire && orientacion == DERECHA ) {
-            sprite = sprites.get(SALTANDO_DERECHA);
+        if(velocidadY <0){
+            sprite = sprites.get(CAMINANDO_ARRIBA);
+            orientacion = ARRIBA;
         }
-
-        if (disparando){
-            if (orientacion == DERECHA){
-                sprite = sprites.get(DISPARANDO_DERECHA);
-            } else if (orientacion == IZQUIERDA) {
-                sprite = sprites.get(DISPARANDO_IZQUIERDA);
+        if(velocidadY==0){
+            if(orientacion==ARRIBA){
+                sprite = sprites.get(PARADO_ARRIBA);
+            }else if(orientacion == ABAJO){
+                sprite = sprites.get(PARADO_ABAJO);
             }
         }
-
-        if (golpeado){
-            if (orientacion == DERECHA){
-                sprite = sprites.get(GOLPEADO_DERECHA);
-            } else if (orientacion == IZQUIERDA) {
-                sprite = sprites.get(GOLPEADO_IZQUIERDA);
-            }
-        }
-
 
 
     }
@@ -211,7 +183,7 @@ public class Jugador extends Modelo {
         sprite.dibujarSprite(canvas, (int) x - Nivel.scrollEjeX, (int) y - Nivel.scrollEjeY, msInmunidad > 0);
     }
 
-    public void procesarOrdenes (float orientacionPad) {
+    public void procesarOrdenes (float orientacionPad,float orientacionPadY) {
         if (orientacionPad > 0) {
             velocidadX = -5;
         } else if (orientacionPad < 0 ){
@@ -219,38 +191,15 @@ public class Jugador extends Modelo {
         } else {
             velocidadX = 0;
         }
-    }
-
-
-    public void restablecerPosicionInicial(){
-        if(Opciones.dificultad)
-            vidas = 1;
-        else
-            vidas = 3;
-        golpeado = false;
-        msInmunidad = 0;
-
-        this.x = xInicial;
-        this.y = yInicial;
-        orientacion = DERECHA;
-        enElAire = false;
-        saltoPendiente = false;
-    }
-
-
-    public int golpeado(){
-        if (msInmunidad <= 0) {
-            if (vidas > 0) {
-                vidas--;
-                msInmunidad = 3000;
-                golpeado = true;
-                // Reiniciar animaciones que no son bucle
-                sprites.get(GOLPEADO_IZQUIERDA).setFrameActual(0);
-                sprites.get(GOLPEADO_DERECHA).setFrameActual(0);
-            }
+        if(orientacionPadY > 0){
+            velocidadY = -5;
+        } else if (orientacionPadY < 0 ){
+            velocidadY = 5;
+        } else {
+            velocidadY = 0;
         }
-        return vidas;
     }
+
 
     public double getVelocidadX(){
         return velocidadX;
