@@ -117,7 +117,7 @@ public class Jugador extends Modelo {
         Sprite abajoParado = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.personaje_abajo_parado),
                 ancho, altura,
-                1, 1, false);
+                1, 2, false);
         sprites.put(PARADO_ABAJO, abajoParado);
 
         Sprite abajoMoviendo = new Sprite(
