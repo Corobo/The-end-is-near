@@ -144,6 +144,7 @@ public class Nivel {
 
                 return new Tile(null, Tile.PASABLE);
             case '.':
+                
                 // en blanco, sin textura
                 return new Tile(null, Tile.PASABLE);
             case '#':
