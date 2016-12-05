@@ -43,9 +43,9 @@ public class Jugador extends Modelo {
     double yInicial;
 
 
-     double velocidadX;
-     float velocidadY; // actual
-     float velcidadSalto = -14; // velocidad que le da el salto
+    double velocidadX;
+    float velocidadY; // actual
+    float velcidadSalto = -14; // velocidad que le da el salto
 
     public boolean saltoPendiente; // tiene que saltar
     public boolean enElAire; // está en el aire
@@ -56,11 +56,6 @@ public class Jugador extends Modelo {
     public static final int IZQUIERDA = -1;
     public static final int ARRIBA = 2;
     public static final int ABAJO = -2;
-
-    public boolean disparando;
-    public static final String DISPARANDO_DERECHA = "disparando_derecha";
-    public static final String DISPARANDO_IZQUIERDA = "disparando_izquierda";
-
 
     public Jugador(Context context, double xInicial, double yInicial,int vidas) {
         super(context, 0, 0, 40, 40);
@@ -142,9 +137,6 @@ public class Jugador extends Modelo {
         if (golpeado && finSprite){
             golpeado = false;
         }
-        if(disparando && finSprite){
-            disparando = false;
-        }
         if (velocidadX > 0 ) {
             sprite = sprites.get(CAMINANDO_DERECHA);
             orientacion = DERECHA;
@@ -183,10 +175,10 @@ public class Jugador extends Modelo {
         sprite.dibujarSprite(canvas, (int) x - Nivel.scrollEjeX, (int) y - Nivel.scrollEjeY, msInmunidad > 0);
     }
 
-    public void procesarOrdenes (float orientacionPad,float orientacionPadY) {
-        if (orientacionPad > 0) {
+    public void procesarOrdenes (float orientacionPadX,float orientacionPadY) {
+        if (orientacionPadX > 0) {
             velocidadX = -5;
-        } else if (orientacionPad < 0 ){
+        } else if (orientacionPadX < 0 ){
             velocidadX = 5;
         } else {
             velocidadX = 0;
@@ -214,9 +206,5 @@ public class Jugador extends Modelo {
         this.xInicial=xInicial;
         this.yInicial=yInicial;
     }
-
-
-
-
 
 }

@@ -14,7 +14,7 @@ import com.grupo.the_end_is_near.gestores.Opciones;
 import com.grupo.the_end_is_near.modelos.controles.Pad;
 
 
-public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
+public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     boolean iniciado = false;
     Context context;
@@ -30,8 +30,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
 
     public GestorAudio gestorAudio;
 
-    public boolean pausa=false;
-
+    public boolean pausa = false;
 
 
     public GameView(Context context) {
@@ -48,7 +47,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
     }
 
 
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         // valor a Binario
@@ -56,7 +54,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
         // Indice del puntero
         int pointerIndex = (event.getAction() & MotionEvent.ACTION_POINTER_INDEX_MASK) >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
 
-        int pointerId  = event.getPointerId(pointerIndex);
+        int pointerId = event.getPointerId(pointerIndex);
         switch (action) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_POINTER_DOWN:
@@ -73,9 +71,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
                 break;
             case MotionEvent.ACTION_MOVE:
                 int pointerCount = event.getPointerCount();
-                for(int i =0; i < pointerCount; i++){
+                for (int i = 0; i < pointerCount; i++) {
                     pointerIndex = i;
-                    pointerId  = event.getPointerId(pointerIndex);
+                    pointerId = event.getPointerId(pointerIndex);
                     accion[pointerId] = ACTION_MOVE;
                     x[pointerId] = event.getX(pointerIndex);
                     y[pointerId] = event.getY(pointerIndex);
@@ -95,61 +93,48 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
     float x[] = new float[6];
     float y[] = new float[6];
 
-    public void procesarEventosTouch(){
+    public void procesarEventosTouch() {
         boolean pulsacionPadMover = false;
 
-        for(int i=0; i < 6; i++){
-            if(accion[i] != NO_ACTION ) {
+        for (int i = 0; i < 6; i++) {
+            if (accion[i] != NO_ACTION) {
 
-                if(accion[i] == ACTION_DOWN){
-                    if(nivel.nivelPausado)
+                if (accion[i] == ACTION_DOWN) {
+                    if (nivel.nivelPausado)
                         nivel.nivelPausado = false;
                 }
 
-
                 if (pad.estaPulsado(x[i], y[i])) {
 
-                    float orientacion = pad.getOrientacionX(x[i]);
+                    float orientacionX = pad.getOrientacionX(x[i]);
                     float orientacionY = pad.getOrientacionY(y[i]);
                     // Si almenosuna pulsacion está en el pad
                     if (accion[i] != ACTION_UP) {
-                        if(orientacion!=0) {
+                        if (orientacionX != 0) {
                             pulsacionPadMover = true;
-                            nivel.orientacionPad = orientacion;
+                            nivel.orientacionPadX = orientacionX;
                             nivel.orientacionPadY = 0.0f;
-                        }
-                        else if(orientacionY<0){
-                            pulsacionPadMover=false;
+                        } else if (orientacionY != 0) {
+                            pulsacionPadMover = true;
                             nivel.orientacionPadY = orientacionY;
-                            nivel.padAbajoPulsado=true;
-                            nivel.orientacionPad = 0.0f;
-                        }
-                        else if(orientacionY>0){
-                            pulsacionPadMover=false;
-                            nivel.orientacionPadY = orientacionY;
-                            nivel.padArribaPulsado=true;
-                            nivel.orientacionPad = 0.0f;
-                        }
-                        else if(orientacionY==0){
-                            pulsacionPadMover=false;
-                            nivel.orientacionPadY = orientacionY;
-                            nivel.padArribaPulsado=false;
-                            nivel.orientacionPad = 0.0f;
+                            nivel.padAbajoPulsado = true;
+                            nivel.orientacionPadX = 0.0f;
                         }
                     }
                 }
             }
         }
-        if(!pulsacionPadMover) {
-            nivel.orientacionPad = 0;
+        if (!pulsacionPadMover) {
+            nivel.orientacionPadX = 0;
+            nivel.orientacionPadY = 0;
         }
     }
 
     protected void inicializar() throws Exception {
         pad = new Pad(context);
-        nivel = new Nivel(context,numeroNivel);
+        nivel = new Nivel(context, numeroNivel);
         nivel.gameView = this;
-        if(!Opciones.musica)
+        if (!Opciones.musica)
             gestorAudio.pararMusicaAmbiente();
     }
 
@@ -158,9 +143,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
         gestorAudio.reproducirMusicaAmbiente();
         gestorAudio.registrarSonido(GestorAudio.SONIDO_DISPARO_JUGADOR,
                 R.raw.lanzar_objeto);
-        gestorAudio.registrarSonido(GestorAudio.SONIDO_SALTO_JUGADOR,R.raw.salto_jugador);
-        gestorAudio.registrarSonido(GestorAudio.SONIDO_ENEMIGO_GOLPEADO,R.raw.disparo_golpea);
-        gestorAudio.registrarSonido(GestorAudio.SONIDO_JUGADOR_GOLPEADO,R.raw.jugador_golpeado);
+        gestorAudio.registrarSonido(GestorAudio.SONIDO_SALTO_JUGADOR, R.raw.salto_jugador);
+        gestorAudio.registrarSonido(GestorAudio.SONIDO_ENEMIGO_GOLPEADO, R.raw.disparo_golpea);
+        gestorAudio.registrarSonido(GestorAudio.SONIDO_JUGADOR_GOLPEADO, R.raw.jugador_golpeado);
     }
 
     public void actualizar(long tiempo) throws Exception {
@@ -209,41 +194,41 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
             try {
                 gameloop.join();
                 intentarDeNuevo = false;
-            }
-            catch (InterruptedException e) {
+            } catch (InterruptedException e) {
             }
         }
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        Log.v("Tecla","Tecla pulsada: "+keyCode);
+        Log.v("Tecla", "Tecla pulsada: " + keyCode);
 
-        if( keyCode == 32) {
-            nivel.orientacionPad = -0.5f;
+        if (keyCode == 32) {
+            nivel.orientacionPadX = -0.5f;
             nivel.orientacionPadY = 0.0f;
         }
-        if( keyCode == 29) {
-            nivel.orientacionPad = 0.5f;
+        if (keyCode == 29) {
+            nivel.orientacionPadX = 0.5f;
             nivel.orientacionPadY = 0.0f;
         }
-        if( keyCode == 47) {
+        if (keyCode == 47) {
             nivel.orientacionPadY = -0.5f;
             nivel.padAbajoPulsado = true;
-            nivel.orientacionPad =  0.0f;
+            nivel.orientacionPadX = 0.0f;
         }
-        if( keyCode == 51) {
+        if (keyCode == 51) {
             nivel.orientacionPadY = 0.5f;
             nivel.padArribaPulsado = true;
-            nivel.orientacionPad =  0.0f;
+            nivel.orientacionPadX = 0.0f;
         }
         return super.onKeyDown(keyCode, event);
     }
 
     @Override
-    public boolean onKeyUp (int keyCode, KeyEvent event) {
-        if( keyCode == 32 || keyCode == 29) {
-            nivel.orientacionPad = 0;
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == 32 || keyCode == 29 || keyCode == 47 || keyCode == 51) {
+            nivel.orientacionPadX = 0;
+            nivel.orientacionPadY=0;
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -251,14 +236,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
 
     public void nivelCompleto() throws Exception {
 
-        if (numeroNivel < 1){ // Número Máximo de Nivel
+        if (numeroNivel < 1) { // Número Máximo de Nivel
             numeroNivel++;
         } else {
             numeroNivel = 0;
         }
         inicializar();
     }
-
 
 
 }

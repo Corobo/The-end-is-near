@@ -29,7 +29,7 @@ public class Nivel {
     public boolean inicializado;
     private Tile[][] mapaTiles;
 
-    public float orientacionPad = 0;
+    public float orientacionPadX = 0;
     public float orientacionPadY = 0;
 
     public static int scrollEjeX = 0;
@@ -65,7 +65,7 @@ public class Nivel {
 
     public void actualizar(long tiempo) throws Exception {
         if (inicializado) {
-            jugador.procesarOrdenes(orientacionPad,orientacionPadY);
+            jugador.procesarOrdenes(orientacionPadX, orientacionPadY);
             jugador.actualizar(tiempo);
             aplicarReglasMovimiento();
         }
@@ -144,7 +144,6 @@ public class Nivel {
 
                 return new Tile(null, Tile.PASABLE);
             case '.':
-                
                 // en blanco, sin textura
                 return new Tile(null, Tile.PASABLE);
             case '#':
