@@ -152,13 +152,118 @@ public class Nivel {
                 jugador = new Jugador(context, xCentroAbajoTile, yCentroAbajoTile, 3);
 
                 return new Tile(null, Tile.PASABLE);
-            case '.':
-                // en blanco, sin textura
-                return new Tile(null, Tile.PASABLE);
-            case '#':
-                // bloque de musgo, no se puede pasar
+            case '2':
+                // Ciudadano
                 return new Tile(CargadorGraficos.cargarDrawable(context,
-                        R.drawable.mundo_15), Tile.SOLIDO);
+                        R.drawable.ciudadano_3_fondo_verde), Tile.SOLIDO);
+            case 'a':
+                // antorcha
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.antorcha_marron), Tile.SOLIDO);
+            case '9':
+                // Ciudadano
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.enemigo_suelo_marron), Tile.SOLIDO);
+            case 'p':
+                // pocion suelo marron
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.pocion_suelo_marron), Tile.SOLIDO);
+            case 'Y':
+                // parte diagonal izquierda de la cabaña con suelo marron
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.cabana_diagonal_izquierda_marron), Tile.SOLIDO);
+            case 'U':
+                // parte diagonal derecha de la cabaña con suelo marron
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.cabana_diagonal_derecha_marron), Tile.SOLIDO);
+            case 'y':
+                // parte abajo izquierda de la cabaña con suelo marron
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.cabana_abajo_izquierda_marron), Tile.SOLIDO);
+            case 'u':
+                // parte abajo derecha de la cabaña con suelo marron
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.cabana_abajo_derecha_marron), Tile.SOLIDO);
+            case '.':
+                //Fondo general del mapa, Aire Libre.
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_verde_1), Tile.PASABLE);
+            case 'W':
+                // suelo verde con linea marron Arriba
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_verde_marron_linea_arriba), Tile.PASABLE);
+            case 'w':
+                // suelo verde con esquina marron Arriba derecha
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_verde_marron_esquina_derecha_arriba), Tile.PASABLE);
+            case 'e':
+                // suelo verde con esquina marron Arriba izquierda
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_verde_marron_esquina_izquierda_arriba), Tile.PASABLE);
+            case 'E':
+                // suelo verde con linea marron izquierda
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_verde_marron_linea_izquierda), Tile.PASABLE);
+            case 'r':
+                // suelo verde con esquina marron abajo izquierda
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_verde_marron_esquina_izquierda_down), Tile.PASABLE);
+            case 'R':
+                // suelo verde con linea marron abajo
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_verde_marron_linea_abajo), Tile.PASABLE);
+            case 't':
+                // suelo verde con esquina marron abajo derecha
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_verde_marron_esquina_derecha_down), Tile.PASABLE);
+            case 'T':
+                // suelo verde con linea marron derecha
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_verde_marron_linea_derecha), Tile.PASABLE);
+            case '#':
+                // Arbol redondo, no se puede pasar
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.arbol_redondo_1), Tile.SOLIDO);
+            case '$':
+                // Arbol pico, no se puede pasar
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.arbol_pico_1), Tile.SOLIDO);
+            case 'A':
+                // Inicio camino de tierra borde izquierda Arriba
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_marron_verde_esquina_izquierda_up), Tile.PASABLE);
+            case 'Z':
+                // Inicio camino de tierra borde izquierda Abajo
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_marron_verde_esquina_izquierda_down), Tile.PASABLE);
+            case 'X':
+                // camino de tierra con linea Abajo
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_marron_verde_linea_abajo), Tile.PASABLE);
+            case 'S':
+                // camino de tierra con linea Arriba
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_marron_verde_linea_arriba), Tile.PASABLE);
+            case 'C':
+                // camino de tierra con esquina derecha abajo
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_marron_verde_esquina_derecha_down), Tile.PASABLE);
+            case 'q':
+                // camino de tierra con mueca verde Arriba izq
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_marron_mueca_verde_izq), Tile.PASABLE);
+            case ',':
+                // camino de tierra
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_marron), Tile.PASABLE);
+            case 'D':
+                // camino de tierra con linea Derecha
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_marron_verde_linea_derecha), Tile.PASABLE);
+            case 'F':
+                // camino de tierra con linea Izquierda
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_marron_verde_linea_izquierda), Tile.PASABLE);
             default:
                 //cualquier otro caso
                 return new Tile(null, Tile.PASABLE);
