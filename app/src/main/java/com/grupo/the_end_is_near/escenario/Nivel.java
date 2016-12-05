@@ -13,12 +13,14 @@ import com.grupo.the_end_is_near.R;
 import com.grupo.the_end_is_near.gestores.CargadorGraficos;
 import com.grupo.the_end_is_near.gestores.Opciones;
 import com.grupo.the_end_is_near.gestores.Utilidades;
+import com.grupo.the_end_is_near.modelos.Enemigo;
 import com.grupo.the_end_is_near.modelos.escenarios.Fondo;
 import com.grupo.the_end_is_near.modelos.jugador.mapa.Jugador;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,6 +29,7 @@ public class Nivel {
     private int numeroNivel;
     private Jugador jugador;
     private Fondo fondo;
+    private List<Enemigo> enemigos;
 
     public boolean inicializado;
     private Tile[][] mapaTiles;
@@ -64,6 +67,7 @@ public class Nivel {
         scrollEjeY = 0;
 
         mensaje = CargadorGraficos.cargarBitmap(context, R.drawable.description);
+        enemigos = new LinkedList<Enemigo>();
         nivelPausado = true;
         inicializarMapaTiles();
         //TODO ajustar scroll
@@ -73,8 +77,12 @@ public class Nivel {
 
     public void actualizar(long tiempo) throws Exception {
         if (inicializado) {
+            for (Enemigo enemigo : enemigos) {
+                enemigo.actualizar(tiempo);
+            }
             jugador.procesarOrdenes(orientacionPadX, orientacionPadY);
             jugador.actualizar(tiempo);
+
             aplicarReglasMovimiento();
         }
     }
@@ -85,6 +93,10 @@ public class Nivel {
             fondo.dibujar(canvas);
             dibujarTiles(canvas);
             jugador.dibujar(canvas);
+
+            for (Enemigo enemigo : enemigos) {
+                enemigo.dibujar(canvas);
+            }
 
             if (nivelPausado) {
                 // la foto mide 480x320
@@ -151,7 +163,8 @@ public class Nivel {
                 int yCentroAbajoTile = y * Tile.altura + Tile.altura;
                 jugador = new Jugador(context, xCentroAbajoTile, yCentroAbajoTile, 3);
 
-                return new Tile(null, Tile.PASABLE);
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_verde_1), Tile.PASABLE);
             case '2':
                 // Ciudadano
                 return new Tile(CargadorGraficos.cargarDrawable(context,
@@ -161,9 +174,13 @@ public class Nivel {
                 return new Tile(CargadorGraficos.cargarDrawable(context,
                         R.drawable.antorcha_marron), Tile.SOLIDO);
             case '9':
-                // Ciudadano
+                //Enemigo
+                int xCentroAbajoTileE = x * Tile.ancho + Tile.ancho / 2;
+                int yCentroAbajoTileE = y * Tile.altura + Tile.altura;
+                enemigos.add(new Enemigo(context, xCentroAbajoTileE, yCentroAbajoTileE));
+
                 return new Tile(CargadorGraficos.cargarDrawable(context,
-                        R.drawable.enemigo_suelo_marron), Tile.SOLIDO);
+                        R.drawable.suelo_marron), Tile.PASABLE);
             case 'p':
                 // pocion suelo marron
                 return new Tile(CargadorGraficos.cargarDrawable(context,
@@ -342,6 +359,8 @@ public class Nivel {
 
     private void aplicarReglasMovimiento() throws Exception {
 
+
+
         int tileXJugadorIzquierda
                 = (int) (jugador.x - (jugador.ancho / 2 - 1)) / Tile.ancho;
         int tileXJugadorDerecha
@@ -353,6 +372,113 @@ public class Nivel {
                 = (int) jugador.y / Tile.altura;
         int tileYJugadorSuperior
                 = (int) (jugador.y - (jugador.altura / 2 - 1)) / Tile.altura;
+
+
+       /* for (Iterator<Enemigo> iterator = enemigos.iterator(); iterator.hasNext(); ) {
+            Enemigo enemigo = iterator.next();
+
+            if (enemigo.estado == Enemigo.ELIMINAR) {
+                iterator.remove();
+                continue;
+            }
+            if (enemigo.estado != Enemigo.ACTIVO)
+                continue;
+
+            int tileXEnemigoIzquierda =
+                    (int) (enemigo.x - (enemigo.ancho / 2 - 1)) / Tile.ancho;
+            int tileXEnemigoDerecha =
+                    (int) (enemigo.x + (enemigo.ancho / 2 - 1)) / Tile.ancho;
+
+            int tileYEnemigoInferior =
+                    (int) (enemigo.y + (enemigo.altura / 2 - 1)) / Tile.altura;
+            int tileYEnemigoCentro =
+                    (int) enemigo.y / Tile.altura;
+            int tileYEnemigoSuperior =
+                    (int) (enemigo.y - (enemigo.altura / 2 - 1)) / Tile.altura;
+//Se comprueba la colision del enemigo y el jugador
+            int rango = 4;
+            if (tileXJugadorIzquierda - rango < tileXEnemigoIzquierda &&
+                    tileXJugadorIzquierda + rango > tileXEnemigoIzquierda) {
+
+          *//*      if (jugador.colisiona(enemigo)) {
+                    if (jugador.golpeado() <= 0) {
+                        jugador.restablecerPosicionInicial();
+                        scrollEjeX = 0;
+                        nivelPausado = true;
+                        marcador.setPuntos(0);
+                        mensaje = CargadorGraficos.cargarBitmap(context, R.drawable.you_lose);
+                        return;
+                    }
+                }*//*
+            }
+
+//Movimiento Derecha del enemigo
+            if (enemigo.velocidadX > 0) {
+                //  Solo una condicion para pasar:  Tile delante libre, el de abajo solido
+                if (tileXEnemigoDerecha + 1 <= anchoMapaTiles() - 1 &&
+                        mapaTiles[tileXEnemigoDerecha + 1][tileYEnemigoInferior].tipoDeColision ==
+                                Tile.PASABLE &&
+                        mapaTiles[tileXEnemigoDerecha + 1][tileYEnemigoCentro].tipoDeColision ==
+                                Tile.PASABLE &&
+                        mapaTiles[tileXEnemigoDerecha + 1][tileYEnemigoSuperior].tipoDeColision ==
+                                Tile.PASABLE &&
+                        mapaTiles[tileXEnemigoDerecha + 1][tileYEnemigoInferior + 1].tipoDeColision ==
+                                Tile.SOLIDO) {
+
+                    enemigo.x += enemigo.velocidadX;
+
+                    // Sino, me acerco al borde del que estoy
+                } else if (tileXEnemigoDerecha + 1 <= anchoMapaTiles() - 1) {
+
+                    int TileEnemigoDerecho = tileXEnemigoDerecha * Tile.ancho + Tile.ancho;
+                    double distanciaX = TileEnemigoDerecho - (enemigo.x + enemigo.ancho / 2);
+
+                    if (distanciaX > 0) {
+                        double velocidadNecesaria = Math.min(distanciaX, enemigo.velocidadX);
+                        enemigo.x += velocidadNecesaria;
+                    } else {
+                        enemigo.girar();
+                    }
+
+                    // No hay Tile, o es el final del mapa
+                } else {
+                    enemigo.girar();
+                }
+            }
+            //Movimiento Izquierda del enemigo
+            if (enemigo.velocidadX < 0) {
+                // Solo una condición para pasar: Tile izquierda pasable y suelo solido.
+                if (tileXEnemigoIzquierda - 1 >= 0 &&
+                        mapaTiles[tileXEnemigoIzquierda - 1][tileYEnemigoInferior].tipoDeColision ==
+                                Tile.PASABLE &&
+                        mapaTiles[tileXEnemigoIzquierda - 1][tileYEnemigoCentro].tipoDeColision ==
+                                Tile.PASABLE &&
+                        mapaTiles[tileXEnemigoIzquierda - 1][tileYEnemigoSuperior].tipoDeColision ==
+                                Tile.PASABLE &&
+                        mapaTiles[tileXEnemigoIzquierda - 1][tileYEnemigoInferior + 1].tipoDeColision
+                                == Tile.SOLIDO) {
+
+                    enemigo.x += enemigo.velocidadX;
+
+                    // Solido / borde del tile acercarse.
+                } else if (tileXEnemigoIzquierda - 1 >= 0) {
+
+                    int TileEnemigoIzquierdo = tileXEnemigoIzquierda * Tile.ancho;
+                    double distanciaX = (enemigo.x - enemigo.ancho / 2) - TileEnemigoIzquierdo;
+
+                    if (distanciaX > 0) {
+                        double velocidadNecesaria =
+                                Utilidades.proximoACero(-distanciaX, enemigo.velocidadX);
+                        enemigo.x += velocidadNecesaria;
+                    } else {
+                        enemigo.girar();
+                    }
+                } else {
+                    enemigo.girar();
+                }
+            }
+
+        } */
 
         // derecha o parado
         if (jugador.getVelocidadX() > 0) {
@@ -511,6 +637,13 @@ public class Nivel {
 
             }
         }
+      /*  for (Enemigo enemigo : enemigos) {
+            if (disparoJugador.colisiona(enemigo)) {
+                enemigo.destruir();
+                iterator.remove();
+                break;
+            }
+        }*/
 
     }
 

@@ -57,7 +57,7 @@ public class GameLoop extends Thread {
                         if (tiempoEspera > 0) {
                             try {
                                 // Util para ahorrar bateria
-                                Log.v("GameLoop","GameLoop - Tiempo de espera "+tiempoEspera);
+                              //  Log.v("GameLoop","GameLoop - Tiempo de espera "+tiempoEspera);
                                 Thread.sleep(tiempoEspera);
                             } catch (InterruptedException e) {
                             }
