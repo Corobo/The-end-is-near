@@ -11,6 +11,7 @@ import android.view.SurfaceView;
 import com.grupo.the_end_is_near.escenario.Nivel;
 import com.grupo.the_end_is_near.gestores.GestorAudio;
 import com.grupo.the_end_is_near.gestores.Opciones;
+import com.grupo.the_end_is_near.modelos.controles.BotonAccion;
 import com.grupo.the_end_is_near.modelos.controles.Pad;
 
 
@@ -24,9 +25,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public static int pantallaAlto;
 
     protected static Nivel nivel;
-    public int numeroNivel = 0;
 
     private Pad pad;
+    private BotonAccion btAccion;
 
     public GestorAudio gestorAudio;
 
@@ -122,6 +123,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                         }
                     }
                 }
+                if(btAccion.estaPulsado(x[i],y[i])){
+                    //nivel.accionJugador();
+                }
             }
         }
         if (!pulsacionPadMover) {
@@ -132,10 +136,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     protected void inicializar() throws Exception {
         pad = new Pad(context);
-        nivel = new Nivel(context, numeroNivel);
-        nivel.gameView = this;
+        btAccion = new BotonAccion(context);
+        cargarNivel(Maps.DEFAULT_WORLD);
         if (!Opciones.musica)
             gestorAudio.pararMusicaAmbiente();
+    }
+    
+    public void cargarNivel(Maps mapa) throws Exception {
+        int numeroMapa = mapa.ordinal();
+        nivel = new Nivel(context, numeroMapa);
+        nivel.gameView = this;
     }
 
     public void inicializarGestorAudio(Context context) {
@@ -158,6 +168,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         nivel.dibujar(canvas);
         if (!nivel.nivelPausado) {
             pad.dibujar(canvas);
+            btAccion.dibujar(canvas);
         }
     }
 
@@ -221,6 +232,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             nivel.padArribaPulsado = true;
             nivel.orientacionPadX = 0.0f;
         }
+        if(keyCode == 62){
+            //nivel.accionJugador();
+        }
         return super.onKeyDown(keyCode, event);
     }
 
@@ -231,17 +245,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             nivel.orientacionPadY=0;
         }
         return super.onKeyDown(keyCode, event);
-    }
-
-
-    public void nivelCompleto() throws Exception {
-
-        if (numeroNivel < 1) { // Número Máximo de Nivel
-            numeroNivel++;
-        } else {
-            numeroNivel = 0;
-        }
-        inicializar();
     }
 
 

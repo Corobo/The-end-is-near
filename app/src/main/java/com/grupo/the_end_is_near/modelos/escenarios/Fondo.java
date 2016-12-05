@@ -31,6 +31,8 @@ public class Fondo extends Modelo {
         }
     }
 
+
+
     public void moverX(double movimientoScroll){
         if( velocidadX > 0) {
 

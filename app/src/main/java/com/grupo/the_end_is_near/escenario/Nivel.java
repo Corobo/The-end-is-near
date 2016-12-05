@@ -3,6 +3,7 @@ package com.grupo.the_end_is_near.escenario;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
@@ -25,6 +26,7 @@ public class Nivel {
     private Context context = null;
     private int numeroNivel;
     private Jugador jugador;
+    private Fondo fondo;
 
     public boolean inicializado;
     private Tile[][] mapaTiles;
@@ -45,20 +47,26 @@ public class Nivel {
 
     public Nivel(Context context, int numeroNivel) throws Exception {
         inicializado = false;
-
         this.context = context;
         this.numeroNivel = numeroNivel;
         inicializar();
 
+        //generamos un bitmap negro
+        Bitmap blackBitmap = Bitmap.createBitmap(altoMapaTiles(), anchoMapaTiles(),
+                Bitmap.Config.ARGB_8888);
+        blackBitmap.eraseColor(Color.BLACK);
+        fondo = new Fondo(context, blackBitmap, 1);
         inicializado = true;
     }
 
     public void inicializar() throws Exception {
         scrollEjeX = 0;
         scrollEjeY = 0;
+
         mensaje = CargadorGraficos.cargarBitmap(context, R.drawable.description);
         nivelPausado = true;
         inicializarMapaTiles();
+        //TODO ajustar scroll
         scrollEjeY = (int) (altoMapaTiles() - tilesEnDistanciaY(GameView.pantallaAlto)) * Tile.altura;
     }
 
@@ -74,6 +82,7 @@ public class Nivel {
 
     public void dibujar(Canvas canvas) {
         if (inicializado) {
+            fondo.dibujar(canvas);
             dibujarTiles(canvas);
             jugador.dibujar(canvas);
 
@@ -164,7 +173,9 @@ public class Nivel {
         if (jugador.x <
                 (anchoMapaTiles() - tilesEnDistanciaX(GameView.pantallaAncho * 0.3)) * Tile.ancho)
             if (jugador.x - scrollEjeX > GameView.pantallaAncho * 0.7) {
-                scrollEjeX += (int) ((jugador.x - scrollEjeX) - GameView.pantallaAncho * 0.7);
+                int catidad = (int) ((jugador.x - scrollEjeX) - GameView.pantallaAncho * 0.7);
+                fondo.moverX(catidad);
+                scrollEjeX += catidad;
                 Log.v("Fondo.mover", "Fondo.mover: Scroll aumentado");
 
             }
@@ -172,7 +183,9 @@ public class Nivel {
         if (jugador.x >
                 tilesEnDistanciaX(GameView.pantallaAncho * 0.3) * Tile.ancho)
             if (jugador.x - scrollEjeX < GameView.pantallaAncho * 0.3) {
-                scrollEjeX -= (int) (GameView.pantallaAncho * 0.3 - (jugador.x - scrollEjeX));
+                int cantidad = -(int) (GameView.pantallaAncho * 0.3 - (jugador.x - scrollEjeX));
+                scrollEjeX += cantidad;
+                fondo.moverX(cantidad);
                 Log.v("Fondo.mover", "Fondo.mover: Scroll reducido");
             }
 

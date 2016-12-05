@@ -87,13 +87,13 @@ public class Jugador extends Modelo {
         Sprite caminandoDerecha = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.personaje_derecha_moviendo),
                 ancho, altura,
-                1, 2, true);
+                4, 2, true);
         sprites.put(CAMINANDO_DERECHA, caminandoDerecha);
 
         Sprite caminandoIzquierda = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.personaje_izquierda_moviendo),
                 ancho, altura,
-                1, 2, true);
+                4, 2, true);
         sprites.put(CAMINANDO_IZQUIERDA, caminandoIzquierda);
 
         Sprite arribaParado = new Sprite(
@@ -105,20 +105,20 @@ public class Jugador extends Modelo {
         Sprite arribaMoviendo = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.personaje_arriba_moviendo),
                 ancho, altura,
-                1, 2, true);
+                4, 2, true);
         sprites.put(CAMINANDO_ARRIBA, arribaMoviendo);
 
 
         Sprite abajoParado = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.personaje_abajo_parado),
                 ancho, altura,
-                1, 2, false);
+                4, 2, false);
         sprites.put(PARADO_ABAJO, abajoParado);
 
         Sprite abajoMoviendo = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.personaje_abajo_moviendo),
                 ancho, altura,
-                1, 2, false);
+                4, 2, false);
         sprites.put(CAMINANDO_ABAJO, abajoMoviendo);
 
 
