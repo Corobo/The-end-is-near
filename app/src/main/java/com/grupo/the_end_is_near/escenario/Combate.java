@@ -37,7 +37,7 @@ public class Combate {
     private Nivel nivel;
 
     private List<Enemigo> enemigos;
-    private List<Personaje> heroes;
+    public List<Personaje> heroes;
 
     private Sprite fondo;
     public long millis;

@@ -235,14 +235,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
             efectoTransparente.setAntiAlias(true);
             efectoTransparente.setColor(Color.WHITE);
             canvas.drawText("Thief : ",(float)(pantallaAncho*0.55) , (float)(pantallaAlto*0.85),efectoTransparente);
-            canvas.drawText(nivel.combate.thief.vida+" / "+ nivel.combate.thief.vidaMaxima,(float)(pantallaAncho*0.65) , (float)(pantallaAlto*0.85),efectoTransparente);
-            canvas.drawText(nivel.combate.thief.mana+" / "+ nivel.combate.thief.manaMaximo,(float)(pantallaAncho*0.80) , (float)(pantallaAlto*0.85),efectoTransparente);
+            canvas.drawText(nivel.combate.heroes.get(0).vida+" / "+ nivel.combate.heroes.get(0).vidaMaxima,(float)(pantallaAncho*0.65) , (float)(pantallaAlto*0.85),efectoTransparente);
+            canvas.drawText(nivel.combate.heroes.get(0).mana+" / "+ nivel.combate.heroes.get(0).manaMaximo,(float)(pantallaAncho*0.80) , (float)(pantallaAlto*0.85),efectoTransparente);
             canvas.drawText("Warrior : ",(float)(pantallaAncho*0.55) , (float)(pantallaAlto*0.89),efectoTransparente);
-            canvas.drawText(nivel.combate.warrior.vida+" / "+ nivel.combate.warrior.vidaMaxima,(float)(pantallaAncho*0.65) , (float)(pantallaAlto*0.89),efectoTransparente);
-            canvas.drawText(nivel.combate.warrior.mana+" / "+ nivel.combate.warrior.manaMaximo,(float)(pantallaAncho*0.80) , (float)(pantallaAlto*0.89),efectoTransparente);
+            canvas.drawText(nivel.combate.heroes.get(1).vida+" / "+ nivel.combate.heroes.get(1).vidaMaxima,(float)(pantallaAncho*0.65) , (float)(pantallaAlto*0.89),efectoTransparente);
+            canvas.drawText(nivel.combate.heroes.get(1).mana+" / "+ nivel.combate.heroes.get(1).manaMaximo,(float)(pantallaAncho*0.80) , (float)(pantallaAlto*0.89),efectoTransparente);
             canvas.drawText("Mage : ",(float)(pantallaAncho*0.55) , (float)(pantallaAlto*0.93),efectoTransparente);
-            canvas.drawText(nivel.combate.mage.vida+" / "+ nivel.combate.mage.vidaMaxima,(float)(pantallaAncho*0.65) , (float)(pantallaAlto*0.93),efectoTransparente);
-            canvas.drawText(nivel.combate.mage.mana+" / "+ nivel.combate.mage.manaMaximo,(float)(pantallaAncho*0.80) , (float)(pantallaAlto*0.93),efectoTransparente);
+            canvas.drawText(nivel.combate.heroes.get(2).vida+" / "+ nivel.combate.heroes.get(2).vidaMaxima,(float)(pantallaAncho*0.65) , (float)(pantallaAlto*0.93),efectoTransparente);
+            canvas.drawText(nivel.combate.heroes.get(2).mana+" / "+ nivel.combate.heroes.get(2).manaMaximo,(float)(pantallaAncho*0.80) , (float)(pantallaAlto*0.93),efectoTransparente);
         }
     }
 

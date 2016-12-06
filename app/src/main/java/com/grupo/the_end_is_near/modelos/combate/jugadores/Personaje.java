@@ -22,6 +22,10 @@ public abstract class Personaje extends Modelo{
     public int acelera=0;
     public int daño=50;
 
+    public int vidaMaxima=255;
+    public int  mana = 15;
+    public int  manaMaximo = 15;
+
     public int tipo=0;
     public int nivel=1;
 
