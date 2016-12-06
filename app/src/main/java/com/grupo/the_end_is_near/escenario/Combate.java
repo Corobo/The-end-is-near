@@ -118,16 +118,21 @@ public class Combate {
     }
 
     public void atacar(){
-        //heroes.get(1).atacar();
-        turnoEnemigos();
+        heroes.get(1).atacar();
     }
 
     public void defender(){
         heroes.get(1).bloquear();
     }
 
-    public void usarMagia(){
+    public void magia(){
         heroes.get(1).magia();
+    }
+
+    public void pocion() {
+    }
+
+    public void huir() {
     }
 
     public void turnoEnemigos(){
@@ -147,4 +152,6 @@ public class Combate {
     public void turnoCompañeros(){
 
     }
+
+
 }

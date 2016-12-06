@@ -11,6 +11,12 @@ import android.view.SurfaceView;
 import com.grupo.the_end_is_near.escenario.Nivel;
 import com.grupo.the_end_is_near.gestores.GestorAudio;
 import com.grupo.the_end_is_near.gestores.Opciones;
+import com.grupo.the_end_is_near.modelos.combate.controles.Atacar;
+import com.grupo.the_end_is_near.modelos.combate.controles.BarraVida;
+import com.grupo.the_end_is_near.modelos.combate.controles.Defender;
+import com.grupo.the_end_is_near.modelos.combate.controles.Huir;
+import com.grupo.the_end_is_near.modelos.combate.controles.Magia;
+import com.grupo.the_end_is_near.modelos.combate.controles.Pocion;
 import com.grupo.the_end_is_near.modelos.controles.Pad;
 
 
@@ -27,6 +33,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
     public int numeroNivel = 0;
 
     private Pad pad;
+    private Huir huir;
+    private Atacar atacar;
+    private BarraVida barraVida;
+    private Defender defender;
+    private Magia magia;
+    private Pocion pocion;
 
     public GestorAudio gestorAudio;
 
@@ -95,59 +107,90 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
     float x[] = new float[6];
     float y[] = new float[6];
 
-    public void procesarEventosTouch(){
-        boolean pulsacionPadMover = false;
+    public void procesarEventosTouch() {
+        if (!nivel.combate.enCombate) {
+            boolean pulsacionPadMover = false;
 
-        for(int i=0; i < 6; i++){
-            if(accion[i] != NO_ACTION ) {
+            for (int i = 0; i < 6; i++) {
+                if (accion[i] != NO_ACTION) {
 
-                if(accion[i] == ACTION_DOWN){
-                    if(nivel.nivelPausado)
-                        nivel.nivelPausado = false;
-                }
+                    if (accion[i] == ACTION_DOWN) {
+                        if (nivel.nivelPausado)
+                            nivel.nivelPausado = false;
+                    }
 
 
-                if (pad.estaPulsado(x[i], y[i])) {
-                    nivel.combate.atacar();
+                    if (pad.estaPulsado(x[i], y[i])) {
+                        nivel.combate.atacar();
 
-                    float orientacion = pad.getOrientacionX(x[i]);
-                    float orientacionY = pad.getOrientacionY(y[i]);
-                    // Si almenosuna pulsacion está en el pad
-                    if (accion[i] != ACTION_UP) {
-                        if(orientacion!=0) {
-                            pulsacionPadMover = true;
-                            nivel.orientacionPad = orientacion;
-                            nivel.orientacionPadY = 0.0f;
-                        }
-                        else if(orientacionY<0){
-                            pulsacionPadMover=false;
-                            nivel.orientacionPadY = orientacionY;
-                            nivel.padAbajoPulsado=true;
-                            nivel.orientacionPad = 0.0f;
-                        }
-                        else if(orientacionY>0){
-                            pulsacionPadMover=false;
-                            nivel.orientacionPadY = orientacionY;
-                            nivel.padArribaPulsado=true;
-                            nivel.orientacionPad = 0.0f;
-                        }
-                        else if(orientacionY==0){
-                            pulsacionPadMover=false;
-                            nivel.orientacionPadY = orientacionY;
-                            nivel.padArribaPulsado=false;
-                            nivel.orientacionPad = 0.0f;
+                        float orientacion = pad.getOrientacionX(x[i]);
+                        float orientacionY = pad.getOrientacionY(y[i]);
+                        // Si almenosuna pulsacion está en el pad
+                        if (accion[i] != ACTION_UP) {
+                            if (orientacion != 0) {
+                                pulsacionPadMover = true;
+                                nivel.orientacionPad = orientacion;
+                                nivel.orientacionPadY = 0.0f;
+                            } else if (orientacionY < 0) {
+                                pulsacionPadMover = false;
+                                nivel.orientacionPadY = orientacionY;
+                                nivel.padAbajoPulsado = true;
+                                nivel.orientacionPad = 0.0f;
+                            } else if (orientacionY > 0) {
+                                pulsacionPadMover = false;
+                                nivel.orientacionPadY = orientacionY;
+                                nivel.padArribaPulsado = true;
+                                nivel.orientacionPad = 0.0f;
+                            } else if (orientacionY == 0) {
+                                pulsacionPadMover = false;
+                                nivel.orientacionPadY = orientacionY;
+                                nivel.padArribaPulsado = false;
+                                nivel.orientacionPad = 0.0f;
+                            }
                         }
                     }
                 }
             }
-        }
-        if(!pulsacionPadMover) {
-            nivel.orientacionPad = 0;
+            if (!pulsacionPadMover) {
+                nivel.orientacionPad = 0;
+            }
+        } else {
+            for (int i = 0; i < 6; i++) {
+                if (accion[i] != NO_ACTION) {
+
+                    if (accion[i] == ACTION_DOWN) {
+                        if (nivel.nivelPausado)
+                            nivel.nivelPausado = false;
+                    }
+
+                    if (atacar.estaPulsado(x[i], y[i])) {
+                        nivel.combate.atacar();
+                    }
+                    else if(defender.estaPulsado(x[i],y[i])){
+                        nivel.combate.defender();
+                    }
+                    else if(magia.estaPulsado(x[i],y[i])){
+                        nivel.combate.magia();
+                    }
+                    else if(pocion.estaPulsado(x[i],y[i])){
+                        nivel.combate.pocion();
+                    }
+                    else if(huir.estaPulsado(x[i],y[i])){
+                        nivel.combate.huir();
+                    }
+                }
+            }
         }
     }
 
     protected void inicializar() throws Exception {
         pad = new Pad(context);
+        huir = new Huir(context);
+        atacar = new Atacar(context);
+        pocion = new Pocion(context);
+        defender = new Defender(context);
+        magia = new Magia(context);
+        barraVida = new BarraVida(context);
         nivel = new Nivel(context,numeroNivel);
         nivel.gameView = this;
         if(!Opciones.musica)
@@ -179,6 +222,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
         }
         if(nivel.combate.enCombate){
             //gestorAudio.reproducirMusicaCombate(); TODO No reproduce si tenemos esto asi
+            atacar.dibujar(canvas);
+            magia.dibujar(canvas);
+            defender.dibujar(canvas);
+            pocion.dibujar(canvas);
+            huir.dibujar(canvas);
+            barraVida.dibujar(canvas);
         }
     }
 
