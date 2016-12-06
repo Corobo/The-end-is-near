@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import com.grupo.the_end_is_near.GameView;
 import com.grupo.the_end_is_near.R;
 import com.grupo.the_end_is_near.gestores.CargadorGraficos;
+import com.grupo.the_end_is_near.global.Turno;
 import com.grupo.the_end_is_near.graficos.Sprite;
 import com.grupo.the_end_is_near.modelos.combate.enemigos.extn.EnemigoTipo1;
 import com.grupo.the_end_is_near.modelos.combate.enemigos.extn.EnemigoTipo2;
@@ -40,6 +41,14 @@ public class Combate {
 
     private Sprite fondo;
     public long millis;
+
+    public int turno= Turno.JUGADOR;
+
+    public Enemigo enemigoAtacando=null;
+    public int enemigosTerminados=0;
+
+    public Personaje compañeroAtacando=null;
+    public int compañerosTerminados=0;
 
     public Combate(Context context,Nivel nivel) {
         this.context=context;
@@ -83,7 +92,6 @@ public class Combate {
                 posY = -0.7;
             }
         }
-        //TODO
     }
 
     public void iniciaCombate(){
@@ -103,7 +111,8 @@ public class Combate {
             enemigo.actualizar(tiempo);
         }
 
-
+        turnoCompañeros();
+        turnoEnemigos();
     }
 
     public void dibujar(Canvas canvas) {
@@ -118,15 +127,24 @@ public class Combate {
     }
 
     public void atacar(){
-        heroes.get(1).atacar();
+        if(turno==Turno.JUGADOR) {
+            turno=Turno.COMPAÑEROS;
+            heroes.get(1).atacar();
+        }
     }
 
     public void defender(){
-        heroes.get(1).bloquear();
+        if(turno==Turno.JUGADOR) {
+            turno=Turno.COMPAÑEROS;
+            heroes.get(1).bloquear();
+        }
     }
 
     public void magia(){
-        heroes.get(1).magia();
+        if(turno==Turno.JUGADOR) {
+            turno=Turno.COMPAÑEROS;
+            heroes.get(1).magia();
+        }
     }
 
     public void pocion() {
@@ -136,21 +154,60 @@ public class Combate {
     }
 
     public void turnoEnemigos(){
-        int x=0;
-            for (Enemigo enemigo : enemigos) {
-                //long s = System.currentTimeMillis();
-                //if (s - millis > 1000 && !enemigo.ataco) {
-                    //millis = System.currentTimeMillis();
-                    x = new Double(Math.random() * 3).intValue();
+        if(turno==Turno.ENEMIGO) {
+            for (Enemigo enemigo : enemigos){
+                System.out.println(enemigo.utilizado);
+                if(!enemigo.utilizado && ((enemigoAtacando!=null && !enemigoAtacando.estaOcupado()) || enemigoAtacando==null)) {
+                    enemigosTerminados = enemigosTerminados + 1;
+                    enemigo.utilizado=true;
+                    
+                    int x = new Double(Math.random() * 3).intValue();
                     Personaje heroe = heroes.get(x);
+
                     int daño = enemigo.golpear(heroe.tipo, heroe.nivel);
+                    enemigoAtacando = enemigo;
                     heroe.golpeado(daño);
-               // }
+                }
             }
+            if(enemigosTerminados >= enemigos.size() && !enemigoAtacando.estaOcupado()){
+                todosEnemigosUsados();
+                enemigosTerminados=0;
+                enemigoAtacando=null;
+                turno= Turno.JUGADOR;
+            }
+        }
     }
 
     public void turnoCompañeros(){
+        if(!heroes.get(1).estaOcupado() && turno==Turno.COMPAÑEROS){
+            for(Personaje heroe:heroes){
+                if((compañeroAtacando!=null && !compañeroAtacando.estaOcupado()) || compañeroAtacando==null) {
+                    if (heroe.tipo != 1) {
+                        compañerosTerminados=compañerosTerminados+1;
+                        heroe.accionAleatoria();
+                        compañeroAtacando = heroe;
+                    }
+                }
+            }
+            if(compañerosTerminados >= heroes.size() && !compañeroAtacando.estaOcupado()){
+                todosCompañerosUsados();
+                compañerosTerminados=0;
+                compañeroAtacando=null;
+                turno= Turno.ENEMIGO;
+            }
+        }
+    }
 
+    public void todosCompañerosUsados(){
+        for(Personaje heroe:heroes){
+            heroe.utilizado=false;
+        }
+    }
+
+    public void todosEnemigosUsados(){
+        for(Enemigo enemigo:enemigos){
+            enemigo.utilizado=false;
+        }
     }
 
 

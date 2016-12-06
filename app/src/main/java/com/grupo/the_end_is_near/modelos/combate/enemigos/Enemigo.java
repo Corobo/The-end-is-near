@@ -25,6 +25,8 @@ public class Enemigo extends Modelo {
 
     public boolean ataco=false;
 
+    public boolean utilizado=false;
+
     public Enemigo(Context context, double xInicial, double yInicial) {
         super(context, xInicial, yInicial, 54, 63);
 
@@ -33,50 +35,50 @@ public class Enemigo extends Modelo {
     }
 
     public int golpear(int tipoJugador,int nivelJugador){
-        millis=System.currentTimeMillis();
-        acelera=3;
-        atacando=true;
+            millis = System.currentTimeMillis();
+            acelera = 3;
+            atacando = true;
 
-        ataco=true;
+            ataco = true;
 
-        if(this.tipo==0 && tipoJugador==0){
-            return daño*nivelJugador;
-        }
-        if(this.tipo==0 && tipoJugador==1){
-            return (daño+15)*nivelJugador;
-        }
-        if(this.tipo==0 && tipoJugador==2){
-            return (daño-15)*nivelJugador;
-        }
-        if(this.tipo==1 && tipoJugador==0){
-            return daño*nivelJugador;
-        }
-        if(this.tipo==1 && tipoJugador==1){
-            return (daño+15)*nivelJugador;
-        }
-        if(this.tipo==1 && tipoJugador==2){
-            return (daño-15)*nivelJugador;
-        }
-        if(this.tipo==2 && tipoJugador==0){
-            return daño*nivelJugador;
-        }
-        if(this.tipo==2 && tipoJugador==1){
-            return (daño+15)*nivelJugador;
-        }
-        if(this.tipo==2 && tipoJugador==2){
-            return (daño-15)*nivelJugador;
-        }
-        if(this.tipo==3 && tipoJugador==0){
-            return daño*nivelJugador;
-        }
-        if(this.tipo==3 && tipoJugador==1){
-            return (daño+15)*nivelJugador;
-        }
-        if(this.tipo==3 && tipoJugador==2){
-            return (daño-15)*nivelJugador;
-        }
-
+            if (this.tipo == 0 && tipoJugador == 0) {
+                return daño * nivelJugador;
+            }
+            if (this.tipo == 0 && tipoJugador == 1) {
+                return (daño + 15) * nivelJugador;
+            }
+            if (this.tipo == 0 && tipoJugador == 2) {
+                return (daño - 15) * nivelJugador;
+            }
+            if (this.tipo == 1 && tipoJugador == 0) {
+                return daño * nivelJugador;
+            }
+            if (this.tipo == 1 && tipoJugador == 1) {
+                return (daño + 15) * nivelJugador;
+            }
+            if (this.tipo == 1 && tipoJugador == 2) {
+                return (daño - 15) * nivelJugador;
+            }
+            if (this.tipo == 2 && tipoJugador == 0) {
+                return daño * nivelJugador;
+            }
+            if (this.tipo == 2 && tipoJugador == 1) {
+                return (daño + 15) * nivelJugador;
+            }
+            if (this.tipo == 2 && tipoJugador == 2) {
+                return (daño - 15) * nivelJugador;
+            }
+            if (this.tipo == 3 && tipoJugador == 0) {
+                return daño * nivelJugador;
+            }
+            if (this.tipo == 3 && tipoJugador == 1) {
+                return (daño + 15) * nivelJugador;
+            }
+            if (this.tipo == 3 && tipoJugador == 2) {
+                return (daño - 15) * nivelJugador;
+            }
         return -1;
+
     }
 
     @Override
@@ -133,5 +135,9 @@ public class Enemigo extends Modelo {
         if(this.tipo==3 && tipoJugador==2){
             vida-= (dañoJugador+15)*nivelJugador;
         }
+    }
+
+    public boolean estaOcupado() {
+        return atacando;
     }
 }

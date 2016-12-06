@@ -20,6 +20,7 @@ public abstract class Personaje extends Modelo{
 
     public int vida;
     public int acelera=0;
+    public int daño=50;
 
     public int tipo=0;
     public int nivel=1;
@@ -50,6 +51,8 @@ public abstract class Personaje extends Modelo{
     public boolean magia=false;
     public boolean dañado=false;
     public boolean estaBloqueando=false;
+
+    public boolean utilizado=false;
 
     public Personaje(Context context, double xInicial, double yInicial,int ancho,int alto) {
         super(context, xInicial, yInicial, alto,ancho);
@@ -150,5 +153,25 @@ public abstract class Personaje extends Modelo{
     public void morir(){
         sprite = sprites.get("Morir");
         estaMuerto = true;
+    }
+
+    public boolean estaOcupado(){
+        return atacando || magia || dañado;
+    }
+
+    public void accionAleatoria() {
+        if(!utilizado) {
+            int x = new Double(Math.random() * 2).intValue();
+            switch (x) {
+                case 0:
+                    atacar();
+                    break;
+                case 1:
+                    magia();
+                    break;
+            }
+            utilizado=true;
+        }
+
     }
 }
