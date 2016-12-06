@@ -122,7 +122,7 @@ public class Combate {
     }
 
     public void magia() {
-        warrior.atacar();
+        warrior.magia();
     }
 
     public void pocion() {
