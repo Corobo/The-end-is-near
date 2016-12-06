@@ -17,6 +17,9 @@ public class Warrior extends Personaje {
         this.tipo=1;
         this.nivel=10;
         this.vida=278;
+        this.vidaMaxima = 278;
+        this.mana = 20;
+        this.manaMaximo = 20;
     }
 
     @Override

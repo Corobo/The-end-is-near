@@ -18,6 +18,9 @@ public class Mage extends Personaje {
         this.tipo=3;
         this.nivel=10;
         this.vida=222;
+        this.vidaMaxima=222;
+        this.mana = 50;
+        this.manaMaximo = 50;
     }
 
     @Override

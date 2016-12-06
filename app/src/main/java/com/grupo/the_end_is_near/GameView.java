@@ -2,6 +2,9 @@ package com.grupo.the_end_is_near;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -228,6 +231,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
             pocion.dibujar(canvas);
             huir.dibujar(canvas);
             barraVida.dibujar(canvas);
+            Paint efectoTransparente = new Paint();
+            efectoTransparente.setAntiAlias(true);
+            efectoTransparente.setColor(Color.WHITE);
+            canvas.drawText("Thief : ",(float)(pantallaAncho*0.55) , (float)(pantallaAlto*0.85),efectoTransparente);
+            canvas.drawText(nivel.combate.thief.vida+" / "+ nivel.combate.thief.vidaMaxima,(float)(pantallaAncho*0.65) , (float)(pantallaAlto*0.85),efectoTransparente);
+            canvas.drawText(nivel.combate.thief.mana+" / "+ nivel.combate.thief.manaMaximo,(float)(pantallaAncho*0.80) , (float)(pantallaAlto*0.85),efectoTransparente);
+            canvas.drawText("Warrior : ",(float)(pantallaAncho*0.55) , (float)(pantallaAlto*0.89),efectoTransparente);
+            canvas.drawText(nivel.combate.warrior.vida+" / "+ nivel.combate.warrior.vidaMaxima,(float)(pantallaAncho*0.65) , (float)(pantallaAlto*0.89),efectoTransparente);
+            canvas.drawText(nivel.combate.warrior.mana+" / "+ nivel.combate.warrior.manaMaximo,(float)(pantallaAncho*0.80) , (float)(pantallaAlto*0.89),efectoTransparente);
+            canvas.drawText("Mage : ",(float)(pantallaAncho*0.55) , (float)(pantallaAlto*0.93),efectoTransparente);
+            canvas.drawText(nivel.combate.mage.vida+" / "+ nivel.combate.mage.vidaMaxima,(float)(pantallaAncho*0.65) , (float)(pantallaAlto*0.93),efectoTransparente);
+            canvas.drawText(nivel.combate.mage.mana+" / "+ nivel.combate.mage.manaMaximo,(float)(pantallaAncho*0.80) , (float)(pantallaAlto*0.93),efectoTransparente);
         }
     }
 

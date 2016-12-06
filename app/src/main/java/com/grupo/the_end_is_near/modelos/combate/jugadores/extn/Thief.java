@@ -18,6 +18,9 @@ public class Thief extends Personaje {
         this.tipo=2;
         this.nivel=10;
         this.vida=255;
+        this.vidaMaxima=255;
+        this.mana = 15;
+        this.manaMaximo = 15;
     }
 
     @Override
