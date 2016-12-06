@@ -118,7 +118,7 @@ public class Combate {
     }
 
     public void defender() {
-        warrior.atacar();
+        warrior.bloquear();
     }
 
     public void magia() {
