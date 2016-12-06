@@ -296,7 +296,6 @@ public class Nivel {
                 (anchoMapaTiles() - tilesEnDistanciaX(GameView.pantallaAncho * 0.3)) * Tile.ancho)
             if (jugador.x - scrollEjeX > GameView.pantallaAncho * 0.7) {
                 int catidad = (int) ((jugador.x - scrollEjeX) - GameView.pantallaAncho * 0.7);
-                fondo.moverX(catidad);
                 scrollEjeX += catidad;
                 Log.v("Fondo.mover", "Fondo.mover: Scroll aumentado");
 
@@ -307,7 +306,6 @@ public class Nivel {
             if (jugador.x - scrollEjeX < GameView.pantallaAncho * 0.3) {
                 int cantidad = -(int) (GameView.pantallaAncho * 0.3 - (jugador.x - scrollEjeX));
                 scrollEjeX += cantidad;
-                fondo.moverX(cantidad);
                 Log.v("Fondo.mover", "Fondo.mover: Scroll reducido");
             }
 
@@ -359,12 +357,12 @@ public class Nivel {
 
     private void aplicarReglasMovimiento() throws Exception {
 
-
-
         int tileXJugadorIzquierda
                 = (int) (jugador.x - (jugador.ancho / 2 - 1)) / Tile.ancho;
         int tileXJugadorDerecha
                 = (int) (jugador.x + (jugador.ancho / 2 - 1)) / Tile.ancho;
+        int tileXJugadorCentro
+                = (int) jugador.x / Tile.ancho;
 
         int tileYJugadorInferior
                 = (int) (jugador.y + (jugador.altura / 2 - 1)) / Tile.altura;
@@ -490,13 +488,9 @@ public class Nivel {
                             Tile.PASABLE &&
                     mapaTiles[tileXJugadorDerecha + 1][tileYJugadorCentro].tipoDeColision ==
                             Tile.PASABLE &&
-                    mapaTiles[tileXJugadorDerecha + 1][tileYJugadorSuperior].tipoDeColision ==
-                            Tile.PASABLE &&
                     mapaTiles[tileXJugadorDerecha][tileYJugadorInferior].tipoDeColision ==
                             Tile.PASABLE &&
                     mapaTiles[tileXJugadorDerecha][tileYJugadorCentro].tipoDeColision ==
-                            Tile.PASABLE &&
-                    mapaTiles[tileXJugadorDerecha][tileYJugadorSuperior].tipoDeColision ==
                             Tile.PASABLE) {
                 jugador.x += jugador.getVelocidadX();
 
@@ -536,13 +530,9 @@ public class Nivel {
                             Tile.PASABLE &&
                     mapaTiles[tileXJugadorIzquierda - 1][tileYJugadorCentro].tipoDeColision ==
                             Tile.PASABLE &&
-                    mapaTiles[tileXJugadorIzquierda - 1][tileYJugadorSuperior].tipoDeColision ==
-                            Tile.PASABLE &&
                     mapaTiles[tileXJugadorIzquierda][tileYJugadorInferior].tipoDeColision ==
                             Tile.PASABLE &&
                     mapaTiles[tileXJugadorIzquierda][tileYJugadorCentro].tipoDeColision ==
-                            Tile.PASABLE &&
-                    mapaTiles[tileXJugadorIzquierda][tileYJugadorSuperior].tipoDeColision ==
                             Tile.PASABLE) {
                 jugador.x += jugador.getVelocidadX();
 
@@ -575,10 +565,8 @@ public class Nivel {
             // Tile superior PASABLE
             // Podemos seguir moviendo hacia arriba
             if (tileYJugadorSuperior - 1 >= 0 &&
-                    mapaTiles[tileXJugadorIzquierda][tileYJugadorSuperior].tipoDeColision
-                            == Tile.PASABLE
-                    && mapaTiles[tileXJugadorDerecha][tileYJugadorSuperior].tipoDeColision
-                    == Tile.PASABLE) {
+                    mapaTiles[tileXJugadorCentro][tileYJugadorInferior-1].tipoDeColision ==
+                    Tile.PASABLE) {
                 jugador.y += jugador.getVelocidadY();
 
             } else {
@@ -586,11 +574,11 @@ public class Nivel {
                 int TileJugadorBordeSuperior = (tileYJugadorSuperior) * Tile.altura;
                 double distanciaY = (jugador.y - jugador.altura / 2) - TileJugadorBordeSuperior;
 
-                if (distanciaY > 0) {
+                if (distanciaY > 0 &&
+                        mapaTiles[tileXJugadorCentro][tileYJugadorInferior-1].tipoDeColision ==
+                        Tile.PASABLE) {
                     jugador.y += Utilidades.proximoACero(-distanciaY, jugador.getVelocidadY());
 
-                } else {
-                    jugador.y += jugador.getVelocidadY();
                 }
 
             }
@@ -601,19 +589,13 @@ public class Nivel {
         if (jugador.getVelocidadY() >= 0) {
             // Tile inferior PASABLE
             // Podemos seguir moviendo hacia abajo
-            // NOTA - El ultimo tile es especial (caer al vacío )
             if (tileYJugadorInferior + 1 <= altoMapaTiles() - 1 &&
-                    mapaTiles[tileXJugadorIzquierda][tileYJugadorInferior + 1].tipoDeColision
-                            == Tile.PASABLE
-                    && mapaTiles[tileXJugadorDerecha][tileYJugadorInferior + 1].tipoDeColision
-                    == Tile.PASABLE) {
+                    mapaTiles[tileXJugadorCentro][tileYJugadorInferior + 1].tipoDeColision ==
+                            Tile.PASABLE) {
+
                 jugador.y += jugador.getVelocidadY();
 
-            } else if (tileYJugadorInferior + 1 <= altoMapaTiles() - 1 &&
-                    (mapaTiles[tileXJugadorIzquierda][tileYJugadorInferior + 1].tipoDeColision
-                            == Tile.SOLIDO ||
-                            mapaTiles[tileXJugadorDerecha][tileYJugadorInferior + 1].tipoDeColision ==
-                                    Tile.SOLIDO)) {
+            } else if (tileYJugadorInferior + 1 <= altoMapaTiles() - 1) {
 
                 // Con que uno de los dos sea solido ya no puede caer
                 // Si en el propio tile del jugador queda espacio para bajar más, bajo
@@ -631,9 +613,6 @@ public class Nivel {
                     jugador.y = TileJugadorBordeInferior - jugador.altura / 2;
                     jugador.setVelocidadY(0);
                 }
-
-                // Esta cayendo por debajo del ULTIMO
-                // va a desaparecer y perder.
 
             }
         }

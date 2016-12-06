@@ -2,6 +2,7 @@ package com.grupo.the_end_is_near.modelos.jugador.mapa;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.util.Log;
 
 import com.grupo.the_end_is_near.R;
 import com.grupo.the_end_is_near.escenario.Nivel;
@@ -37,7 +38,7 @@ public class Jugador extends Modelo {
     //Puntero sprite actual
     private Sprite sprite;
 
-    private HashMap<String,Sprite> sprites = new HashMap<String,Sprite> ();
+    private HashMap<String, Sprite> sprites = new HashMap<String, Sprite>();
 
     double xInicial;
     double yInicial;
@@ -57,21 +58,21 @@ public class Jugador extends Modelo {
     public static final int ARRIBA = 2;
     public static final int ABAJO = -2;
 
-    public Jugador(Context context, double xInicial, double yInicial,int vidas) {
+    public Jugador(Context context, double xInicial, double yInicial, int vidas) {
         super(context, 0, 0, 40, 40);
 
         // guardamos la posición inicial porque más tarde vamos a reiniciarlo
         this.xInicial = xInicial;
-        this.yInicial = yInicial - altura/2;
+        this.yInicial = yInicial - altura / 2;
 
-        this.x =  this.xInicial;
-        this.y =  this.yInicial;
+        this.x = this.xInicial;
+        this.y = this.yInicial;
         this.vidas = vidas;
 
         inicializar();
     }
 
-    public void inicializar (){
+    public void inicializar() {
         Sprite paradoDerecha = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.personaje_derecha_parado),
                 ancho, altura,
@@ -112,13 +113,13 @@ public class Jugador extends Modelo {
         Sprite abajoParado = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.personaje_abajo_parado),
                 ancho, altura,
-                4, 2, false);
+                4, 2, true);
         sprites.put(PARADO_ABAJO, abajoParado);
 
         Sprite abajoMoviendo = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.personaje_abajo_moviendo),
                 ancho, altura,
-                4, 2, false);
+                4, 2, true);
         sprites.put(CAMINANDO_ABAJO, abajoMoviendo);
 
 
@@ -126,66 +127,68 @@ public class Jugador extends Modelo {
         sprite = abajoParado;
     }
 
-    public void actualizar (long tiempo) {
+    public void actualizar(long tiempo) {
 
         boolean finSprite = sprite.actualizar(tiempo);
 
-        if(msInmunidad > 0){
+        if (msInmunidad > 0) {
             msInmunidad -= tiempo;
         }
 
-        if (golpeado && finSprite){
+        if (golpeado && finSprite) {
             golpeado = false;
         }
-        if (velocidadX > 0 ) {
+        if (velocidadX > 0) {
             sprite = sprites.get(CAMINANDO_DERECHA);
             orientacion = DERECHA;
-        }
-        if (velocidadX < 0 ) {
+        } else if (velocidadX < 0) {
             sprite = sprites.get(CAMINANDO_IZQUIERDA);
             orientacion = IZQUIERDA;
         }
-        if (velocidadX == 0 ){
-            if (orientacion == DERECHA){
-                sprite = sprites.get(PARADO_DERECHA);
-            } else if (orientacion == IZQUIERDA) {
-                sprite = sprites.get(PARADO_IZQUIERDA);
+        //velocidad x = 0
+        else {
+            if (velocidadY > 0) {
+                sprite = sprites.get(CAMINANDO_ABAJO);
+                orientacion = ABAJO;
+            } else if (velocidadY < 0) {
+                sprite = sprites.get(CAMINANDO_ARRIBA);
+                orientacion = ARRIBA;
+            }
+            //velocidadY =0
+            else {
+                if (orientacion == DERECHA) {
+                    sprite = sprites.get(PARADO_DERECHA);
+                }
+                if (orientacion == IZQUIERDA) {
+                    sprite = sprites.get(PARADO_IZQUIERDA);
+                }
+                if (orientacion == ARRIBA) {
+                    sprite = sprites.get(PARADO_ARRIBA);
+                }
+                if (orientacion == ABAJO) {
+                    sprite = sprites.get(PARADO_ABAJO);
+                }
             }
         }
-        if(velocidadY >0 ){
-            sprite = sprites.get(CAMINANDO_ABAJO);
-            orientacion = ABAJO;
-        }
-        if(velocidadY <0){
-            sprite = sprites.get(CAMINANDO_ARRIBA);
-            orientacion = ARRIBA;
-        }
-        if(velocidadY==0){
-            if(orientacion==ARRIBA){
-                sprite = sprites.get(PARADO_ARRIBA);
-            }else if(orientacion == ABAJO){
-                sprite = sprites.get(PARADO_ABAJO);
-            }
-        }
-
 
     }
 
-    public void dibujar(Canvas canvas){
+
+    public void dibujar(Canvas canvas) {
         sprite.dibujarSprite(canvas, (int) x - Nivel.scrollEjeX, (int) y - Nivel.scrollEjeY, msInmunidad > 0);
     }
 
-    public void procesarOrdenes (float orientacionPadX,float orientacionPadY) {
+    public void procesarOrdenes(float orientacionPadX, float orientacionPadY) {
         if (orientacionPadX > 0) {
             velocidadX = -5;
-        } else if (orientacionPadX < 0 ){
+        } else if (orientacionPadX < 0) {
             velocidadX = 5;
         } else {
             velocidadX = 0;
         }
-        if(orientacionPadY > 0){
+        if (orientacionPadY > 0) {
             velocidadY = -5;
-        } else if (orientacionPadY < 0 ){
+        } else if (orientacionPadY < 0) {
             velocidadY = 5;
         } else {
             velocidadY = 0;
@@ -193,18 +196,21 @@ public class Jugador extends Modelo {
     }
 
 
-    public double getVelocidadX(){
+    public double getVelocidadX() {
         return velocidadX;
     }
-    public float getVelocidadY(){
+
+    public float getVelocidadY() {
         return velocidadY;
     }
-    public void setVelocidadY(float velocidadY){
+
+    public void setVelocidadY(float velocidadY) {
         this.velocidadY = velocidadY;
     }
-    public void setPosicionInicial(double xInicial,double yInicial){
-        this.xInicial=xInicial;
-        this.yInicial=yInicial;
+
+    public void setPosicionInicial(double xInicial, double yInicial) {
+        this.xInicial = xInicial;
+        this.yInicial = yInicial;
     }
 
 }
