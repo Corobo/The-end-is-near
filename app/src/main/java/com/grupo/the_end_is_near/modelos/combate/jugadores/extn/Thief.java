@@ -26,48 +26,46 @@ public class Thief extends Personaje {
                 1, 1, true);
         sprites.put(PARADO, parado);
 
-        //TODO false el bucle del sprite?
         Sprite avanza = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.thief_avanza),
-                ancho, altura,
-                3, 3,false);
+                39,46,
+                3, 3,true);
         sprites.put(AVANZA, avanza);
 
         Sprite retrocede = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.thief_retrocede),
-                ancho, altura,
-                3, 3, false);
+                39, 46,
+                3, 3, true);
         sprites.put(RETROCEDE,retrocede);
 
-        //TODO
         Sprite ataque = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.thief_01),
                 ancho, altura,
-                1, 1, false);
+                1, 1, true);
         sprites.put(ATAQUE,ataque);
 
         Sprite magia = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.thief_magia),
-                ancho, altura,
+                41, 47,
                 3, 3, false);
         sprites.put(MAGIA,magia);
 
         Sprite defensa = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.thief_09),
-                ancho, altura,
-                3, 1, false);
+                36, 38,
+                3, 1, true);
         sprites.put(DEFENSA,defensa);
 
         Sprite dañado = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.thief_10),
-                ancho, altura,
-                3, 1, false);
+                35, 45,
+                3, 1, true);
         sprites.put(DAÑADO,dañado);
 
         Sprite morir = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.thief_11),
-                ancho, altura,
-                3, 1, false);
+                48, 31,
+                3, 1, true);
         sprites.put(MORIR,morir);
     }
 }

@@ -18,13 +18,23 @@ public class Enemigo extends Modelo {
     public int daño=30;
     public int tipo=0;
 
+    public boolean atacando=false;
+    public int acelera=0;
+    public long millis;
+    private double xInicial=0;
+
     public Enemigo(Context context, double xInicial, double yInicial) {
         super(context, xInicial, yInicial, 54, 63);
 
+        this.xInicial=xInicial;
         imagen = CargadorGraficos.cargarDrawable(context,R.drawable.enemy_01);
     }
 
     public int golpear(int tipoJugador,int nivelJugador){
+        millis=System.currentTimeMillis();
+        acelera=3;
+        atacando=true;
+
         if(this.tipo==0 && tipoJugador==0){
             return daño*nivelJugador;
         }
@@ -63,6 +73,23 @@ public class Enemigo extends Modelo {
         }
 
         return -1;
+    }
+
+    @Override
+    public void actualizar (long tiempo){
+        long s = System.currentTimeMillis();
+        if(atacando) {
+            if (s - millis > 550 && acelera > 0) {
+                acelera = -3;
+                millis = s;
+            } else if (s - millis > 550 && acelera < 0) {
+                acelera = 0;
+                millis = 0;
+                x = xInicial;
+                atacando=false;
+            }
+            x = x + acelera;
+        }
     }
 
     public void golpeado(int tipoJugador,int nivelJugador,int dañoJugador){

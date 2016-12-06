@@ -26,20 +26,18 @@ public class Warrior extends Personaje {
                 1, 1, true);
         sprites.put(PARADO, parado);
 
-        //TODO false el bucle del sprite?
         Sprite avanza = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.warrior_avanza),
-                ancho, altura,
+                37,48,
                 3, 3,true);
         sprites.put(AVANZA, avanza);
 
         Sprite retrocede = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.warrior_retrocede),
-                ancho, altura,
+                37, 48,
                 3, 3, true);
         sprites.put(RETROCEDE,retrocede);
 
-        //TODO
         Sprite ataque = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.warrior_01),
                 ancho, altura,
@@ -48,25 +46,25 @@ public class Warrior extends Personaje {
 
         Sprite magia = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.warrior_magia),
-                ancho, altura,
-                3, 3, true);
+                33, 48,
+                3, 3, false);
         sprites.put(MAGIA,magia);
 
         Sprite defensa = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.warrior_09),
-                ancho, altura,
+                38, 43,
                 3, 1, true);
         sprites.put(DEFENSA,defensa);
 
         Sprite dañado = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.warrior_10),
-                ancho, altura,
+                34, 48,
                 3, 1, true);
         sprites.put(DAÑADO,dañado);
 
         Sprite morir = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.warrior_11),
-                ancho, altura,
+                48, 32,
                 3, 1, true);
         sprites.put(MORIR,morir);
     }
