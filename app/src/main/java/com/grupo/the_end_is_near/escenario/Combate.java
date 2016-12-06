@@ -35,9 +35,9 @@ public class Combate {
     private Context context;
     private Nivel nivel;
 
-    private Warrior warrior;
-    private Mage mage;
-    private Thief thief;
+    public Warrior warrior;
+    public Mage mage;
+    public Thief thief;
 
     private List<Enemigo> enemigos;
 

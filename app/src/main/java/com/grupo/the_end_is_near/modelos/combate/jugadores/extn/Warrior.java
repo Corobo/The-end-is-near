@@ -16,6 +16,9 @@ public class Warrior extends Personaje {
         super(context, xInicial, yInicial,32,48);
 
         this.vida=278;
+        this.vidaMaxima = 278;
+        this.mana = 20;
+        this.manaMaximo = 20;
     }
 
     @Override

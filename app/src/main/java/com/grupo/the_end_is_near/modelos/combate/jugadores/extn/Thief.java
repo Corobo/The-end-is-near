@@ -16,6 +16,9 @@ public class Thief extends Personaje {
         super(context, xInicial, yInicial,36,46);
 
         this.vida=255;
+        this.vidaMaxima=255;
+        this.mana = 15;
+        this.manaMaximo = 15;
     }
 
     @Override

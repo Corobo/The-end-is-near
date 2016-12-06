@@ -19,8 +19,11 @@ import java.util.HashMap;
 public abstract class Personaje extends Modelo{
 
     public int vida;
+    public int vidaMaxima;
     public int acelera=0;
     public int estado = Estado.ACTIVO;
+    public int mana;
+    public int manaMaximo;
 
     public boolean estaMuerto=false;
 
