@@ -8,11 +8,14 @@ import com.grupo.the_end_is_near.GameView;
 import com.grupo.the_end_is_near.R;
 import com.grupo.the_end_is_near.gestores.CargadorGraficos;
 import com.grupo.the_end_is_near.graficos.Sprite;
-import com.grupo.the_end_is_near.modelos.personajes.combate.Mage;
-import com.grupo.the_end_is_near.modelos.personajes.combate.Personaje;
-import com.grupo.the_end_is_near.modelos.personajes.combate.Thief;
-import com.grupo.the_end_is_near.modelos.personajes.combate.Warrior;
-import com.grupo.the_end_is_near.modelos.personajes.combate.Enemigo;
+import com.grupo.the_end_is_near.modelos.combate.enemigos.extn.EnemigoTipo1;
+import com.grupo.the_end_is_near.modelos.combate.enemigos.extn.EnemigoTipo2;
+import com.grupo.the_end_is_near.modelos.combate.enemigos.extn.EnemigoTipo3;
+import com.grupo.the_end_is_near.modelos.combate.jugadores.extn.Mage;
+import com.grupo.the_end_is_near.modelos.combate.jugadores.Personaje;
+import com.grupo.the_end_is_near.modelos.combate.jugadores.extn.Thief;
+import com.grupo.the_end_is_near.modelos.combate.jugadores.extn.Warrior;
+import com.grupo.the_end_is_near.modelos.combate.enemigos.Enemigo;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -36,7 +39,7 @@ public class Combate {
     private Mage mage;
     private Thief thief;
 
-    private List<Personaje> enemigos;
+    private List<Enemigo> enemigos;
 
     private Sprite fondo;
 
@@ -48,7 +51,7 @@ public class Combate {
                 512, 312,
                 1, 1, false);
 
-        enemigos= new LinkedList<Personaje>();
+        enemigos= new LinkedList<Enemigo>();
         iniciarEnemigosAleatorios();
 
         this.warrior= new Warrior(context, GameView.pantallaAncho/1.25, GameView.pantallaAlto / 2.5);
@@ -63,7 +66,13 @@ public class Combate {
         double posY=0;
         int x = new Double(Math.random() * 3).intValue();
         while (x >= 0) {
-            enemigos.add(new Enemigo(context, GameView.pantallaAncho / (3 + pos), GameView.pantallaAlto / (2.5 + posY)));
+            int tipoEnemigo = new Double(Math.random() * 3).intValue()+1;
+            if(tipoEnemigo==1)
+                enemigos.add(new EnemigoTipo1(context, GameView.pantallaAncho / (3 + pos), GameView.pantallaAlto / (2.5 + posY)));
+            if(tipoEnemigo==2)
+                enemigos.add(new EnemigoTipo2(context, GameView.pantallaAncho / (3 + pos), GameView.pantallaAlto / (2.5 + posY)));
+            if(tipoEnemigo==3)
+                enemigos.add(new EnemigoTipo3(context, GameView.pantallaAncho / (3 + pos), GameView.pantallaAlto / (2.5 + posY)));
             x--;
             if(pos==0) {
                 pos = pos + 1.5;
@@ -89,7 +98,7 @@ public class Combate {
         warrior.actualizar(tiempo);
         thief.actualizar(tiempo);
         mage.actualizar(tiempo);
-        for(Personaje enemigo: enemigos){
+        for(Enemigo enemigo: enemigos){
             enemigo.actualizar(tiempo);
         }
     }
@@ -99,7 +108,7 @@ public class Combate {
         thief.dibujar(canvas);
         warrior.dibujar(canvas);
         mage.dibujar(canvas);
-        for(Personaje enemigo: enemigos){
+        for(Enemigo enemigo: enemigos){
             enemigo.dibujar(canvas);
         }
     }

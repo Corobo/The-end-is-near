@@ -1,4 +1,4 @@
-package com.grupo.the_end_is_near.modelos.personajes.combate;
+package com.grupo.the_end_is_near.modelos.combate.jugadores;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import com.grupo.the_end_is_near.R;
 import com.grupo.the_end_is_near.escenario.Nivel;
 import com.grupo.the_end_is_near.gestores.CargadorGraficos;
+import com.grupo.the_end_is_near.global.Estado;
 import com.grupo.the_end_is_near.graficos.Sprite;
 import com.grupo.the_end_is_near.modelos.Modelo;
 
@@ -17,9 +18,13 @@ import java.util.HashMap;
 
 public abstract class Personaje extends Modelo{
 
-    public int acelera=0;
     public int vida;
+    public int acelera=0;
+    public int estado = Estado.ACTIVO;
+
     public boolean estaMuerto=false;
+
+
 
     //Animaciones
     public static final String PARADO = "Parado";
