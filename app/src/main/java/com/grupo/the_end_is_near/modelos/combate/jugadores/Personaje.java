@@ -41,7 +41,7 @@ public abstract class Personaje extends Modelo{
 
     public HashMap<String,Sprite> sprites = new HashMap<String,Sprite> ();
 
-    public long millis; //TODO
+    public long millis;
 
     private double xInicial=0;
     public boolean atacando=false;
