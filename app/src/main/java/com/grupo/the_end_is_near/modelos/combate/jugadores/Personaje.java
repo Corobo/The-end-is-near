@@ -1,4 +1,4 @@
-package com.grupo.the_end_is_near.modelos.personajes.combate;
+package com.grupo.the_end_is_near.modelos.combate.jugadores;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import com.grupo.the_end_is_near.R;
 import com.grupo.the_end_is_near.escenario.Nivel;
 import com.grupo.the_end_is_near.gestores.CargadorGraficos;
+import com.grupo.the_end_is_near.global.Estado;
 import com.grupo.the_end_is_near.graficos.Sprite;
 import com.grupo.the_end_is_near.modelos.Modelo;
 
@@ -19,6 +20,7 @@ public abstract class Personaje extends Modelo{
 
     public int vida;
     public int acelera=0;
+    public int estado = Estado.ACTIVO;
 
     //Animaciones
     public static final String PARADO = "Parado";
@@ -85,5 +87,13 @@ public abstract class Personaje extends Modelo{
         sprite = sprites.get("Avanza");
         atacando=true;
         //TODO moverse
+    }
+
+    public void golpeado(int daño){
+        this.vida -= daño;
+        if(vida<0){
+            sprite = sprites.get("Morir");
+            estado = Estado.INACTIVO;
+        }
     }
 }

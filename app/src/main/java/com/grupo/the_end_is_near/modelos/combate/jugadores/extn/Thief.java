@@ -1,74 +1,73 @@
-package com.grupo.the_end_is_near.modelos.personajes.combate;
+package com.grupo.the_end_is_near.modelos.combate.jugadores.extn;
 
 import android.content.Context;
 
 import com.grupo.the_end_is_near.R;
 import com.grupo.the_end_is_near.gestores.CargadorGraficos;
 import com.grupo.the_end_is_near.graficos.Sprite;
+import com.grupo.the_end_is_near.modelos.combate.jugadores.Personaje;
 
 /**
  * Created by jaime on 05/12/2016.
  */
 
-public class Warrior extends Personaje {
-    public Warrior(Context context, double xInicial, double yInicial) {
-        super(context, xInicial, yInicial,32,48);
+public class Thief extends Personaje {
+    public Thief(Context context, double xInicial, double yInicial) {
+        super(context, xInicial, yInicial,36,46);
 
-        this.vida=278;
+        this.vida=255;
     }
 
     @Override
     public void inicializar() {
         Sprite parado = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.warrior_01),
+                CargadorGraficos.cargarDrawable(context, R.drawable.thief_01),
                 ancho, altura,
                 1, 1, true);
         sprites.put(PARADO, parado);
 
         //TODO false el bucle del sprite?
         Sprite avanza = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.warrior_avanza),
+                CargadorGraficos.cargarDrawable(context, R.drawable.thief_avanza),
                 ancho, altura,
-                3, 3,true);
+                3, 3,false);
         sprites.put(AVANZA, avanza);
 
         Sprite retrocede = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.warrior_retrocede),
+                CargadorGraficos.cargarDrawable(context, R.drawable.thief_retrocede),
                 ancho, altura,
-                3, 3, true);
+                3, 3, false);
         sprites.put(RETROCEDE,retrocede);
 
         //TODO
         Sprite ataque = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.warrior_01),
+                CargadorGraficos.cargarDrawable(context, R.drawable.thief_01),
                 ancho, altura,
-                1, 1, true);
+                1, 1, false);
         sprites.put(ATAQUE,ataque);
 
         Sprite magia = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.warrior_magia),
+                CargadorGraficos.cargarDrawable(context, R.drawable.thief_magia),
                 ancho, altura,
-                3, 3, true);
+                3, 3, false);
         sprites.put(MAGIA,magia);
 
         Sprite defensa = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.warrior_09),
+                CargadorGraficos.cargarDrawable(context, R.drawable.thief_09),
                 ancho, altura,
-                3, 1, true);
+                3, 1, false);
         sprites.put(DEFENSA,defensa);
 
         Sprite dañado = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.warrior_10),
+                CargadorGraficos.cargarDrawable(context, R.drawable.thief_10),
                 ancho, altura,
-                3, 1, true);
+                3, 1, false);
         sprites.put(DAÑADO,dañado);
 
         Sprite morir = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.warrior_11),
+                CargadorGraficos.cargarDrawable(context, R.drawable.thief_11),
                 ancho, altura,
-                3, 1, true);
+                3, 1, false);
         sprites.put(MORIR,morir);
     }
-
-
 }
