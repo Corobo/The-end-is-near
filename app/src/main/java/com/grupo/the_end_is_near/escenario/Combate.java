@@ -55,7 +55,7 @@ public class Combate {
         this.mage = new Mage(context, GameView.pantallaAncho/1.2, GameView.pantallaAlto / 1.9);
         this.thief = new Thief(context, GameView.pantallaAncho/1.3, GameView.pantallaAlto / 3.5);
 
-        enCombate=true; //TODO debe ser false. Por el momento true para probarlo
+        enCombate=false; //TODO debe ser false. Por el momento true para probarlo
     }
 
     public void iniciarEnemigosAleatorios() {
@@ -74,6 +74,7 @@ public class Combate {
                 posY = -0.7;
             }
         }
+        //TODO
     }
 
     public void iniciaCombate(){

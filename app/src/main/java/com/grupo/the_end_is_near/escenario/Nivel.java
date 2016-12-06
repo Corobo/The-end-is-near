@@ -67,8 +67,6 @@ public class Nivel {
 
 
     public void actualizar(long tiempo) throws Exception {
-        System.out.println("DSDSD");
-        Log.e("Nivel","Actualizando");
         if(combate.enCombate){
             combate.actualizar(tiempo);
         }
