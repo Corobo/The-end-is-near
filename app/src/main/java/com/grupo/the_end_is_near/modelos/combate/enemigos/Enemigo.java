@@ -19,6 +19,7 @@ public class Enemigo extends Modelo {
     public int tipo=0;
 
     public boolean atacando=false;
+    public boolean siendoGolpeado=false;
     public int acelera=0;
     public long millis;
     private double xInicial=0;
@@ -98,42 +99,48 @@ public class Enemigo extends Modelo {
         }
     }
 
-    public void golpeado(int tipoJugador,int nivelJugador,int dañoJugador){
+    public void golpeado(int tipoJugador,int dañoJugador){
+        millis = System.currentTimeMillis();
+        acelera = 5;
+        siendoGolpeado = true;
+
+        ataco = false;
+
         if(this.tipo==0 && tipoJugador==0){
-            vida-= dañoJugador*nivelJugador;
+            vida-= dañoJugador;
         }
         if(this.tipo==0 && tipoJugador==1){
-            vida-= (dañoJugador-15)*nivelJugador;
+            vida-= (dañoJugador-15);
         }
         if(this.tipo==0 && tipoJugador==2){
-            vida-= (dañoJugador+15)*nivelJugador;
+            vida-= (dañoJugador+15);
         }
         if(this.tipo==1 && tipoJugador==0){
-            vida-= dañoJugador*nivelJugador;
+            vida-= dañoJugador;
         }
         if(this.tipo==1 && tipoJugador==1){
-            vida-= (dañoJugador-15)*nivelJugador;
+            vida-= (dañoJugador-15);
         }
         if(this.tipo==1 && tipoJugador==2){
-            vida-= (dañoJugador+15)*nivelJugador;
+            vida-= (dañoJugador+15);
         }
         if(this.tipo==2 && tipoJugador==0){
-            vida-= dañoJugador*nivelJugador;
+            vida-= dañoJugador;
         }
         if(this.tipo==2 && tipoJugador==1){
-            vida-= (dañoJugador-15)*nivelJugador;
+            vida-= (dañoJugador-15);
         }
         if(this.tipo==2 && tipoJugador==2){
-            vida-= (dañoJugador+15)*nivelJugador;
+            vida-= (dañoJugador+15);
         }
         if(this.tipo==3 && tipoJugador==0){
-            vida-= dañoJugador*nivelJugador;
+            vida-= dañoJugador;
         }
         if(this.tipo==3 && tipoJugador==1){
-            vida-= (dañoJugador-15)*nivelJugador;
+            vida-= (dañoJugador-15);
         }
         if(this.tipo==3 && tipoJugador==2){
-            vida-= (dañoJugador+15)*nivelJugador;
+            vida-= (dañoJugador+15);
         }
     }
 

@@ -17,10 +17,8 @@ public class Thief extends Personaje {
 
         this.tipo=2;
         this.nivel=10;
-        this.vida=255;
-        this.vidaMaxima=255;
-        this.mana = 15;
-        this.manaMaximo = 15;
+        calcularVida();
+        calcularMana();
     }
 
     @Override
@@ -72,5 +70,16 @@ public class Thief extends Personaje {
                 48, 31,
                 3, 1, true);
         sprites.put(MORIR,morir);
+    }
+
+    @Override
+    public void calcularVida() {
+        this.vida = nivel*86;
+        this.vidaMaxima = nivel*86;
+    }
+    @Override
+    public void calcularMana(){
+        this.mana = this.nivel*2;
+        this.manaMaximo = this.nivel*2;
     }
 }

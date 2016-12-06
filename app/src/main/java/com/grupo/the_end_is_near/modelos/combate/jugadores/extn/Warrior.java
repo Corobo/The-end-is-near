@@ -16,10 +16,8 @@ public class Warrior extends Personaje {
         super(context, xInicial, yInicial,32,48);
         this.tipo=1;
         this.nivel=10;
-        this.vida=278;
-        this.vidaMaxima = 278;
-        this.mana = 20;
-        this.manaMaximo = 20;
+        calcularVida();
+        calcularMana();
     }
 
     @Override
@@ -73,5 +71,14 @@ public class Warrior extends Personaje {
         sprites.put(MORIR,morir);
     }
 
-
+    @Override
+    public void calcularVida() {
+        this.vida = nivel*136;
+        this.vidaMaxima = nivel*136;
+    }
+    @Override
+    public void calcularMana(){
+        this.mana = this.nivel*(3/2);
+        this.manaMaximo = this.nivel*(3/2);
+    }
 }

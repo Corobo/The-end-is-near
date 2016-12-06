@@ -178,4 +178,18 @@ public abstract class Personaje extends Modelo{
         }
 
     }
+
+    public void calcularVida(){
+        this.vidaMaxima = this.nivel*100 ;
+        this.vida = this.nivel*100;
+    }
+
+    public void calcularMana(){
+        this.mana = this.nivel*5;
+        this.manaMaximo = this.nivel*5;
+    }
+
+    public int calcularDaño(){
+         return nivel*35;
+    }
 }

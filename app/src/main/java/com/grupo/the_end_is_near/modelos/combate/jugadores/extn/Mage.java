@@ -17,10 +17,8 @@ public class Mage extends Personaje {
 
         this.tipo=3;
         this.nivel=10;
-        this.vida=222;
-        this.vidaMaxima=222;
-        this.mana = 50;
-        this.manaMaximo = 50;
+        calcularVida();
+        calcularMana();
     }
 
     @Override
@@ -72,5 +70,16 @@ public class Mage extends Personaje {
                 48, 31,
                 3, 1, true);
         sprites.put(MORIR,morir);
+    }
+
+    @Override
+    public void calcularVida() {
+        this.vida = nivel*75;
+        this.vidaMaxima = nivel*75;
+    }
+    @Override
+    public void calcularMana(){
+        this.mana = this.nivel*(15/2);
+        this.manaMaximo = this.nivel*(15/2);
     }
 }

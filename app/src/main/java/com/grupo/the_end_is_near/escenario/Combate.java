@@ -185,6 +185,10 @@ public class Combate {
                     if (heroe.tipo != 1) {
                         compañerosTerminados=compañerosTerminados+1;
                         heroe.accionAleatoria();
+                        int x = new Double(Math.random() * 3).intValue(); //TODO arreglar para tamaño de la lista
+                        Enemigo enemigo = enemigos.get(x);
+                        enemigoAtacando = enemigo;
+                        enemigo.golpeado(heroe.tipo,heroe.calcularDaño());
                         compañeroAtacando = heroe;
                     }
                 }
