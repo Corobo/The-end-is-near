@@ -25,48 +25,46 @@ public class Mage extends Personaje {
                 1, 1, true);
         sprites.put(PARADO, parado);
 
-        //TODO false el bucle del sprite?
         Sprite avanza = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.mage_avanza),
-                ancho, altura,
-                3, 3,false);
+                38,48,
+                3, 3,true);
         sprites.put(AVANZA, avanza);
 
         Sprite retrocede = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.mage_retrocede),
-                ancho, altura,
-                3, 3, false);
+                38, 48,
+                3, 3, true);
         sprites.put(RETROCEDE,retrocede);
 
-        //TODO
         Sprite ataque = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.mage_01),
                 ancho, altura,
-                1, 1, false);
+                1, 1, true);
         sprites.put(ATAQUE,ataque);
 
         Sprite magia = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.mage_magia),
-                ancho, altura,
+                38, 48,
                 3, 3, false);
         sprites.put(MAGIA,magia);
 
         Sprite defensa = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.mage_09),
-                ancho, altura,
-                3, 1, false);
+                42, 40,
+                3, 1, true);
         sprites.put(DEFENSA,defensa);
 
         Sprite dañado = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.mage_10),
-                ancho, altura,
-                3, 1, false);
+                39, 48,
+                3, 1, true);
         sprites.put(DAÑADO,dañado);
 
         Sprite morir = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.mage_11),
-                ancho, altura,
-                3, 1, false);
+                48, 31,
+                3, 1, true);
         sprites.put(MORIR,morir);
     }
 }

@@ -17,8 +17,9 @@ import java.util.HashMap;
 
 public abstract class Personaje extends Modelo{
 
-    public int vida;
     public int acelera=0;
+    public int vida;
+    public boolean estaMuerto=false;
 
     //Animaciones
     public static final String PARADO = "Parado";
@@ -39,6 +40,10 @@ public abstract class Personaje extends Modelo{
 
     private double xInicial=0;
     public boolean atacando=false;
+    public boolean magia=false;
+    public boolean dañado=false;
+
+    public boolean estaBloqueando=false;
 
     public Personaje(Context context, double xInicial, double yInicial,int ancho,int alto) {
         super(context, xInicial, yInicial, alto,ancho);
@@ -56,11 +61,11 @@ public abstract class Personaje extends Modelo{
     public void actualizar (long tiempo) {
         boolean finSprite = sprite.actualizar(tiempo);
         if (finSprite) {
+            sprite.setFrameActual(0);
             sprite = sprites.get("Parado");
         }
-        //TODO atacar
+        long s = System.currentTimeMillis();
         if(atacando) {
-            long s = System.currentTimeMillis();
             if (s - millis > 550 && acelera < 0) {
                 acelera = 3;
                 millis = s;
@@ -73,6 +78,33 @@ public abstract class Personaje extends Modelo{
             }
             x = x + acelera;
         }
+
+        if(magia){
+            if (s - millis > 550 && s - millis < 1000 && acelera < 0) {
+                sprite = sprites.get("Magia");
+                acelera = 0;
+                millis = s;
+            }
+            else if(s - millis > 2000 && acelera == 0){
+                acelera=3;
+                millis=s;
+            }else if (s - millis > 550 && acelera > 0) {
+                acelera = 0;
+                millis = 0;
+                x = xInicial;
+                magia=false;
+                sprite=sprites.get("Parado");
+            }
+            x = x + acelera;
+        }
+
+        if(dañado){
+            if (s - millis > 1000) {
+                sprite = sprites.get("Parado");
+                millis = 0;
+                dañado=false;
+            }
+        }
     }
 
     public void accion(String s){
@@ -84,6 +116,32 @@ public abstract class Personaje extends Modelo{
         acelera=-3;
         sprite = sprites.get("Avanza");
         atacando=true;
-        //TODO moverse
+    }
+
+    public void magia(){
+        millis=System.currentTimeMillis();
+        acelera=-3;
+        magia=true;
+    }
+
+    public void bloquear(){
+        sprite = sprites.get("Defensa");
+        estaBloqueando=true;
+    }
+
+    public void dejarBloquear(){
+        sprite = sprites.get("Parado");
+        estaBloqueando=false;
+    }
+
+    public void golpeado(){
+        millis=System.currentTimeMillis();
+        sprite = sprites.get("Dañado");
+        dañado=true;
+    }
+
+    public void morir(){
+        sprite = sprites.get("Morir");
+        estaMuerto = true;
     }
 }

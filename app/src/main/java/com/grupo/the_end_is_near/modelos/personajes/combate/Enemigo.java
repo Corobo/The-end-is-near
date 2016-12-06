@@ -88,6 +88,5 @@ public class Enemigo extends Personaje {
     public void atacar(){
         acelera=2;
         sprite = sprites.get("Avanza");
-        //TODO moverse
     }
 }
