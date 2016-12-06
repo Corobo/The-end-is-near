@@ -116,4 +116,20 @@ public class Combate {
     public void atacar(){
         warrior.atacar();
     }
+
+    public void defender() {
+        warrior.atacar();
+    }
+
+    public void magia() {
+        warrior.atacar();
+    }
+
+    public void pocion() {
+        warrior.atacar();
+    }
+
+    public void huir() {
+        warrior.atacar();
+    }
 }
