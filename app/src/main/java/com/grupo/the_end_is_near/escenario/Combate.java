@@ -74,6 +74,7 @@ public class Combate {
                 posY = -0.7;
             }
         }
+        //TODO
     }
 
     public void iniciaCombate(){
