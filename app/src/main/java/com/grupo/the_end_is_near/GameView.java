@@ -108,6 +108,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
 
 
                 if (pad.estaPulsado(x[i], y[i])) {
+                    nivel.combate.atacar();
 
                     float orientacion = pad.getOrientacionX(x[i]);
                     float orientacionY = pad.getOrientacionY(y[i]);
@@ -154,8 +155,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
     }
 
     public void inicializarGestorAudio(Context context) {
-        gestorAudio = GestorAudio.getInstancia(context, R.raw.musica_fondo);
-        gestorAudio.reproducirMusicaAmbiente();
+        gestorAudio = GestorAudio.getInstancia(context, R.raw.musica_fondo,R.raw.musica_combate);
+        //gestorAudio.reproducirMusicaAmbiente(); TODO Debe ser ambiente
+        gestorAudio.reproducirMusicaCombate();
         gestorAudio.registrarSonido(GestorAudio.SONIDO_DISPARO_JUGADOR,
                 R.raw.lanzar_objeto);
         gestorAudio.registrarSonido(GestorAudio.SONIDO_SALTO_JUGADOR,R.raw.salto_jugador);
@@ -171,8 +173,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
 
     protected void dibujar(Canvas canvas) {
         nivel.dibujar(canvas);
-        if (!nivel.nivelPausado) {
+        if (!nivel.nivelPausado && !nivel.combate.enCombate) {
+            //gestorAudio.reproducirMusicaAmbiente();
             pad.dibujar(canvas);
+        }
+        if(nivel.combate.enCombate){
+            //gestorAudio.reproducirMusicaCombate(); TODO No reproduce si tenemos esto asi
         }
     }
 

@@ -22,6 +22,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Nivel {
+    public Combate combate;
+
     private Context context = null;
     private int numeroNivel;
     private Jugador jugador;
@@ -54,17 +56,23 @@ public class Nivel {
     }
 
     public void inicializar() throws Exception {
+        combate = new Combate(this.context,this);
         scrollEjeX = 0;
         scrollEjeY = 0;
         mensaje = CargadorGraficos.cargarBitmap(context, R.drawable.description);
-        nivelPausado = true;
+        nivelPausado = false;//TODO
         inicializarMapaTiles();
         scrollEjeY = (int) (altoMapaTiles() - tilesEnDistanciaY(GameView.pantallaAlto)) * Tile.altura;
     }
 
 
     public void actualizar(long tiempo) throws Exception {
-        if (inicializado) {
+        System.out.println("DSDSD");
+        Log.e("Nivel","Actualizando");
+        if(combate.enCombate){
+            combate.actualizar(tiempo);
+        }
+        else if (inicializado) {
             jugador.procesarOrdenes(orientacionPad,orientacionPadY);
             jugador.actualizar(tiempo);
             aplicarReglasMovimiento();
@@ -73,7 +81,10 @@ public class Nivel {
 
 
     public void dibujar(Canvas canvas) {
-        if (inicializado) {
+        if(combate.enCombate){
+            combate.dibujar(canvas);
+        }
+        else if (inicializado) {
             dibujarTiles(canvas);
             jugador.dibujar(canvas);
 
