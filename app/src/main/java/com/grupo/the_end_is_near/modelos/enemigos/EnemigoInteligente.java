@@ -15,7 +15,7 @@ import com.grupo.the_end_is_near.graficos.Sprite;
 
 public class EnemigoInteligente extends Enemigo {
 
-    public static final String MUERTE= "muerte";
+    public static final String UP = "up";
     public static final String FRONT = "front";
 
     public double velocidadY;
@@ -47,13 +47,13 @@ public class EnemigoInteligente extends Enemigo {
                 5, 3, true);
         _getSprites().put(FRONT, front);
 
-        Sprite muerte= new Sprite(
+        Sprite up = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.enemy_fly_back),
                 ancho, altura,
-                5, 3, false);
-        _getSprites().put(MUERTE, muerte);
+                5, 3, true);
+        _getSprites().put(UP, up);
 
-       setSprite(caminandoDerecha);
+        setSprite(caminandoDerecha);
     }
 
     @Override
@@ -62,29 +62,31 @@ public class EnemigoInteligente extends Enemigo {
         boolean finSprite = sprite.actualizar(tiempo);
 
         if (estado == EState.INACTIVO) {
-           //caer
-            if(finSprite == true)
-                estado = EState.ELIMINAR;
-            else
-                setSprite( _getSprites().get(MUERTE));
-
+            estado = EState.ELIMINAR;
         } else {
 
             if (velocidadX > 0)
                 setSprite(_getSprites().get(CAMINANDO_DERECHA));
 
             if (velocidadX < 0)
-                setSprite( _getSprites().get(CAMINANDO_IZQUIERDA));
+                setSprite(_getSprites().get(CAMINANDO_IZQUIERDA));
 
-            if(velocidadX == 0)
-                setSprite( _getSprites().get(FRONT));
-        }
+            if (velocidadX == 0){
+                if(velocidadY < 0)
+                    setSprite(_getSprites().get(UP));
+                else{
+                    setSprite(_getSprites().get(FRONT));
+                }
+                }
+            }
+
     }
 
     @Override
-    public void mover(Nivel nivel){
+    public void mover(Nivel nivel) {
         Tile[][] mapaTiles = nivel.getMapaTiles();
-        int anchoMapaTiles= mapaTiles.length;
+
+        int anchoMapaTiles = mapaTiles.length;
         int largoMapaTiles = mapaTiles[0].length;
 
         int tileXEnemigoIzquierda =
@@ -102,27 +104,24 @@ public class EnemigoInteligente extends Enemigo {
                 (int) (y - (altura / 2 - 1)) / Tile.altura;
 
         //distancia entre el muñeco y el jugador
-        double distancia = Math.sqrt(Math.pow(x-nivel.getJugador().x,2)+ Math.pow(y-nivel.getJugador().y,2));
-        if(distancia < 180){
+        double distancia = Math.sqrt(Math.pow(x - nivel.getJugador().x, 2) + Math.pow(y - nivel.getJugador().y, 2));
+        if (distancia < 180) {
 
-            if(x+5<nivel.getJugador().x)
-                velocidadX=1.2;
+            if (x + 5 < nivel.getJugador().x)
+                velocidadX = 1.2;
+            else if (x - 5 > nivel.getJugador().x)
+                velocidadX = -1.2;
             else
-                if(x-5>nivel.getJugador().x)
-                    velocidadX=-1.2;
-            else
-                velocidadX=0;
+                velocidadX = 0;
 
-            if(y+5<nivel.getJugador().y)
-                velocidadY=1.2;
-            else
-                if(y-5>nivel.getJugador().y)
-                    velocidadY=-1.2;
-            else velocidadY=0;
-        }
-        else{
-            velocidadX=0;
-            velocidadY=0;
+            if (y + 5 < nivel.getJugador().y)
+                velocidadY = 1.2;
+            else if (y - 5 > nivel.getJugador().y)
+                velocidadY = -1.2;
+            else velocidadY = 0;
+        } else {
+            velocidadX = 0;
+            velocidadY = 0;
         }
 
         if (velocidadX > 0) {
@@ -151,13 +150,13 @@ public class EnemigoInteligente extends Enemigo {
 
         if (velocidadY > 0) {
             //  No es elfin del mapa y el tile de delante es pasable
-            if (tileYEnemigoInferior +1 <= largoMapaTiles - 1 &&
+            if (tileYEnemigoInferior + 1 <= largoMapaTiles - 1 &&
                     mapaTiles[tileXEnemigoCentro][tileYEnemigoInferior].tipoDeColision ==
                             Tile.PASABLE /*&&
                     mapaTiles[tileXEnemigoDerecha][tileYEnemigoInferior].tipoDeColision ==
                             Tile.PASABLE &&
                     mapaTiles[tileXEnemigoIzquierda][tileYEnemigoInferior].tipoDeColision ==
-                            Tile.PASABLE*/){
+                            Tile.PASABLE*/) {
 
                 y += velocidadY;
 
@@ -177,9 +176,9 @@ public class EnemigoInteligente extends Enemigo {
         if (velocidadX < 0) {
             // Solo una condición para pasar: Tile izquierda pasable y suelo solido.
             if (tileXEnemigoIzquierda - 1 >= 0 &&
-                    mapaTiles[tileXEnemigoIzquierda-1][tileYEnemigoCentro].tipoDeColision ==
+                    mapaTiles[tileXEnemigoIzquierda - 1][tileYEnemigoCentro].tipoDeColision ==
                             Tile.PASABLE &&
-                    mapaTiles[tileXEnemigoIzquierda-1][tileYEnemigoSuperior].tipoDeColision ==
+                    mapaTiles[tileXEnemigoIzquierda - 1][tileYEnemigoSuperior].tipoDeColision ==
                             Tile.PASABLE) {
 
                 x += velocidadX;
@@ -201,7 +200,7 @@ public class EnemigoInteligente extends Enemigo {
         if (velocidadY < 0) {
             // Solo una condición para pasar: Tile izquierda pasable y suelo solido.
             if (tileYEnemigoSuperior - 1 >= 0 &&
-                    mapaTiles[tileXEnemigoCentro][tileYEnemigoSuperior-1].tipoDeColision ==
+                    mapaTiles[tileXEnemigoCentro][tileYEnemigoSuperior - 1].tipoDeColision ==
                             Tile.PASABLE /*&&
                     mapaTiles[tileXEnemigoDerecha][tileYEnemigoSuperior].tipoDeColision ==
                             Tile.PASABLE &&
