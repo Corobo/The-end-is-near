@@ -23,6 +23,8 @@ public class Enemigo extends Modelo {
     public long millis;
     private double xInicial=0;
 
+    public boolean ataco=false;
+
     public Enemigo(Context context, double xInicial, double yInicial) {
         super(context, xInicial, yInicial, 54, 63);
 
@@ -34,6 +36,8 @@ public class Enemigo extends Modelo {
         millis=System.currentTimeMillis();
         acelera=3;
         atacando=true;
+
+        ataco=true;
 
         if(this.tipo==0 && tipoJugador==0){
             return daño*nivelJugador;
@@ -129,6 +133,5 @@ public class Enemigo extends Modelo {
         if(this.tipo==3 && tipoJugador==2){
             vida-= (dañoJugador+15)*nivelJugador;
         }
-
     }
 }

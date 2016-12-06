@@ -35,13 +35,11 @@ public class Combate {
     private Context context;
     private Nivel nivel;
 
-    private Warrior warrior;
-    private Mage mage;
-    private Thief thief;
-
     private List<Enemigo> enemigos;
+    private List<Personaje> heroes;
 
     private Sprite fondo;
+    public long millis;
 
     public Combate(Context context,Nivel nivel) {
         this.context=context;
@@ -52,13 +50,15 @@ public class Combate {
                 1, 1, false);
 
         enemigos= new LinkedList<Enemigo>();
+        heroes =new LinkedList<Personaje>();
         iniciarEnemigosAleatorios();
 
-        this.warrior= new Warrior(context, GameView.pantallaAncho/1.25, GameView.pantallaAlto / 2.5);
-        this.mage = new Mage(context, GameView.pantallaAncho/1.2, GameView.pantallaAlto / 1.9);
-        this.thief = new Thief(context, GameView.pantallaAncho/1.3, GameView.pantallaAlto / 3.5);
+        heroes.add(new Thief(context, GameView.pantallaAncho/1.3, GameView.pantallaAlto / 3.5));
+        heroes.add(new Warrior(context, GameView.pantallaAncho/1.25, GameView.pantallaAlto / 2.5));
+        heroes.add(new Mage(context, GameView.pantallaAncho/1.2, GameView.pantallaAlto / 1.9));
 
         enCombate=true; //TODO debe ser false. Por el momento true para probarlo
+        turnoEnemigos();
     }
 
     public void iniciarEnemigosAleatorios() {
@@ -95,33 +95,56 @@ public class Combate {
     }
 
     public void actualizar(long tiempo) {
-        warrior.actualizar(tiempo);
-        thief.actualizar(tiempo);
-        mage.actualizar(tiempo);
+        for(Personaje heroe: heroes){
+            heroe.actualizar(tiempo);
+        }
+
         for(Enemigo enemigo: enemigos){
             enemigo.actualizar(tiempo);
         }
+
+
     }
 
     public void dibujar(Canvas canvas) {
         fondo.dibujarSprite(canvas,GameView.pantallaAncho / 2, GameView.pantallaAlto / 2);
-        thief.dibujar(canvas);
-        warrior.dibujar(canvas);
-        mage.dibujar(canvas);
+        for(Personaje heroe: heroes){
+            heroe.dibujar(canvas);
+        }
+
         for(Enemigo enemigo: enemigos){
             enemigo.dibujar(canvas);
         }
     }
 
     public void atacar(){
-        warrior.atacar();
+        //heroes.get(1).atacar();
+        turnoEnemigos();
     }
 
     public void defender(){
-        warrior.bloquear();
+        heroes.get(1).bloquear();
     }
 
     public void usarMagia(){
-        warrior.magia();
+        heroes.get(1).magia();
+    }
+
+    public void turnoEnemigos(){
+        int x=0;
+            for (Enemigo enemigo : enemigos) {
+                //long s = System.currentTimeMillis();
+                //if (s - millis > 1000 && !enemigo.ataco) {
+                    //millis = System.currentTimeMillis();
+                    x = new Double(Math.random() * 3).intValue();
+                    Personaje heroe = heroes.get(x);
+                    int daño = enemigo.golpear(heroe.tipo, heroe.nivel);
+                    heroe.golpeado(daño);
+               // }
+            }
+    }
+
+    public void turnoCompañeros(){
+
     }
 }

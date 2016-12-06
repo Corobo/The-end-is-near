@@ -20,11 +20,13 @@ public abstract class Personaje extends Modelo{
 
     public int vida;
     public int acelera=0;
+
+    public int tipo=0;
+    public int nivel=1;
+
     public int estado = Estado.ACTIVO;
 
     public boolean estaMuerto=false;
-
-
 
     //Animaciones
     public static final String PARADO = "Parado";
@@ -47,7 +49,6 @@ public abstract class Personaje extends Modelo{
     public boolean atacando=false;
     public boolean magia=false;
     public boolean dañado=false;
-
     public boolean estaBloqueando=false;
 
     public Personaje(Context context, double xInicial, double yInicial,int ancho,int alto) {
@@ -65,11 +66,11 @@ public abstract class Personaje extends Modelo{
 
     public void actualizar (long tiempo) {
         boolean finSprite = sprite.actualizar(tiempo);
+        long s = System.currentTimeMillis();
         if (finSprite) {
             sprite.setFrameActual(0);
             sprite = sprites.get("Parado");
         }
-        long s = System.currentTimeMillis();
         if(atacando) {
             if (s - millis > 550 && acelera < 0) {
                 acelera = 3;
@@ -139,7 +140,8 @@ public abstract class Personaje extends Modelo{
         estaBloqueando=false;
     }
 
-    public void golpeado(){
+    public void golpeado(int daño){
+        this.vida=this.vida-daño;
         millis=System.currentTimeMillis();
         sprite = sprites.get("Dañado");
         dañado=true;
