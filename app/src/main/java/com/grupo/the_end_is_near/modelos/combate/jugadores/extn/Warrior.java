@@ -18,6 +18,7 @@ public class Warrior extends Personaje {
         this.nivel=10;
         calcularVida();
         calcularMana();
+        calcularDaño();
     }
 
     @Override
@@ -80,5 +81,10 @@ public class Warrior extends Personaje {
     public void calcularMana(){
         this.mana = this.nivel*(3/2);
         this.manaMaximo = this.nivel*(3/2);
+    }
+    @Override
+    public void calcularDaño() {
+        this.daño= nivel*20;
+        this.dañoMagico = nivel*5;
     }
 }

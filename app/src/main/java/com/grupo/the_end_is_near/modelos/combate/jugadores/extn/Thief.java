@@ -19,6 +19,7 @@ public class Thief extends Personaje {
         this.nivel=10;
         calcularVida();
         calcularMana();
+        calcularDaño();
     }
 
     @Override
@@ -81,5 +82,11 @@ public class Thief extends Personaje {
     public void calcularMana(){
         this.mana = this.nivel*2;
         this.manaMaximo = this.nivel*2;
+    }
+
+    @Override
+    public void calcularDaño() {
+        this.daño= nivel*25;
+        this.dañoMagico = nivel*10;
     }
 }

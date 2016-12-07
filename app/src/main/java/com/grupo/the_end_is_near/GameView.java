@@ -20,6 +20,7 @@ import com.grupo.the_end_is_near.modelos.combate.controles.Defender;
 import com.grupo.the_end_is_near.modelos.combate.controles.Enemigo;
 import com.grupo.the_end_is_near.modelos.combate.controles.Huir;
 import com.grupo.the_end_is_near.modelos.combate.controles.Magia;
+import com.grupo.the_end_is_near.modelos.combate.controles.Marcador;
 import com.grupo.the_end_is_near.modelos.combate.controles.Pocion;
 import com.grupo.the_end_is_near.modelos.controles.Pad;
 
@@ -46,10 +47,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
     private Enemigo enemigo1;
     private Enemigo enemigo2;
     private Enemigo enemigo3;
+    private Marcador marcador1;
+    private Marcador marcador2;
+    private Marcador marcador3;
 
     public GestorAudio gestorAudio;
 
     public boolean pausa=false;
+
+    public boolean enAtaque;
+    public boolean enMagia;
+    public boolean enDefensa;
+    public boolean dibujarMarcador;
+
+    public static int enemigo;
 
 
 
@@ -171,19 +182,41 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
                     }
 
                     if (atacar.estaPulsado(x[i], y[i])) {
-                        nivel.combate.atacar();
+                        enAtaque=true;
+                        dibujarMarcador = true;
                     }
                     else if(defender.estaPulsado(x[i],y[i])){
-                        nivel.combate.defender();
+                        enDefensa=true;
+                        dibujarMarcador = true;
                     }
                     else if(magia.estaPulsado(x[i],y[i])){
-                        nivel.combate.magia();
+                        enMagia=true;
+                        dibujarMarcador = true;
                     }
                     else if(pocion.estaPulsado(x[i],y[i])){
                         nivel.combate.pocion();
                     }
                     else if(huir.estaPulsado(x[i],y[i])){
                         nivel.combate.huir();
+                    }
+                    else if(enemigo1.estaPulsado(x[i],y[i])){
+                        if(nivel.combate.enemigos.size()>1) {
+                            accionARealizar();
+                            enemigo = 1;
+                            dibujarMarcador=false;
+                        }
+                    }
+                    else if(enemigo2.estaPulsado(x[i],y[i])){
+                        accionARealizar();
+                        enemigo = 0;
+                        dibujarMarcador=false;
+                    }
+                    else if(enemigo3.estaPulsado(x[i],y[i])){
+                        if(nivel.combate.enemigos.size()>2) {
+                            accionARealizar();
+                            enemigo = 2;
+                            dibujarMarcador=false;
+                        }
                     }
                 }
             }
@@ -198,6 +231,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
         defender = new Defender(context);
         magia = new Magia(context);
         barraVida = new BarraVida(context);
+        enemigo1 = new Enemigo(context,0,0);
+        enemigo2 = new Enemigo(context,1.5,1.5);
+        enemigo3 = new Enemigo(context,1.5,-0.7);
+        marcador1 = new Marcador(context,1,0);
+        marcador2 = new Marcador(context,3.5,1.5);
+        marcador3 = new Marcador(context,3.5,-0.7);
         nivel = new Nivel(context,numeroNivel);
         nivel.gameView = this;
         if(!Opciones.musica)
@@ -247,6 +286,21 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
             canvas.drawText("Mage : ",(float)(pantallaAncho*0.55) , (float)(pantallaAlto*0.93),efectoTransparente);
             canvas.drawText(nivel.combate.heroes.get(2).vida+" / "+ nivel.combate.heroes.get(2).vidaMaxima,(float)(pantallaAncho*0.65) , (float)(pantallaAlto*0.93),efectoTransparente);
             canvas.drawText(nivel.combate.heroes.get(2).mana+" / "+ nivel.combate.heroes.get(2).manaMaximo,(float)(pantallaAncho*0.80) , (float)(pantallaAlto*0.93),efectoTransparente);
+            if(dibujarMarcador){
+                int enemigos = nivel.combate.enemigos.size();
+                if(enemigos==1) {
+                    marcador1.dibujar(canvas);
+                }
+                else if(enemigos==2){
+                    marcador1.dibujar(canvas);
+                    marcador2.dibujar(canvas);
+                }
+                else if(enemigos==3){
+                    marcador1.dibujar(canvas);
+                    marcador2.dibujar(canvas);
+                    marcador3.dibujar(canvas);
+                }
+            }
         }
     }
 
@@ -331,6 +385,23 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
             numeroNivel = 0;
         }
         inicializar();
+    }
+
+    /**
+     * Metodo que realizar la accion correspondiente al enemigo seleccionado segun que comando
+     * a seleccionado.
+     */
+    private void accionARealizar() {
+        if(enAtaque) {
+            nivel.combate.atacar();
+            enAtaque=false;
+        }else if(enDefensa) {
+            nivel.combate.defender();
+            enDefensa=false;
+        }else if(enMagia) {
+            nivel.combate.magia();
+            enMagia=false;
+        }
     }
 
 

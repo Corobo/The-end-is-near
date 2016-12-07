@@ -19,6 +19,7 @@ public class Mage extends Personaje {
         this.nivel=10;
         calcularVida();
         calcularMana();
+        calcularDaño();
     }
 
     @Override
@@ -81,5 +82,10 @@ public class Mage extends Personaje {
     public void calcularMana(){
         this.mana = this.nivel*(15/2);
         this.manaMaximo = this.nivel*(15/2);
+    }
+    @Override
+    public void calcularDaño() {
+        this.daño= nivel*5;
+        this.dañoMagico = nivel*25;
     }
 }

@@ -101,8 +101,7 @@ public class Enemigo extends Modelo {
 
     public void golpeado(int tipoJugador,int dañoJugador){
         millis = System.currentTimeMillis();
-        acelera = 5;
-        siendoGolpeado = true;
+        atacando=false;
 
         ataco = false;
 

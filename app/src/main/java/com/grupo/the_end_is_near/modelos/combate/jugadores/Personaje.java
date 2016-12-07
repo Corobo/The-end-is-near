@@ -18,13 +18,15 @@ import java.util.HashMap;
 
 public abstract class Personaje extends Modelo{
 
-    public int vida;
-    public int acelera=0;
-    public int daño=50;
 
-    public int vidaMaxima=255;
-    public int  mana = 15;
-    public int  manaMaximo = 15;
+    public int acelera=0;
+    public int daño;
+    public int dañoMagico;
+
+    public int vida;
+    public int vidaMaxima;
+    public int  mana ;
+    public int  manaMaximo;
 
     public int tipo=0;
     public int nivel=1;
@@ -63,6 +65,9 @@ public abstract class Personaje extends Modelo{
         inicializar();
         this.xInicial=xInicial;
         sprite = sprites.get("Parado");
+        calcularDaño();
+        calcularMana();
+        calcularVida();
     }
 
     public abstract void inicializar();
@@ -196,7 +201,8 @@ public abstract class Personaje extends Modelo{
         this.manaMaximo = this.nivel*5;
     }
 
-    public int calcularDaño(){
-         return nivel*35;
+    public void calcularDaño(){
+         this.daño =  nivel*35;
+         this.dañoMagico = nivel*35;
     }
 }

@@ -38,7 +38,7 @@ public class Combate {
     private Context context;
     private Nivel nivel;
 
-    private List<Enemigo> enemigos;
+    public List<Enemigo> enemigos;
     public List<Personaje> heroes;
 
     private Sprite fondo;
@@ -73,7 +73,7 @@ public class Combate {
     }
 
     public void iniciarEnemigosAleatorios() {
-        double pos = 0;
+        double pos =0;
         double posY=0;
         int x = new Double(Math.random() * 3).intValue();
         while (x >= 0) {
@@ -131,7 +131,10 @@ public class Combate {
     public void atacar(){
         if(turno==Turno.JUGADOR) {
             turno=Turno.COMPAÑEROS;
-            heroes.get(1).atacar();
+            Personaje heroe = heroes.get(1);
+            heroe.atacar();
+            Enemigo enemigo = enemigos.get(GameView.enemigo);
+            enemigo.golpear(heroe.tipo,heroe.daño);
         }
     }
 
@@ -145,13 +148,16 @@ public class Combate {
     public void magia(){
         if(turno==Turno.JUGADOR) {
             turno=Turno.COMPAÑEROS;
-            heroes.get(1).magia();
+            Personaje heroe = heroes.get(1);
+            heroe.magia();
+            Enemigo enemigo = enemigos.get(GameView.enemigo);
+            enemigo.golpear(heroe.tipo,heroe.dañoMagico);
         }
     }
 
     public void pocion() {
-    }
 
+    }
     public void huir() {
     }
 
@@ -193,7 +199,7 @@ public class Combate {
                         int x = new Double(Math.random() * enemigos.size()).intValue();
                         Enemigo enemigo = enemigos.get(x);
                         enemigoAtacando = enemigo;
-                        enemigo.golpeado(heroe.tipo,heroe.calcularDaño());
+                        enemigo.golpeado(heroe.tipo,heroe.daño);
                         compañeroAtacando = heroe;
                     }
                 }
