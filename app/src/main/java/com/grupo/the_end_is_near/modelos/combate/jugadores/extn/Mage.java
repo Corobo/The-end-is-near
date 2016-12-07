@@ -15,7 +15,7 @@ public class Mage extends Personaje {
     public Mage(Context context, double xInicial, double yInicial) {
         super(context, xInicial, yInicial,38,48);
 
-        this.tipo=3;
+        this.tipo=2;
         this.nivel=10;
         calcularVida();
         calcularMana();

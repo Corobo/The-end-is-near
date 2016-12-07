@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import com.grupo.the_end_is_near.GameView;
 import com.grupo.the_end_is_near.R;
 import com.grupo.the_end_is_near.gestores.CargadorGraficos;
+import com.grupo.the_end_is_near.global.Estado;
 import com.grupo.the_end_is_near.global.Turno;
 import com.grupo.the_end_is_near.graficos.Sprite;
 import com.grupo.the_end_is_near.modelos.combate.enemigos.extn.EnemigoTipo1;
@@ -17,6 +18,7 @@ import com.grupo.the_end_is_near.modelos.combate.jugadores.Personaje;
 import com.grupo.the_end_is_near.modelos.combate.jugadores.extn.Thief;
 import com.grupo.the_end_is_near.modelos.combate.jugadores.extn.Warrior;
 import com.grupo.the_end_is_near.modelos.combate.enemigos.Enemigo;
+import com.grupo.the_end_is_near.modelos.jugador.mapa.Jugador;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -160,13 +162,16 @@ public class Combate {
                 if(!enemigo.utilizado && ((enemigoAtacando!=null && !enemigoAtacando.estaOcupado()) || enemigoAtacando==null)) {
                     enemigosTerminados = enemigosTerminados + 1;
                     enemigo.utilizado=true;
-                    
+                    int activos = 0;
+                    //for(Jugador persoanje:heroes)
+
                     int x = new Double(Math.random() * 3).intValue();
                     Personaje heroe = heroes.get(x);
-
-                    int daño = enemigo.golpear(heroe.tipo, heroe.nivel);
-                    enemigoAtacando = enemigo;
-                    heroe.golpeado(daño);
+                    if(heroe.estado== Estado.ACTIVO) {
+                        int daño = enemigo.golpear(heroe.tipo, heroe.nivel);
+                        enemigoAtacando = enemigo;
+                        heroe.golpeado(daño);
+                    }
                 }
             }
             if(enemigosTerminados >= enemigos.size() && !enemigoAtacando.estaOcupado()){
@@ -182,10 +187,10 @@ public class Combate {
         if(!heroes.get(1).estaOcupado() && turno==Turno.COMPAÑEROS){
             for(Personaje heroe:heroes){
                 if((compañeroAtacando!=null && !compañeroAtacando.estaOcupado()) || compañeroAtacando==null) {
-                    if (heroe.tipo != 1) {
+                    if (heroe.tipo != 0 && heroe.estado==Estado.ACTIVO) {
                         compañerosTerminados=compañerosTerminados+1;
                         heroe.accionAleatoria();
-                        int x = new Double(Math.random() * 3).intValue(); //TODO arreglar para tamaño de la lista
+                        int x = new Double(Math.random() * enemigos.size()).intValue();
                         Enemigo enemigo = enemigos.get(x);
                         enemigoAtacando = enemigo;
                         enemigo.golpeado(heroe.tipo,heroe.calcularDaño());

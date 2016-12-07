@@ -14,7 +14,7 @@ import com.grupo.the_end_is_near.modelos.combate.jugadores.Personaje;
 public class Warrior extends Personaje {
     public Warrior(Context context, double xInicial, double yInicial) {
         super(context, xInicial, yInicial,32,48);
-        this.tipo=1;
+        this.tipo=0;
         this.nivel=10;
         calcularVida();
         calcularMana();

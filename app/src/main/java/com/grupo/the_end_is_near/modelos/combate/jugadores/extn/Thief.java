@@ -15,7 +15,7 @@ public class Thief extends Personaje {
     public Thief(Context context, double xInicial, double yInicial) {
         super(context, xInicial, yInicial,36,46);
 
-        this.tipo=2;
+        this.tipo=1;
         this.nivel=10;
         calcularVida();
         calcularMana();

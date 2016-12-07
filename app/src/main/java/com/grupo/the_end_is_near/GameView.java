@@ -17,6 +17,7 @@ import com.grupo.the_end_is_near.gestores.Opciones;
 import com.grupo.the_end_is_near.modelos.combate.controles.Atacar;
 import com.grupo.the_end_is_near.modelos.combate.controles.BarraVida;
 import com.grupo.the_end_is_near.modelos.combate.controles.Defender;
+import com.grupo.the_end_is_near.modelos.combate.controles.Enemigo;
 import com.grupo.the_end_is_near.modelos.combate.controles.Huir;
 import com.grupo.the_end_is_near.modelos.combate.controles.Magia;
 import com.grupo.the_end_is_near.modelos.combate.controles.Pocion;
@@ -42,6 +43,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
     private Defender defender;
     private Magia magia;
     private Pocion pocion;
+    private Enemigo enemigo1;
+    private Enemigo enemigo2;
+    private Enemigo enemigo3;
 
     public GestorAudio gestorAudio;
 

@@ -150,11 +150,18 @@ public abstract class Personaje extends Modelo{
     public void golpeado(int daño){
         this.vida=this.vida-daño;
         millis=System.currentTimeMillis();
-        sprite = sprites.get("Dañado");
-        dañado=true;
+        if(this.vida<=0) {
+            this.vida=0;
+            morir();
+        }
+        else {
+            sprite = sprites.get("Dañado");
+            dañado = true;
+        }
     }
 
     public void morir(){
+        estado= Estado.INACTIVO;
         sprite = sprites.get("Morir");
         estaMuerto = true;
     }
