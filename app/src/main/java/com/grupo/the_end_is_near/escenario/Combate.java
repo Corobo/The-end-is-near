@@ -261,12 +261,12 @@ public class Combate {
         if(enemigos.size()==1){
             enemigos.remove(0);
         }else if(enemigos.size()==2){
-            enemigos.remove(0);
             enemigos.remove(1);
+            enemigos.remove(0);
         }else if(enemigos.size()==3){
-            enemigos.remove(0);
-            enemigos.remove(1);
             enemigos.remove(2);
+            enemigos.remove(1);
+            enemigos.remove(0);
         }
         double pos =0;
         double posY=0;

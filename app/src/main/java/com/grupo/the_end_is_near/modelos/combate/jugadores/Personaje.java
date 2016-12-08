@@ -243,6 +243,7 @@ public abstract class Personaje extends Modelo{
         experiencia += expGanada;
         if(experiencia>=experienciaNecesaria){
             nivel++;
+            estado = Estado.ACTIVO;
             calcularVida();
             calcularMana();
             calcularDaño();
