@@ -54,7 +54,7 @@ public class Enemigo extends Modelo {
     }
 
     public void dibujar(Canvas canvas){
-        sprite.dibujarSprite(canvas, (int) x , (int) y, false);
+        sprite.dibujarSprite(canvas, (int) x , (int) y, golpeado);
     }
 
     public int golpear(int tipoJugador,int nivelJugador){
