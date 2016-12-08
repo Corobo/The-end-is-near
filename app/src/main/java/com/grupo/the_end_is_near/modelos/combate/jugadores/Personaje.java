@@ -252,6 +252,7 @@ public abstract class Personaje extends Modelo{
     }
     public void bajarNivel(){
         nivel--;
+        estado = Estado.ACTIVO;
         calcularVida();
         calcularMana();
         calcularDaño();
@@ -263,7 +264,6 @@ public abstract class Personaje extends Modelo{
         magia=false;
         dañado=false;
         estaBloqueando=false;
-
         utilizado=false;
     }
 

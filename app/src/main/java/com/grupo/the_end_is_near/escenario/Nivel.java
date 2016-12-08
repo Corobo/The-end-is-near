@@ -76,6 +76,7 @@ public class Nivel {
         else if (inicializado) {
             jugador.procesarOrdenes(orientacionPad,orientacionPadY);
             jugador.actualizar(tiempo);
+            enemigo.actualizar(tiempo);
             aplicarReglasMovimiento();
         }
     }
