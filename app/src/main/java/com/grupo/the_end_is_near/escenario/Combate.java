@@ -137,8 +137,6 @@ public class Combate {
             heroe.atacar();
             Enemigo enemigo = enemigos.get(GameView.enemigo);
             enemigo.golpeado(heroe.tipo,heroe.daño);
-            GameView.dañoActual = enemigo.ultimoDañoRecibido;
-            GameView.pintarDaño = GameView.enemigo;
         }
     }
 
@@ -156,8 +154,6 @@ public class Combate {
             heroe.magia();
             Enemigo enemigo = enemigos.get(GameView.enemigo);
             enemigo.golpeado(heroe.tipo,heroe.dañoMagico);
-            GameView.dañoActual = enemigo.ultimoDañoRecibido;
-            GameView.pintarDaño = GameView.enemigo;
         }
     }
 
@@ -179,7 +175,7 @@ public class Combate {
 
                     int x = new Double(Math.random() * 3).intValue();
                     Personaje heroe = heroes.get(x);
-                    if(heroe.estado== Estado.ACTIVO) {
+                    if(heroe.estado == Estado.ACTIVO) {
                         int daño = enemigo.golpear(heroe.tipo, heroe.nivel);
                         enemigoAtacando = enemigo;
                         heroe.golpeado(daño);

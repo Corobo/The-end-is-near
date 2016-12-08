@@ -326,11 +326,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
             }
             if(nivel.combate.turno== Turno.COMPAÑEROS) {
                 if (pintarDaño == 0) {
-                    canvas.drawText("" + dañoActual,(float) (pantallaAncho / (3)),(float) (pantallaAlto / (2.5)), textoDaño);
+                    canvas.drawText("" + dañoActual,(float) (pantallaAncho / (3-0.5)),(float) (pantallaAlto / (2.5)), textoDaño);
                 } else if (pintarDaño == 1) {
-                    canvas.drawText("" + dañoActual,(float) (pantallaAncho / (3 + 1.5)),(float) (pantallaAlto / (2.5 + 1.5)), textoDaño);
+                    canvas.drawText("" + dañoActual,(float) (pantallaAncho / (3 + 0.75)),(float) (pantallaAlto / (2.5 + 1.5)), textoDaño);
                 } else if (pintarDaño == 2) {
-                    canvas.drawText("" + dañoActual,(float) (pantallaAncho / (3 + 1.5)),(float) (pantallaAlto / (2.5 - 0.7)), textoDaño);
+                    canvas.drawText("" + dañoActual,(float) (pantallaAncho / (3 + 0.75)),(float) (pantallaAlto / (2.5 - 0.7)), textoDaño);
                 }
             }
         }
