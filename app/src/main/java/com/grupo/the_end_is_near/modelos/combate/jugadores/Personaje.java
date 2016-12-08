@@ -202,17 +202,19 @@ public abstract class Personaje extends Modelo{
     }
 
     public void accionAleatoria(Enemigo enemigo) {
-        if(!utilizado) {
-            int x = new Double(Math.random() * 2).intValue();
-            switch (x) {
-                case 0:
-                    atacar(enemigo);
-                    break;
-                case 1:
-                    magia(enemigo);
-                    break;
+        if(enemigo.estado==Estado.ACTIVO) {
+            if (!utilizado) {
+                int x = new Double(Math.random() * 2).intValue();
+                switch (x) {
+                    case 0:
+                        atacar(enemigo);
+                        break;
+                    case 1:
+                        magia(enemigo);
+                        break;
+                }
+                utilizado = true;
             }
-            utilizado=true;
         }
 
     }

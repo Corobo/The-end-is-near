@@ -144,63 +144,66 @@ public class Enemigo extends Modelo {
     }
 
     public void golpeado(int tipoJugador,int dañoJugador){
-        millis = System.currentTimeMillis();
-        atacando=false;
-        ataco = false;
-        golpeado=true;
-        sprite=sprites.get("Dañado");
+        if(estado == Estado.ACTIVO) {
+            millis = System.currentTimeMillis();
+            atacando = false;
+            ataco = false;
+            golpeado = true;
+            sprite = sprites.get("Dañado");
 
-        if(this.tipo==0 && tipoJugador==0){
-            vida-= dañoJugador;
-            ultimoDañoRecibido=dañoJugador;
+            if (this.tipo == 0 && tipoJugador == 0) {
+                vida -= dañoJugador;
+                ultimoDañoRecibido = dañoJugador;
+            }
+            if (this.tipo == 0 && tipoJugador == 1) {
+                vida -= (dañoJugador - 15);
+                ultimoDañoRecibido = dañoJugador - 15;
+            }
+            if (this.tipo == 0 && tipoJugador == 2) {
+                vida -= (dañoJugador + 15);
+                ultimoDañoRecibido = dañoJugador + 15;
+            }
+            if (this.tipo == 1 && tipoJugador == 0) {
+                vida -= dañoJugador;
+                ultimoDañoRecibido = dañoJugador;
+            }
+            if (this.tipo == 1 && tipoJugador == 1) {
+                vida -= (dañoJugador - 15);
+                ultimoDañoRecibido = dañoJugador - 15;
+            }
+            if (this.tipo == 1 && tipoJugador == 2) {
+                vida -= (dañoJugador + 15);
+                ultimoDañoRecibido = dañoJugador + 15;
+            }
+            if (this.tipo == 2 && tipoJugador == 0) {
+                vida -= dañoJugador;
+                ultimoDañoRecibido = dañoJugador;
+            }
+            if (this.tipo == 2 && tipoJugador == 1) {
+                vida -= (dañoJugador - 15);
+                ultimoDañoRecibido = dañoJugador - 15;
+            }
+            if (this.tipo == 2 && tipoJugador == 2) {
+                vida -= (dañoJugador + 15);
+                ultimoDañoRecibido = dañoJugador + 15;
+            }
+            if (this.tipo == 3 && tipoJugador == 0) {
+                vida -= dañoJugador;
+                ultimoDañoRecibido = dañoJugador;
+            }
+            if (this.tipo == 3 && tipoJugador == 1) {
+                vida -= (dañoJugador - 15);
+                ultimoDañoRecibido = dañoJugador - 15;
+            }
+            if (this.tipo == 3 && tipoJugador == 2) {
+                vida -= (dañoJugador + 15);
+                ultimoDañoRecibido = dañoJugador + 15;
+            }
+            if(vida<=0) {
+                estado = Estado.INACTIVO;
+            }
         }
-        if(this.tipo==0 && tipoJugador==1){
-            vida-= (dañoJugador-15);
-            ultimoDañoRecibido=dañoJugador-15;
-        }
-        if(this.tipo==0 && tipoJugador==2){
-            vida-= (dañoJugador+15);
-            ultimoDañoRecibido=dañoJugador+15;
-        }
-        if(this.tipo==1 && tipoJugador==0){
-            vida-= dañoJugador;
-            ultimoDañoRecibido=dañoJugador;
-        }
-        if(this.tipo==1 && tipoJugador==1){
-            vida-= (dañoJugador-15);
-            ultimoDañoRecibido=dañoJugador-15;
-        }
-        if(this.tipo==1 && tipoJugador==2){
-            vida-= (dañoJugador+15);
-            ultimoDañoRecibido=dañoJugador+15;
-        }
-        if(this.tipo==2 && tipoJugador==0){
-            vida-= dañoJugador;
-            ultimoDañoRecibido=dañoJugador;
-        }
-        if(this.tipo==2 && tipoJugador==1){
-            vida-= (dañoJugador-15);
-            ultimoDañoRecibido=dañoJugador-15;
-        }
-        if(this.tipo==2 && tipoJugador==2){
-            vida-= (dañoJugador+15);
-            ultimoDañoRecibido=dañoJugador+15;
-        }
-        if(this.tipo==3 && tipoJugador==0){
-            vida-= dañoJugador;
-            ultimoDañoRecibido=dañoJugador;
-        }
-        if(this.tipo==3 && tipoJugador==1){
-            vida-= (dañoJugador-15);
-            ultimoDañoRecibido=dañoJugador-15;
-        }
-        if(this.tipo==3 && tipoJugador==2){
-            vida-= (dañoJugador+15);
-            ultimoDañoRecibido=dañoJugador+15;
-        }
-        if(vida<=0) {
-            estado = Estado.INACTIVO;
-        }
+
     }
 
     public boolean estaOcupado() {
