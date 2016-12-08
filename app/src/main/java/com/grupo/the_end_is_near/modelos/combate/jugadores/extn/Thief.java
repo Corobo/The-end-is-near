@@ -24,6 +24,11 @@ public class Thief extends Personaje {
 
     @Override
     public void inicializar() {
+        hechizo= new Sprite(
+                CargadorGraficos.cargarDrawable(context, R.drawable.rayos_2),
+                56,64,
+                5,8, false);
+
         Sprite parado = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.thief_01),
                 ancho, altura,

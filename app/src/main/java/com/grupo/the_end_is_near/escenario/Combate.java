@@ -116,17 +116,11 @@ public class Combate {
                 numHeroesDerrotados++;
         }
 
-        if(numHeroesDerrotados==heroes.size())
-            //terminaCombate();//DERROTA TODO
-
         for(Enemigo enemigo: enemigos){
             enemigo.actualizar(tiempo);
             if(enemigo.vida<=0)
                 numEnemigosDerrotados++;
         }
-
-        if(numEnemigosDerrotados==enemigos.size())
-            //terminaCombate();//TODO Victoria
 
         turnoCompañeros();
         turnoEnemigos();
@@ -134,12 +128,13 @@ public class Combate {
 
     public void dibujar(Canvas canvas) {
         fondo.dibujarSprite(canvas,GameView.pantallaAncho / 2, GameView.pantallaAlto / 2);
-        for(Personaje heroe: heroes){
-            heroe.dibujar(canvas);
-        }
 
         for(Enemigo enemigo: enemigos){
             enemigo.dibujar(canvas);
+        }
+
+        for(Personaje heroe: heroes){
+            heroe.dibujar(canvas);
         }
     }
 
@@ -164,9 +159,9 @@ public class Combate {
         if(turno==Turno.JUGADOR) {
             turno=Turno.COMPAÑEROS;
             Personaje heroe = heroes.get(1);
-            heroe.magia();
             Enemigo enemigo = enemigos.get(GameView.enemigo);
             enemigo.golpeado(heroe.tipo,heroe.dañoMagico);
+            heroe.magia(enemigo);
         }
     }
 
@@ -211,10 +206,11 @@ public class Combate {
                 if((compañeroAtacando!=null && !compañeroAtacando.estaOcupado()) || compañeroAtacando==null) {
                     if (heroe.tipo != 0 && heroe.estado==Estado.ACTIVO) {
                         compañerosTerminados=compañerosTerminados+1;
-                        heroe.accionAleatoria();
                         int x = new Double(Math.random() * enemigos.size()).intValue();
                         Enemigo enemigo = enemigos.get(x);
                         enemigoAtacando = enemigo;
+
+                        heroe.accionAleatoria(enemigo);
                         enemigo.golpeado(heroe.tipo,heroe.daño);
                         compañeroAtacando = heroe;
                         GameView.pintarDaño= x;

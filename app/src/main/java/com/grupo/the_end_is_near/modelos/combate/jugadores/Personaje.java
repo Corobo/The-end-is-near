@@ -9,6 +9,7 @@ import com.grupo.the_end_is_near.gestores.CargadorGraficos;
 import com.grupo.the_end_is_near.global.Estado;
 import com.grupo.the_end_is_near.graficos.Sprite;
 import com.grupo.the_end_is_near.modelos.Modelo;
+import com.grupo.the_end_is_near.modelos.combate.enemigos.Enemigo;
 
 import java.util.HashMap;
 
@@ -48,6 +49,8 @@ public abstract class Personaje extends Modelo{
     //Puntero sprite actual
     public Sprite sprite;
 
+    public Sprite hechizo;
+
     public HashMap<String,Sprite> sprites = new HashMap<String,Sprite> ();
 
     public long millis;
@@ -59,6 +62,9 @@ public abstract class Personaje extends Modelo{
     public boolean estaBloqueando=false;
 
     public boolean utilizado=false;
+
+    public double enemigoX;
+    public double enemigoY;
 
     public Personaje(Context context, double xInicial, double yInicial,int ancho,int alto) {
         super(context, xInicial, yInicial, alto,ancho);
@@ -73,10 +79,16 @@ public abstract class Personaje extends Modelo{
     public abstract void inicializar();
 
     public void dibujar(Canvas canvas){
+        if(magia)
+            hechizo.dibujarSprite(canvas, (int) enemigoX, (int) enemigoY, false);
         sprite.dibujarSprite(canvas, (int) x , (int) y, false);
     }
 
     public void actualizar (long tiempo) {
+        if(magia) {
+            boolean fin=hechizo.actualizar(tiempo);
+        }
+
         boolean finSprite = sprite.actualizar(tiempo);
         long s = System.currentTimeMillis();
         if (finSprite) {
@@ -112,6 +124,7 @@ public abstract class Personaje extends Modelo{
                 x = xInicial;
                 magia=false;
                 sprite=sprites.get("Parado");
+                hechizo.setFrameActual(0);
             }
             x = x + acelera;
         }
@@ -136,7 +149,10 @@ public abstract class Personaje extends Modelo{
         atacando=true;
     }
 
-    public void magia(){
+    public void magia(Enemigo enemigo){
+        enemigoX=enemigo.x;
+        enemigoY=enemigo.y;
+
         millis=System.currentTimeMillis();
         acelera=-3;
         magia=true;
@@ -175,7 +191,7 @@ public abstract class Personaje extends Modelo{
         return atacando || magia || dañado;
     }
 
-    public void accionAleatoria() {
+    public void accionAleatoria(Enemigo enemigo) {
         if(!utilizado) {
             int x = new Double(Math.random() * 2).intValue();
             switch (x) {
@@ -183,7 +199,7 @@ public abstract class Personaje extends Modelo{
                     atacar();
                     break;
                 case 1:
-                    magia();
+                    magia(enemigo);
                     break;
             }
             utilizado=true;

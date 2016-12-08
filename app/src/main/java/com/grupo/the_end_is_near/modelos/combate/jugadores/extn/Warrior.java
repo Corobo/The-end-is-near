@@ -23,6 +23,11 @@ public class Warrior extends Personaje {
 
     @Override
     public void inicializar() {
+        hechizo= new Sprite(
+                CargadorGraficos.cargarDrawable(context, R.drawable.rayos_3),
+                48,50,
+                5,7, false);
+
         Sprite parado = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.warrior_01),
                 ancho, altura,

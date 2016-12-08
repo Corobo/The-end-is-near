@@ -24,6 +24,11 @@ public class Mage extends Personaje {
 
     @Override
     public void inicializar() {
+        hechizo= new Sprite(
+                CargadorGraficos.cargarDrawable(context, R.drawable.rayos),
+                50,151,
+                5,5, false);
+
         Sprite parado = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.mage_01),
                 ancho, altura,
