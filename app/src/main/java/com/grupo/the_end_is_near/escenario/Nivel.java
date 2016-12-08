@@ -179,7 +179,7 @@ public class Nivel {
                 //Enemigo
                 int xCentroAbajoTileE1 = x * Tile.ancho + Tile.ancho / 2;
                 int yCentroAbajoTileE1 = y * Tile.altura + Tile.altura;
-                enemigos.add(EnemiesFactory.getEnemigo1(context,xCentroAbajoTileE1,
+                enemigos.add(EnemiesFactory.getEnemigo1(context, xCentroAbajoTileE1,
                         yCentroAbajoTileE1));
                 return new Tile(CargadorGraficos.cargarDrawable(context, R.drawable.suelo_verde_1),
                         Tile.PASABLE);
@@ -188,11 +188,10 @@ public class Nivel {
                 //Enemigo
                 int xCentroAbajoTileEI = x * Tile.ancho + Tile.ancho / 2;
                 int yCentroAbajoTileEI = y * Tile.altura + Tile.altura;
-                enemigos.add(EnemiesFactory.getEnemigoInteligente(context,xCentroAbajoTileEI,
+                enemigos.add(EnemiesFactory.getEnemigoInteligente(context, xCentroAbajoTileEI,
                         yCentroAbajoTileEI));
                 return new Tile(CargadorGraficos.cargarDrawable(context, R.drawable.suelo_verde_1),
                         Tile.PASABLE);
-
             case 'p':
                 // pocion suelo marron
                 return new Tile(CargadorGraficos.cargarDrawable(context,
