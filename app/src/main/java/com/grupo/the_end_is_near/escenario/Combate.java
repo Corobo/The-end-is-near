@@ -77,11 +77,16 @@ public class Combate {
     public void actualizar(long tiempo) {
         int enemigosDerrotados = 0;
 
+        boolean ocupado=false;
         for(Personaje heroe:heroes){
             heroe.actualizar(tiempo);
+            if(heroe.estaOcupado())
+                ocupado=true;
         }
 
         for(Enemigo enemigo: enemigos){
+            if(enemigo.estaOcupado())
+                ocupado=true;
             enemigo.actualizar(tiempo);
             if(enemigo.vida<=0)
                 enemigosDerrotados++;
@@ -92,14 +97,16 @@ public class Combate {
             for(Personaje heroe:heroes){
                 heroe.subirNivel(heroe.nivel*35);
             }
-            terminaCombate();
+            if(!ocupado)
+                terminaCombate();
         }else if (resultadoCombate(enemigosDerrotados)==1){
             //TODO AnimacionPerder + volver al mapa volviendo a la entrada pero con un nivel menos.
             for(Personaje heroe:heroes){
                 heroe.bajarNivel();
             }
             //nivel.VolverPosada=true;
-            terminaCombate();
+            if(!ocupado)
+                terminaCombate();
         }
 
         turnoCompañeros();
