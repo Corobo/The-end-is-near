@@ -96,6 +96,7 @@ public class Combate {
             //TODO AnimacionGanar + sumar experiencia y si sube de nivel recuperar vida.
             for(Personaje heroe:heroes){
                 if(heroe.estado == Estado.ACTIVO){
+                    heroe.reiniciarValores();
                     heroe.accion("Parado");
                 }
                 heroe.subirNivel(heroe.nivel*35);
@@ -106,6 +107,7 @@ public class Combate {
             //TODO AnimacionPerder + volver al mapa volviendo a la entrada pero con un nivel menos.
             for(Personaje heroe:heroes){
                 if(heroe.estado == Estado.ACTIVO){
+                    heroe.reiniciarValores();
                     heroe.accion("Parado");
                 }
                 heroe.bajarNivel();
