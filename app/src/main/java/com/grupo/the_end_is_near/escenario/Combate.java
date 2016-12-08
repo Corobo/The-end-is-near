@@ -3,6 +3,8 @@ package com.grupo.the_end_is_near.escenario;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 
 import com.grupo.the_end_is_near.GameView;
 import com.grupo.the_end_is_near.R;
@@ -135,6 +137,8 @@ public class Combate {
             heroe.atacar();
             Enemigo enemigo = enemigos.get(GameView.enemigo);
             enemigo.golpeado(heroe.tipo,heroe.daño);
+            GameView.dañoActual = enemigo.ultimoDañoRecibido;
+            GameView.pintarDaño = GameView.enemigo;
         }
     }
 
@@ -152,6 +156,8 @@ public class Combate {
             heroe.magia();
             Enemigo enemigo = enemigos.get(GameView.enemigo);
             enemigo.golpeado(heroe.tipo,heroe.dañoMagico);
+            GameView.dañoActual = enemigo.ultimoDañoRecibido;
+            GameView.pintarDaño = GameView.enemigo;
         }
     }
 
@@ -177,6 +183,8 @@ public class Combate {
                         int daño = enemigo.golpear(heroe.tipo, heroe.nivel);
                         enemigoAtacando = enemigo;
                         heroe.golpeado(daño);
+                        GameView.pintarDaño=x;
+                        GameView.dañoActual=daño;
                     }
                 }
             }
@@ -201,6 +209,8 @@ public class Combate {
                         enemigoAtacando = enemigo;
                         enemigo.golpeado(heroe.tipo,heroe.daño);
                         compañeroAtacando = heroe;
+                        GameView.pintarDaño= x;
+                        GameView.dañoActual = enemigo.ultimoDañoRecibido;
                     }
                 }
             }

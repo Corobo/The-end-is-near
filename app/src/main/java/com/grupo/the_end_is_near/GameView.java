@@ -14,6 +14,7 @@ import android.view.SurfaceView;
 import com.grupo.the_end_is_near.escenario.Nivel;
 import com.grupo.the_end_is_near.gestores.GestorAudio;
 import com.grupo.the_end_is_near.gestores.Opciones;
+import com.grupo.the_end_is_near.global.Turno;
 import com.grupo.the_end_is_near.modelos.combate.controles.Atacar;
 import com.grupo.the_end_is_near.modelos.combate.controles.BarraVida;
 import com.grupo.the_end_is_near.modelos.combate.controles.Defender;
@@ -61,6 +62,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
     public boolean dibujarMarcador;
 
     public static int enemigo;
+    public static int pintarDaño=-1;
+    public static int dañoActual=-1;
 
 
 
@@ -206,16 +209,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
                         nivel.combate.huir();
                     }
                     else if(enemigo1.estaPulsado(x[i],y[i])){
+                        if(nivel.combate.enemigos.size()>0) {
+                            accionARealizar();
+                            enemigo = 0;
+                            dibujarMarcador=false;
+                        }
+                    }
+                    else if(enemigo2.estaPulsado(x[i],y[i])){
                         if(nivel.combate.enemigos.size()>1) {
                             accionARealizar();
                             enemigo = 1;
                             dibujarMarcador=false;
                         }
-                    }
-                    else if(enemigo2.estaPulsado(x[i],y[i])){
-                        accionARealizar();
-                        enemigo = 0;
-                        dibujarMarcador=false;
                     }
                     else if(enemigo3.estaPulsado(x[i],y[i])){
                         if(nivel.combate.enemigos.size()>2) {
@@ -280,18 +285,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
             pocion.dibujar(canvas);
             huir.dibujar(canvas);
             barraVida.dibujar(canvas);
-            Paint efectoTransparente = new Paint();
-            efectoTransparente.setAntiAlias(true);
-            efectoTransparente.setColor(Color.WHITE);
-            canvas.drawText("Thief : ",(float)(pantallaAncho*0.55) , (float)(pantallaAlto*0.85),efectoTransparente);
-            canvas.drawText(nivel.combate.heroes.get(0).vida+" / "+ nivel.combate.heroes.get(0).vidaMaxima,(float)(pantallaAncho*0.65) , (float)(pantallaAlto*0.85),efectoTransparente);
-            canvas.drawText(nivel.combate.heroes.get(0).mana+" / "+ nivel.combate.heroes.get(0).manaMaximo,(float)(pantallaAncho*0.80) , (float)(pantallaAlto*0.85),efectoTransparente);
-            canvas.drawText("Warrior : ",(float)(pantallaAncho*0.55) , (float)(pantallaAlto*0.89),efectoTransparente);
-            canvas.drawText(nivel.combate.heroes.get(1).vida+" / "+ nivel.combate.heroes.get(1).vidaMaxima,(float)(pantallaAncho*0.65) , (float)(pantallaAlto*0.89),efectoTransparente);
-            canvas.drawText(nivel.combate.heroes.get(1).mana+" / "+ nivel.combate.heroes.get(1).manaMaximo,(float)(pantallaAncho*0.80) , (float)(pantallaAlto*0.89),efectoTransparente);
-            canvas.drawText("Mage : ",(float)(pantallaAncho*0.55) , (float)(pantallaAlto*0.93),efectoTransparente);
-            canvas.drawText(nivel.combate.heroes.get(2).vida+" / "+ nivel.combate.heroes.get(2).vidaMaxima,(float)(pantallaAncho*0.65) , (float)(pantallaAlto*0.93),efectoTransparente);
-            canvas.drawText(nivel.combate.heroes.get(2).mana+" / "+ nivel.combate.heroes.get(2).manaMaximo,(float)(pantallaAncho*0.80) , (float)(pantallaAlto*0.93),efectoTransparente);
+            Paint textoPersonajes = new Paint();
+            textoPersonajes.setAntiAlias(true);
+            textoPersonajes.setColor(Color.WHITE);
+            canvas.drawText("Thief : ",(float)(pantallaAncho*0.55) , (float)(pantallaAlto*0.85),textoPersonajes);
+            canvas.drawText(nivel.combate.heroes.get(0).vida+" / "+ nivel.combate.heroes.get(0).vidaMaxima,(float)(pantallaAncho*0.65) , (float)(pantallaAlto*0.85),textoPersonajes);
+            canvas.drawText(nivel.combate.heroes.get(0).mana+" / "+ nivel.combate.heroes.get(0).manaMaximo,(float)(pantallaAncho*0.80) , (float)(pantallaAlto*0.85),textoPersonajes);
+            canvas.drawText("Warrior : ",(float)(pantallaAncho*0.55) , (float)(pantallaAlto*0.89),textoPersonajes);
+            canvas.drawText(nivel.combate.heroes.get(1).vida+" / "+ nivel.combate.heroes.get(1).vidaMaxima,(float)(pantallaAncho*0.65) , (float)(pantallaAlto*0.89),textoPersonajes);
+            canvas.drawText(nivel.combate.heroes.get(1).mana+" / "+ nivel.combate.heroes.get(1).manaMaximo,(float)(pantallaAncho*0.80) , (float)(pantallaAlto*0.89),textoPersonajes);
+            canvas.drawText("Mage : ",(float)(pantallaAncho*0.55) , (float)(pantallaAlto*0.93),textoPersonajes);
+            canvas.drawText(nivel.combate.heroes.get(2).vida+" / "+ nivel.combate.heroes.get(2).vidaMaxima,(float)(pantallaAncho*0.65) , (float)(pantallaAlto*0.93),textoPersonajes);
+            canvas.drawText(nivel.combate.heroes.get(2).mana+" / "+ nivel.combate.heroes.get(2).manaMaximo,(float)(pantallaAncho*0.80) , (float)(pantallaAlto*0.93),textoPersonajes);
             if(dibujarMarcador){
                 int enemigos = nivel.combate.enemigos.size();
                 if(enemigos==1) {
@@ -305,6 +310,27 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
                     marcador1.dibujar(canvas);
                     marcador2.dibujar(canvas);
                     marcador3.dibujar(canvas);
+                }
+            }
+            Paint textoDaño = new Paint();
+            textoDaño.setAntiAlias(true);
+            textoDaño.setColor(Color.RED);
+            if(nivel.combate.turno== Turno.ENEMIGO) {
+                if (pintarDaño == 0) {
+                    canvas.drawText("" + dañoActual, (float) (pantallaAncho / 1.45), (float) (pantallaAlto / 3.5), textoDaño);
+                } else if (pintarDaño == 1) {
+                    canvas.drawText("" + dañoActual, (float) (pantallaAncho / 1.40), (float) (pantallaAlto / 2.5), textoDaño);
+                } else if (pintarDaño == 2) {
+                    canvas.drawText("" + dañoActual, (float) (pantallaAncho / 1.35), (float) (pantallaAlto / 1.9), textoDaño);
+                }
+            }
+            if(nivel.combate.turno== Turno.COMPAÑEROS) {
+                if (pintarDaño == 0) {
+                    canvas.drawText("" + dañoActual,(float) (pantallaAncho / (3)),(float) (pantallaAlto / (2.5)), textoDaño);
+                } else if (pintarDaño == 1) {
+                    canvas.drawText("" + dañoActual,(float) (pantallaAncho / (3 + 1.5)),(float) (pantallaAlto / (2.5 + 1.5)), textoDaño);
+                } else if (pintarDaño == 2) {
+                    canvas.drawText("" + dañoActual,(float) (pantallaAncho / (3 + 1.5)),(float) (pantallaAlto / (2.5 - 0.7)), textoDaño);
                 }
             }
         }

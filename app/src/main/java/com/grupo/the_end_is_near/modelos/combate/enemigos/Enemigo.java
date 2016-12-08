@@ -17,6 +17,7 @@ public class Enemigo extends Modelo {
     public int vida=300;
     public int daño=30;
     public int tipo=0;
+    public int ultimoDañoRecibido=0;
 
     public boolean atacando=false;
     public boolean siendoGolpeado=false;
@@ -107,39 +108,51 @@ public class Enemigo extends Modelo {
 
         if(this.tipo==0 && tipoJugador==0){
             vida-= dañoJugador;
+            ultimoDañoRecibido=dañoJugador;
         }
         if(this.tipo==0 && tipoJugador==1){
             vida-= (dañoJugador-15);
+            ultimoDañoRecibido=dañoJugador-15;
         }
         if(this.tipo==0 && tipoJugador==2){
             vida-= (dañoJugador+15);
+            ultimoDañoRecibido=dañoJugador+15;
         }
         if(this.tipo==1 && tipoJugador==0){
             vida-= dañoJugador;
+            ultimoDañoRecibido=dañoJugador;
         }
         if(this.tipo==1 && tipoJugador==1){
             vida-= (dañoJugador-15);
+            ultimoDañoRecibido=dañoJugador-15;
         }
         if(this.tipo==1 && tipoJugador==2){
             vida-= (dañoJugador+15);
+            ultimoDañoRecibido=dañoJugador+15;
         }
         if(this.tipo==2 && tipoJugador==0){
             vida-= dañoJugador;
+            ultimoDañoRecibido=dañoJugador;
         }
         if(this.tipo==2 && tipoJugador==1){
             vida-= (dañoJugador-15);
+            ultimoDañoRecibido=dañoJugador-15;
         }
         if(this.tipo==2 && tipoJugador==2){
             vida-= (dañoJugador+15);
+            ultimoDañoRecibido=dañoJugador+15;
         }
         if(this.tipo==3 && tipoJugador==0){
             vida-= dañoJugador;
+            ultimoDañoRecibido=dañoJugador;
         }
         if(this.tipo==3 && tipoJugador==1){
             vida-= (dañoJugador-15);
+            ultimoDañoRecibido=dañoJugador-15;
         }
         if(this.tipo==3 && tipoJugador==2){
             vida-= (dañoJugador+15);
+            ultimoDañoRecibido=dañoJugador+15;
         }
     }
 
