@@ -14,6 +14,7 @@ import android.view.SurfaceView;
 import com.grupo.the_end_is_near.escenario.Nivel;
 import com.grupo.the_end_is_near.gestores.GestorAudio;
 import com.grupo.the_end_is_near.gestores.Opciones;
+import com.grupo.the_end_is_near.global.Estado;
 import com.grupo.the_end_is_near.global.Turno;
 import com.grupo.the_end_is_near.modelos.combate.controles.Atacar;
 import com.grupo.the_end_is_near.modelos.combate.controles.BarraVida;
@@ -298,15 +299,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
             canvas.drawText(nivel.combate.heroes.get(2).vida+" / "+ nivel.combate.heroes.get(2).vidaMaxima,(float)(pantallaAncho*0.65) , (float)(pantallaAlto*0.93),textoPersonajes);
             canvas.drawText(nivel.combate.heroes.get(2).mana+" / "+ nivel.combate.heroes.get(2).manaMaximo,(float)(pantallaAncho*0.80) , (float)(pantallaAlto*0.93),textoPersonajes);
             if(dibujarMarcador){
-                int enemigos = nivel.combate.enemigos.size();
-                if(enemigos==1) {
+                int nEnemigos=0;
+                for(com.grupo.the_end_is_near.modelos.combate.enemigos.Enemigo n:nivel.combate.enemigos)
+                    if(n.estado== Estado.ACTIVO)
+                        nEnemigos++;
+                if(nEnemigos==1) {
                     marcador1.dibujar(canvas);
                 }
-                else if(enemigos==2){
+                else if(nEnemigos==2){
                     marcador1.dibujar(canvas);
                     marcador2.dibujar(canvas);
                 }
-                else if(enemigos==3){
+                else if(nEnemigos==3){
                     marcador1.dibujar(canvas);
                     marcador2.dibujar(canvas);
                     marcador3.dibujar(canvas);

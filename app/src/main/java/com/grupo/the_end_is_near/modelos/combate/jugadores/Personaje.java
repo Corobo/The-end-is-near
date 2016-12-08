@@ -31,6 +31,8 @@ public abstract class Personaje extends Modelo{
     public int tipo=0;
     public int nivel=1;
 
+    public boolean accion;
+
     public int estado = Estado.ACTIVO;
 
     public boolean estaMuerto=false;
@@ -181,9 +183,11 @@ public abstract class Personaje extends Modelo{
             switch (x) {
                 case 0:
                     atacar();
+                    accion=true;
                     break;
                 case 1:
                     magia();
+                    accion=false;
                     break;
             }
             utilizado=true;

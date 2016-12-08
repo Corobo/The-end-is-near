@@ -87,4 +87,23 @@ public class Warrior extends Personaje {
         this.daño= nivel*20;
         this.dañoMagico = nivel*5;
     }
+    @Override
+    public void magia() {
+        if(mana==0) {
+            atacar();
+        }
+        else if(mana-6<=0) {
+            mana = 0;
+            millis=System.currentTimeMillis();
+            acelera=-3;
+            magia=true;
+        }
+        else {
+            mana -= 6;
+            millis=System.currentTimeMillis();
+            acelera=-3;
+            magia=true;
+        }
+
+    }
 }

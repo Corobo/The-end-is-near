@@ -89,4 +89,23 @@ public class Thief extends Personaje {
         this.daño= nivel*25;
         this.dañoMagico = nivel*10;
     }
+    @Override
+    public void magia() {
+        if(mana==0) {
+            atacar();
+        }
+        else if(mana-3<=0) {
+            mana = 0;
+            millis=System.currentTimeMillis();
+            acelera=-3;
+            magia=true;
+        }
+        else {
+            mana -= 3;
+            millis=System.currentTimeMillis();
+            acelera=-3;
+            magia=true;
+        }
+
+    }
 }
