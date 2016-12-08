@@ -59,7 +59,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
 
     public boolean enAtaque;
     public boolean enMagia;
-    public boolean enDefensa;
     public boolean dibujarMarcador;
 
     public static int enemigo;
@@ -186,19 +185,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
                     }
 
                     if (atacar.estaPulsado(x[i], y[i])) {
-                        enDefensa=false;
                         enAtaque=true;
                         enMagia=false;
                         dibujarMarcador = true;
                     }
                     else if(defender.estaPulsado(x[i],y[i])){
-                        enDefensa=true;
                         enAtaque=false;
                         enMagia=false;
                         dibujarMarcador = true;
                     }
                     else if(magia.estaPulsado(x[i],y[i])){
-                        enDefensa=false;
                         enAtaque=false;
                         enMagia=true;
                         dibujarMarcador = true;
@@ -211,22 +207,22 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
                     }
                     else if(enemigo1.estaPulsado(x[i],y[i])){
                         if(nivel.combate.enemigos.size()>0) {
-                            accionARealizar();
                             enemigo = 0;
+                            accionARealizar();
                             dibujarMarcador=false;
                         }
                     }
                     else if(enemigo2.estaPulsado(x[i],y[i])){
                         if(nivel.combate.enemigos.size()>1) {
-                            accionARealizar();
                             enemigo = 1;
+                            accionARealizar();
                             dibujarMarcador=false;
                         }
                     }
                     else if(enemigo3.estaPulsado(x[i],y[i])){
                         if(nivel.combate.enemigos.size()>2) {
-                            accionARealizar();
                             enemigo = 2;
+                            accionARealizar();
                             dibujarMarcador=false;
                         }
                     }
@@ -314,8 +310,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
                 if(nivel.combate.enemigos.size()==1){
                     n1 = nivel.combate.enemigos.get(0);
                 }
-                if(nivel.combate.enemigos.size()==3) {
-                    if (n1.estado == Estado.ACTIVO && n2.estado == Estado.ACTIVO && n2.estado == Estado.ACTIVO) {
+                /*if(nivel.combate.enemigos.size()==3) { // TODO CAMBIAR A MENOS IFS*/
+                    /*if (n1.estado == Estado.ACTIVO && n2.estado == Estado.ACTIVO && n3.estado == Estado.ACTIVO) {
                         marcador1.dibujar(canvas);
                         marcador2.dibujar(canvas);
                         marcador3.dibujar(canvas);
@@ -340,8 +336,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
                     }
                     if (n1.estado == Estado.INACTIVO && n2.estado == Estado.INACTIVO && n3.estado == Estado.ACTIVO) {
                         marcador3.dibujar(canvas);
-                    }
-                }else if(nivel.combate.enemigos.size()==2){
+                    }*/
+                    if(n1!=null && n1.estado==Estado.ACTIVO)
+                        marcador1.dibujar(canvas);
+                    if(n2!=null && n2.estado==Estado.ACTIVO)
+                        marcador2.dibujar(canvas);
+                    if(n3!=null && n3.estado==Estado.ACTIVO)
+                        marcador3.dibujar(canvas);
+                /*}else if(nivel.combate.enemigos.size()==2){
                     if (n1.estado == Estado.ACTIVO && n2.estado == Estado.ACTIVO) {
                         marcador1.dibujar(canvas);
                         marcador2.dibujar(canvas);
@@ -354,7 +356,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
                     }
                 }else if(nivel.combate.enemigos.size()==1){
                     marcador1.dibujar(canvas);
-                }
+                }*/
             }
             Paint textoDaño = new Paint();
             textoDaño.setAntiAlias(true);
@@ -368,7 +370,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
                     canvas.drawText("" + dañoActual, (float) (pantallaAncho / 1.35), (float) (pantallaAlto / 1.9), textoDaño);
                 }
             }
-           /* if(nivel.combate.turno== Turno.COMPAÑEROS) { //TODO ARREGLAR TEXTO JUGADOREs
+           /* if(nivel.combate.turno== Turno.COMPAÑEROS) { //TODO ARREGLAR TEXTO JUGADORES
                 if (pintarDaño == 0) {
                     canvas.drawText("" + dañoActual,(float) (pantallaAncho / (3-0.5)),(float) (pantallaAlto / (2.5)), textoDaño);
                 } else if (pintarDaño == 1) {
@@ -471,9 +473,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
         if(enAtaque) {
             nivel.combate.atacar();
             enAtaque=false;
-        }else if(enDefensa) {
-            nivel.combate.defender();
-            enDefensa=false;
         }else if(enMagia) {
             nivel.combate.magia();
             enMagia=false;
