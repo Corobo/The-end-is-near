@@ -92,21 +92,26 @@ public class Combate {
                 enemigosDerrotados++;
         }
 
-        if(resultadoCombate(enemigosDerrotados)==0){
+        if(resultadoCombate(enemigosDerrotados)==0&& !ocupado){
             //TODO AnimacionGanar + sumar experiencia y si sube de nivel recuperar vida.
             for(Personaje heroe:heroes){
+                if(heroe.estado == Estado.ACTIVO){
+                    heroe.accion("Parado");
+                }
                 heroe.subirNivel(heroe.nivel*35);
             }
             if(!ocupado)
                 terminaCombate();
-        }else if (resultadoCombate(enemigosDerrotados)==1){
+        }else if (resultadoCombate(enemigosDerrotados)==1 && !ocupado){
             //TODO AnimacionPerder + volver al mapa volviendo a la entrada pero con un nivel menos.
             for(Personaje heroe:heroes){
+                if(heroe.estado == Estado.ACTIVO){
+                    heroe.accion("Parado");
+                }
                 heroe.bajarNivel();
             }
             //nivel.VolverPosada=true;
-            if(!ocupado)
-                terminaCombate();
+            terminaCombate();
         }
 
         turnoCompañeros();
