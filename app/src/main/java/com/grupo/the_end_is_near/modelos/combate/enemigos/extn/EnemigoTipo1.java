@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.grupo.the_end_is_near.R;
 import com.grupo.the_end_is_near.gestores.CargadorGraficos;
+import com.grupo.the_end_is_near.graficos.Sprite;
 import com.grupo.the_end_is_near.modelos.combate.enemigos.Enemigo;
 
 /**
@@ -17,6 +18,20 @@ public class EnemigoTipo1 extends Enemigo {
         this.tipo=1;
         this.vida = 500;
         this.daño = 40;
-        this.imagen = CargadorGraficos.cargarDrawable(context, R.drawable.enemy_02);
+    }
+
+    @Override
+    public void inicializar(){
+        Sprite parado = new Sprite(
+                CargadorGraficos.cargarDrawable(context, R.drawable.enemy_02),
+                ancho, altura,
+                1, 1, true);
+        sprites.put(PARADO, parado);
+
+        Sprite dañado = new Sprite(
+                CargadorGraficos.cargarDrawable(context, R.drawable.enemy_02_golpeado_anim),
+                ancho, altura,
+                4, 2, false);
+        sprites.put(DAÑADO,dañado);
     }
 }

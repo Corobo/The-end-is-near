@@ -107,13 +107,26 @@ public class Combate {
     }
 
     public void actualizar(long tiempo) {
+        int numHeroesDerrotados=0;
+        int numEnemigosDerrotados=0;
+
         for(Personaje heroe: heroes){
             heroe.actualizar(tiempo);
+            if(heroe.vida<=0)
+                numHeroesDerrotados++;
         }
+
+        if(numHeroesDerrotados==heroes.size())
+            //terminaCombate();//DERROTA TODO
 
         for(Enemigo enemigo: enemigos){
             enemigo.actualizar(tiempo);
+            if(enemigo.vida<=0)
+                numEnemigosDerrotados++;
         }
+
+        if(numEnemigosDerrotados==enemigos.size())
+            //terminaCombate();//TODO Victoria
 
         turnoCompañeros();
         turnoEnemigos();
@@ -166,7 +179,6 @@ public class Combate {
     public void turnoEnemigos(){
         if(turno==Turno.ENEMIGO) {
             for (Enemigo enemigo : enemigos){
-                System.out.println(enemigo.utilizado);
                 if(!enemigo.utilizado && ((enemigoAtacando!=null && !enemigoAtacando.estaOcupado()) || enemigoAtacando==null)) {
                     enemigosTerminados = enemigosTerminados + 1;
                     enemigo.utilizado=true;
