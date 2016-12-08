@@ -134,7 +134,7 @@ public class Combate {
             Personaje heroe = heroes.get(1);
             heroe.atacar();
             Enemigo enemigo = enemigos.get(GameView.enemigo);
-            enemigo.golpear(heroe.tipo,heroe.daño);
+            enemigo.golpeado(heroe.tipo,heroe.daño);
         }
     }
 
@@ -151,7 +151,7 @@ public class Combate {
             Personaje heroe = heroes.get(1);
             heroe.magia();
             Enemigo enemigo = enemigos.get(GameView.enemigo);
-            enemigo.golpear(heroe.tipo,heroe.dañoMagico);
+            enemigo.golpeado(heroe.tipo,heroe.dañoMagico);
         }
     }
 

@@ -182,14 +182,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
                     }
 
                     if (atacar.estaPulsado(x[i], y[i])) {
+                        enDefensa=false;
                         enAtaque=true;
+                        enMagia=false;
                         dibujarMarcador = true;
                     }
                     else if(defender.estaPulsado(x[i],y[i])){
                         enDefensa=true;
+                        enAtaque=false;
+                        enMagia=false;
                         dibujarMarcador = true;
                     }
                     else if(magia.estaPulsado(x[i],y[i])){
+                        enDefensa=false;
+                        enAtaque=false;
                         enMagia=true;
                         dibujarMarcador = true;
                     }
@@ -234,7 +240,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
         enemigo1 = new Enemigo(context,0,0);
         enemigo2 = new Enemigo(context,1.5,1.5);
         enemigo3 = new Enemigo(context,1.5,-0.7);
-        marcador1 = new Marcador(context,1,0);
+        marcador1 = new Marcador(context,0.75,0);
         marcador2 = new Marcador(context,3.5,1.5);
         marcador3 = new Marcador(context,3.5,-0.7);
         nivel = new Nivel(context,numeroNivel);

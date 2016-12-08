@@ -13,7 +13,7 @@ import com.grupo.the_end_is_near.modelos.Modelo;
 
 public class Marcador extends Modelo {
     public Marcador(Context context, double pos, double posY) {
-        super(context,GameView.pantallaAncho / (3 + pos), GameView.pantallaAlto / (2.5 + posY),50,28);
+        super(context,GameView.pantallaAncho / (3 + pos), GameView.pantallaAlto / (2.5 + posY),22,13);
 
         imagen = CargadorGraficos.cargarDrawable(context, R.drawable.marcador);
     }
