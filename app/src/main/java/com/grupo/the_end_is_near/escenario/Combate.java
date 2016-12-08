@@ -125,8 +125,9 @@ public class Combate {
                 numEnemigosDerrotados++;
         }
 
-        if(numEnemigosDerrotados==enemigos.size())
+        if(numEnemigosDerrotados==enemigos.size()) {
             //terminaCombate();//TODO Victoria
+        }
 
         turnoCompañeros();
         turnoEnemigos();
