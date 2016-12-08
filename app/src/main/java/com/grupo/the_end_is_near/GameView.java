@@ -192,7 +192,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
                     else if(defender.estaPulsado(x[i],y[i])){
                         enAtaque=false;
                         enMagia=false;
-                        dibujarMarcador = true;
+                        dibujarMarcador = false;
+                        nivel.combate.defender();
                     }
                     else if(magia.estaPulsado(x[i],y[i])){
                         enAtaque=false;

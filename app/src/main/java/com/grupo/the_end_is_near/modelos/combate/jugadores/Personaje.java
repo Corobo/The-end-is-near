@@ -179,15 +179,16 @@ public abstract class Personaje extends Modelo{
     }
 
     public void golpeado(int daño){
-        this.vida=this.vida-daño;
-        millis=System.currentTimeMillis();
-        if(this.vida<=0) {
-            this.vida=0;
-            morir();
-        }
-        else {
-            sprite = sprites.get("Dañado");
-            dañado = true;
+        if(!estaBloqueando) {
+            this.vida = this.vida - daño;
+            millis = System.currentTimeMillis();
+            if (this.vida <= 0) {
+                this.vida = 0;
+                morir();
+            } else {
+                sprite = sprites.get("Dañado");
+                dañado = true;
+            }
         }
     }
 
@@ -248,6 +249,7 @@ public abstract class Personaje extends Modelo{
             calcularMana();
             calcularDaño();
             calcularExperienciaNecesaria();
+            accion("Parado");
         }
     }
     public void bajarNivel(){
@@ -257,6 +259,7 @@ public abstract class Personaje extends Modelo{
         calcularMana();
         calcularDaño();
         calcularExperienciaNecesaria();
+        accion("Parado");
     }
 
     public void reiniciarValores(){

@@ -79,6 +79,10 @@ public class Combate {
 
         boolean ocupado=false;
         for(Personaje heroe:heroes){
+            if(turno==Turno.JUGADOR && heroe.estaBloqueando) {
+                heroe.accion("Parado");
+                heroe.estaBloqueando = false;
+            }
             heroe.actualizar(tiempo);
             if(heroe.estaOcupado())
                 ocupado=true;
@@ -88,7 +92,7 @@ public class Combate {
             if(enemigo.estaOcupado())
                 ocupado=true;
             enemigo.actualizar(tiempo);
-            if(enemigo.vida<=0)
+            if(enemigo.estado == Estado.INACTIVO)
                 enemigosDerrotados++;
         }
 
@@ -146,6 +150,8 @@ public class Combate {
         if(turno==Turno.JUGADOR) {
             turno=Turno.COMPAÑEROS;
             heroes.get(1).bloquear();
+            heroes.get(0).bloquear();
+            heroes.get(2).bloquear();
         }
     }
 
@@ -195,29 +201,36 @@ public class Combate {
     }
 
     public void turnoCompañeros(){
-        if(!heroes.get(1).estaOcupado() && turno==Turno.COMPAÑEROS){
-            for(Personaje heroe:heroes){
-                if((compañeroAtacando!=null && !compañeroAtacando.estaOcupado()) || compañeroAtacando==null) {
-                    if (heroe.tipo != 0 && heroe.estado==Estado.ACTIVO) {
-                        compañerosTerminados=compañerosTerminados+1;
-                        int x = new Double(Math.random() * enemigos.size()).intValue();
-                        Enemigo enemigo = enemigos.get(x);
-                        enemigoAtacando = enemigo;
-                        heroe.accionAleatoria(enemigo);
-                        if(enemigo.estado==Estado.ACTIVO)
-                            enemigo.golpeado(heroe.tipo,heroe.daño);
-                        compañeroAtacando = heroe;
-                        //GameView.pintarDaño= x;
-                        //GameView.dañoActual = enemigo.ultimoDañoRecibido;
+        int compañerosMuertos=0;
+        if(!heroes.get(1).estaBloqueando) {
+            if (!heroes.get(1).estaOcupado() && turno == Turno.COMPAÑEROS) {
+                for (Personaje heroe : heroes) {
+                    if (heroe.estado == Estado.INACTIVO)
+                        compañerosMuertos++;
+                    if ((compañeroAtacando != null && !compañeroAtacando.estaOcupado()) || compañeroAtacando == null) {
+                        if (heroe.tipo != 0 && heroe.estado == Estado.ACTIVO) {
+                            compañerosTerminados = compañerosTerminados + 1;
+                            int x = new Double(Math.random() * enemigos.size()).intValue();
+                            Enemigo enemigo = enemigos.get(x);
+                            enemigoAtacando = enemigo;
+                            heroe.accionAleatoria(enemigo);
+                            if (enemigo.estado == Estado.ACTIVO)
+                                enemigo.golpeado(heroe.tipo, heroe.daño);
+                            compañeroAtacando = heroe;
+                            //GameView.pintarDaño= x;
+                            //GameView.dañoActual = enemigo.ultimoDañoRecibido;
+                        }
                     }
                 }
+                if ((compañerosTerminados >= heroes.size() && !compañeroAtacando.estaOcupado()) || compañerosMuertos >= 2) {
+                    todosCompañerosUsados();
+                    compañerosTerminados = 0;
+                    compañeroAtacando = null;
+                    turno = Turno.ENEMIGO;
+                }
             }
-            if(compañerosTerminados >= heroes.size() && !compañeroAtacando.estaOcupado()){
-                todosCompañerosUsados();
-                compañerosTerminados=0;
-                compañeroAtacando=null;
-                turno= Turno.ENEMIGO;
-            }
+        }else{
+            turno = Turno.ENEMIGO;
         }
     }
 
@@ -294,6 +307,7 @@ public class Combate {
     public void iniciaCombate(){
         generarEnemigos();
         this.enCombate=true;
+        turno= Turno.JUGADOR;
     }
 
     private int resultadoCombate(int derrotados){
@@ -305,7 +319,6 @@ public class Combate {
     }
 
     private void terminaCombate(){
-        turno= Turno.JUGADOR;
         this.enCombate=false;
     }
 
