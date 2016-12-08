@@ -12,6 +12,8 @@ import com.grupo.the_end_is_near.R;
 import com.grupo.the_end_is_near.gestores.CargadorGraficos;
 import com.grupo.the_end_is_near.gestores.Opciones;
 import com.grupo.the_end_is_near.gestores.Utilidades;
+import com.grupo.the_end_is_near.modelos.combate.enemigos.Enemigo;
+import com.grupo.the_end_is_near.modelos.combate.enemigos.extn.EnemigoTipo1;
 import com.grupo.the_end_is_near.modelos.escenarios.Fondo;
 import com.grupo.the_end_is_near.modelos.jugador.mapa.Jugador;
 
@@ -27,6 +29,7 @@ public class Nivel {
     private Context context = null;
     private int numeroNivel;
     private Jugador jugador;
+    private Enemigo enemigo;
 
     public boolean inicializado;
     private Tile[][] mapaTiles;
@@ -85,6 +88,7 @@ public class Nivel {
         else if (inicializado) {
             dibujarTiles(canvas);
             jugador.dibujar(canvas);
+            enemigo.dibujar(canvas);
 
             if (nivelPausado) {
                 // la foto mide 480x320
@@ -150,6 +154,14 @@ public class Nivel {
                 int xCentroAbajoTile = x * Tile.ancho + Tile.ancho / 2;
                 int yCentroAbajoTile = y * Tile.altura + Tile.altura;
                 jugador = new Jugador(context, xCentroAbajoTile, yCentroAbajoTile, 3);
+
+                return new Tile(null, Tile.PASABLE);
+            case 'A':
+                // Jugador
+                // Posicion centro abajo
+                int xCentroAbajoTileE = x * Tile.ancho + Tile.ancho / 2;
+                int yCentroAbajoTileE = y * Tile.altura + Tile.altura;
+                enemigo = new EnemigoTipo1(context, xCentroAbajoTileE, yCentroAbajoTileE);
 
                 return new Tile(null, Tile.PASABLE);
             case '.':
@@ -401,6 +413,9 @@ public class Nivel {
                 // va a desaparecer y perder.
 
             }
+        }
+        if(jugador.colisiona(enemigo)){
+            combate.iniciaCombate();
         }
 
     }
