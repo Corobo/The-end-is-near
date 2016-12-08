@@ -99,7 +99,7 @@ public class Warrior extends Personaje {
         enemigoY=enemigo.y;
 
         if(mana==0) {
-            atacar();
+            atacar(enemigo);
         }
         else if(mana-6<=0) {
             mana = 0;

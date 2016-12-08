@@ -107,29 +107,38 @@ public class Enemigo extends Modelo {
     public void actualizar (long tiempo){
         boolean finSprite = sprite.actualizar(tiempo);
         long s = System.currentTimeMillis();
-        if (finSprite) {
-            sprite.setFrameActual(0);
-            sprite = sprites.get("Parado");
-        }
-
-        if(atacando) {
-            if (s - millis > 550 && acelera > 0) {
-                acelera = -3;
-                millis = s;
-            } else if (s - millis > 550 && acelera < 0) {
-                acelera = 0;
-                millis = 0;
-                x = xInicial;
-                atacando=false;
-            }
-            x = x + acelera;
-        }
-
-        if(golpeado){
-            if (s - millis > 550) {
+        if(estado==Estado.ACTIVO) {
+            if (finSprite) {
+                sprite.setFrameActual(0);
                 sprite = sprites.get("Parado");
-                millis = 0;
-                golpeado=false;
+            }
+
+            if (atacando) {
+                if (s - millis > 550 && acelera > 0) {
+                    acelera = -3;
+                    millis = s;
+                } else if (s - millis > 550 && acelera < 0) {
+                    acelera = 0;
+                    millis = 0;
+                    x = xInicial;
+                    atacando = false;
+                }
+                x = x + acelera;
+            }
+
+            if (golpeado) {
+                if (s - millis > 550) {
+                    sprite = sprites.get("Parado");
+                    millis = 0;
+                    golpeado = false;
+                }
+            }
+        }else if(estado==Estado.INACTIVO){
+            if (golpeado) {
+                golpeado = false;
+            }
+            if (atacando) {
+                atacando = false;
             }
         }
     }
@@ -188,6 +197,9 @@ public class Enemigo extends Modelo {
         if(this.tipo==3 && tipoJugador==2){
             vida-= (dañoJugador+15);
             ultimoDañoRecibido=dañoJugador+15;
+        }
+        if(vida<=0) {
+            estado = Estado.INACTIVO;
         }
     }
 

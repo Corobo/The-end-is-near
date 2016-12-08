@@ -122,8 +122,8 @@ public class Combate {
         if(turno==Turno.JUGADOR) {
             turno=Turno.COMPAÑEROS;
             Personaje heroe = heroes.get(1);
-            heroe.atacar();
             Enemigo enemigo = enemigos.get(GameView.enemigo);
+            heroe.atacar(enemigo);
             enemigo.golpeado(heroe.tipo,heroe.daño);
         }
     }
@@ -189,12 +189,12 @@ public class Combate {
                         int x = new Double(Math.random() * enemigos.size()).intValue();
                         Enemigo enemigo = enemigos.get(x);
                         enemigoAtacando = enemigo;
-
                         heroe.accionAleatoria(enemigo);
-                        enemigo.golpeado(heroe.tipo,heroe.daño);
+                        if(enemigo.estado==Estado.ACTIVO)
+                            enemigo.golpeado(heroe.tipo,heroe.daño);
                         compañeroAtacando = heroe;
-                        GameView.pintarDaño= x;
-                        GameView.dañoActual = enemigo.ultimoDañoRecibido;
+                        //GameView.pintarDaño= x;
+                        //GameView.dañoActual = enemigo.ultimoDañoRecibido;
                     }
                 }
             }

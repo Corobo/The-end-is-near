@@ -143,20 +143,29 @@ public abstract class Personaje extends Modelo{
         sprite = sprites.get(s);
     }
 
-    public void atacar(){
-        millis=System.currentTimeMillis();
-        acelera=-3;
-        sprite = sprites.get("Avanza");
-        atacando=true;
+    public void atacar(Enemigo enemigo){
+        if(enemigo.estado==Estado.ACTIVO) {
+            millis = System.currentTimeMillis();
+            acelera = -3;
+            sprite = sprites.get("Avanza");
+            atacando = true;
+        }else{
+            atacando=false;
+        }
     }
 
     public void magia(Enemigo enemigo){
-        enemigoX=enemigo.x;
-        enemigoY=enemigo.y;
+        if(enemigo.estado==Estado.ACTIVO) {
+            enemigoX = enemigo.x;
+            enemigoY = enemigo.y;
 
-        millis=System.currentTimeMillis();
-        acelera=-3;
-        magia=true;
+            millis = System.currentTimeMillis();
+            acelera = -3;
+            magia = true;
+        }
+        else{
+            magia=false;
+        }
     }
 
     public void bloquear(){
@@ -197,7 +206,7 @@ public abstract class Personaje extends Modelo{
             int x = new Double(Math.random() * 2).intValue();
             switch (x) {
                 case 0:
-                    atacar();
+                    atacar(enemigo);
                     break;
                 case 1:
                     magia(enemigo);

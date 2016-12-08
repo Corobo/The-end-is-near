@@ -299,21 +299,61 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
             canvas.drawText(nivel.combate.heroes.get(2).vida+" / "+ nivel.combate.heroes.get(2).vidaMaxima,(float)(pantallaAncho*0.65) , (float)(pantallaAlto*0.93),textoPersonajes);
             canvas.drawText(nivel.combate.heroes.get(2).mana+" / "+ nivel.combate.heroes.get(2).manaMaximo,(float)(pantallaAncho*0.80) , (float)(pantallaAlto*0.93),textoPersonajes);
             if(dibujarMarcador){
-                int nEnemigos=0;
-                for(com.grupo.the_end_is_near.modelos.combate.enemigos.Enemigo n:nivel.combate.enemigos)
-                    if(n.estado== Estado.ACTIVO)
-                        nEnemigos++;
-                if(nEnemigos==1) {
-                    marcador1.dibujar(canvas);
+                com.grupo.the_end_is_near.modelos.combate.enemigos.Enemigo n1 = null;
+                com.grupo.the_end_is_near.modelos.combate.enemigos.Enemigo n2 = null;
+                com.grupo.the_end_is_near.modelos.combate.enemigos.Enemigo n3 = null;
+                if(nivel.combate.enemigos.size()==3){
+                    n1 = nivel.combate.enemigos.get(0);
+                    n2 = nivel.combate.enemigos.get(1);
+                    n3 = nivel.combate.enemigos.get(2);
                 }
-                else if(nEnemigos==2){
-                    marcador1.dibujar(canvas);
-                    marcador2.dibujar(canvas);
+                if(nivel.combate.enemigos.size()==2){
+                    n1 = nivel.combate.enemigos.get(0);
+                    n2 = nivel.combate.enemigos.get(1);
                 }
-                else if(nEnemigos==3){
+                if(nivel.combate.enemigos.size()==1){
+                    n1 = nivel.combate.enemigos.get(0);
+                }
+                if(nivel.combate.enemigos.size()==3) {
+                    if (n1.estado == Estado.ACTIVO && n2.estado == Estado.ACTIVO && n2.estado == Estado.ACTIVO) {
+                        marcador1.dibujar(canvas);
+                        marcador2.dibujar(canvas);
+                        marcador3.dibujar(canvas);
+                    }
+                    if (n1.estado == Estado.ACTIVO && n2.estado == Estado.INACTIVO && n3.estado == Estado.INACTIVO) {
+                        marcador1.dibujar(canvas);
+                    }
+                    if (n1.estado == Estado.ACTIVO && n2.estado == Estado.ACTIVO && n3.estado == Estado.INACTIVO) {
+                        marcador1.dibujar(canvas);
+                        marcador2.dibujar(canvas);
+                    }
+                    if (n1.estado == Estado.ACTIVO && n2.estado == Estado.INACTIVO && n3.estado == Estado.ACTIVO) {
+                        marcador1.dibujar(canvas);
+                        marcador3.dibujar(canvas);
+                    }
+                    if (n1.estado == Estado.INACTIVO && n2.estado == Estado.ACTIVO && n3.estado == Estado.ACTIVO) {
+                        marcador2.dibujar(canvas);
+                        marcador3.dibujar(canvas);
+                    }
+                    if (n1.estado == Estado.INACTIVO && n2.estado == Estado.ACTIVO && n3.estado == Estado.INACTIVO) {
+                        marcador2.dibujar(canvas);
+                    }
+                    if (n1.estado == Estado.INACTIVO && n2.estado == Estado.INACTIVO && n3.estado == Estado.ACTIVO) {
+                        marcador3.dibujar(canvas);
+                    }
+                }else if(nivel.combate.enemigos.size()==2){
+                    if (n1.estado == Estado.ACTIVO && n2.estado == Estado.ACTIVO) {
+                        marcador1.dibujar(canvas);
+                        marcador2.dibujar(canvas);
+                    }
+                    if (n1.estado == Estado.ACTIVO && n2.estado == Estado.INACTIVO) {
+                        marcador1.dibujar(canvas);
+                    }
+                    if (n1.estado == Estado.INACTIVO && n2.estado == Estado.ACTIVO) {
+                        marcador2.dibujar(canvas);
+                    }
+                }else if(nivel.combate.enemigos.size()==1){
                     marcador1.dibujar(canvas);
-                    marcador2.dibujar(canvas);
-                    marcador3.dibujar(canvas);
                 }
             }
             Paint textoDaño = new Paint();
@@ -328,7 +368,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
                     canvas.drawText("" + dañoActual, (float) (pantallaAncho / 1.35), (float) (pantallaAlto / 1.9), textoDaño);
                 }
             }
-            if(nivel.combate.turno== Turno.COMPAÑEROS) {
+           /* if(nivel.combate.turno== Turno.COMPAÑEROS) { //TODO ARREGLAR TEXTO JUGADOREs
                 if (pintarDaño == 0) {
                     canvas.drawText("" + dañoActual,(float) (pantallaAncho / (3-0.5)),(float) (pantallaAlto / (2.5)), textoDaño);
                 } else if (pintarDaño == 1) {
@@ -336,7 +376,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
                 } else if (pintarDaño == 2) {
                     canvas.drawText("" + dañoActual,(float) (pantallaAncho / (3 + 0.75)),(float) (pantallaAlto / (2.5 - 0.7)), textoDaño);
                 }
-            }
+            }*/
         }
     }
 
