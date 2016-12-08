@@ -28,6 +28,8 @@ public abstract class Personaje extends Modelo{
     public int vidaMaxima;
     public int  mana ;
     public int  manaMaximo;
+    public int experiencia;
+    public int experienciaNecesaria;
 
     public int tipo=0;
     public int nivel=1;
@@ -220,4 +222,29 @@ public abstract class Personaje extends Modelo{
          this.daño =  nivel*35;
          this.dañoMagico = nivel*35;
     }
+
+    public void calcularExperienciaNecesaria(){
+        experienciaNecesaria = (nivel+1)*35;
+        experiencia = 0;
+    }
+
+    public void subirNivel(int expGanada){
+        experiencia += expGanada;
+        if(experiencia>=experienciaNecesaria){
+            nivel++;
+            calcularVida();
+            calcularMana();
+            calcularDaño();
+            calcularExperienciaNecesaria();
+        }
+    }
+    public void bajarNivel(){
+        nivel--;
+        calcularVida();
+        calcularMana();
+        calcularDaño();
+        calcularExperienciaNecesaria();
+    }
+
+
 }

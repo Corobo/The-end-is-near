@@ -74,52 +74,32 @@ public class Combate {
         turnoEnemigos();
     }
 
-    public void iniciarEnemigosAleatorios() {
-        double pos =0;
-        double posY=0;
-        int x = new Double(Math.random() * 3).intValue();
-        while (x >= 0) {
-            int tipoEnemigo = new Double(Math.random() * 3).intValue()+1;
-            if(tipoEnemigo==1)
-                enemigos.add(new EnemigoTipo1(context, GameView.pantallaAncho / (3 + pos), GameView.pantallaAlto / (2.5 + posY)));
-            if(tipoEnemigo==2)
-                enemigos.add(new EnemigoTipo2(context, GameView.pantallaAncho / (3 + pos), GameView.pantallaAlto / (2.5 + posY)));
-            if(tipoEnemigo==3)
-                enemigos.add(new EnemigoTipo3(context, GameView.pantallaAncho / (3 + pos), GameView.pantallaAlto / (2.5 + posY)));
-            x--;
-            if(pos==0) {
-                pos = pos + 1.5;
-                posY = posY +1.5;
-            }
-            else if(pos==1.5) {
-                pos = 1.5;
-                posY = -0.7;
-            }
-        }
-    }
-
-    public void iniciaCombate(){
-        this.enCombate=true;
-    }
-
-    public void terminaCombate(){
-        this.enCombate=false;
-    }
-
     public void actualizar(long tiempo) {
-        int numHeroesDerrotados=0;
-        int numEnemigosDerrotados=0;
+        int enemigosDerrotados = 0;
 
-        for(Personaje heroe: heroes){
+        for(Personaje heroe:heroes){
             heroe.actualizar(tiempo);
-            if(heroe.vida<=0)
-                numHeroesDerrotados++;
         }
 
         for(Enemigo enemigo: enemigos){
             enemigo.actualizar(tiempo);
             if(enemigo.vida<=0)
-                numEnemigosDerrotados++;
+                enemigosDerrotados++;
+        }
+
+        if(resultadoCombate(enemigosDerrotados)==0){
+            //TODO AnimacionGanar + sumar experiencia y si sube de nivel recuperar vida.
+            for(Personaje heroe:heroes){
+                heroe.subirNivel(heroe.nivel*35);
+            }
+            terminaCombate();
+        }else if (resultadoCombate(enemigosDerrotados)==1){
+            //TODO AnimacionPerder + volver al mapa volviendo a la entrada pero con un nivel menos.
+            for(Personaje heroe:heroes){
+                heroe.bajarNivel();
+            }
+            //nivel.VolverPosada=true;
+            terminaCombate();
         }
 
         turnoCompañeros();
@@ -238,6 +218,82 @@ public class Combate {
             enemigo.utilizado=false;
         }
     }
+
+    private void iniciarEnemigosAleatorios() {
+        double pos =0;
+        double posY=0;
+        int x = new Double(Math.random() * 3).intValue();
+        while (x >= 0) {
+            int tipoEnemigo = new Double(Math.random() * 3).intValue()+1;
+            if(tipoEnemigo==1)
+                enemigos.add(new EnemigoTipo1(context, GameView.pantallaAncho / (3 + pos), GameView.pantallaAlto / (2.5 + posY)));
+            if(tipoEnemigo==2)
+                enemigos.add(new EnemigoTipo2(context, GameView.pantallaAncho / (3 + pos), GameView.pantallaAlto / (2.5 + posY)));
+            if(tipoEnemigo==3)
+                enemigos.add(new EnemigoTipo3(context, GameView.pantallaAncho / (3 + pos), GameView.pantallaAlto / (2.5 + posY)));
+            x--;
+            if(pos==0) {
+                pos = pos + 1.5;
+                posY = posY +1.5;
+            }
+            else if(pos==1.5) {
+                pos = 1.5;
+                posY = -0.7;
+            }
+        }
+    }
+
+    private void generarEnemigos(){
+        if(enemigos.size()==1){
+            enemigos.remove(0);
+        }else if(enemigos.size()==2){
+            enemigos.remove(0);
+            enemigos.remove(1);
+        }else if(enemigos.size()==3){
+            enemigos.remove(0);
+            enemigos.remove(1);
+            enemigos.remove(2);
+        }
+        double pos =0;
+        double posY=0;
+        int x = new Double(Math.random() * 3).intValue();
+        while (x >= 0) {
+            int tipoEnemigo = new Double(Math.random() * 3).intValue()+1;
+            if(tipoEnemigo==1)
+                enemigos.add(new EnemigoTipo1(context, GameView.pantallaAncho / (3 + pos), GameView.pantallaAlto / (2.5 + posY)));
+            if(tipoEnemigo==2)
+                enemigos.add(new EnemigoTipo2(context, GameView.pantallaAncho / (3 + pos), GameView.pantallaAlto / (2.5 + posY)));
+            if(tipoEnemigo==3)
+                enemigos.add(new EnemigoTipo3(context, GameView.pantallaAncho / (3 + pos), GameView.pantallaAlto / (2.5 + posY)));
+            x--;
+            if(pos==0) {
+                pos = pos + 1.5;
+                posY = posY +1.5;
+            }
+            else if(pos==1.5) {
+                pos = 1.5;
+                posY = -0.7;
+            }
+        }
+    }
+
+    public void iniciaCombate(){
+        generarEnemigos();
+        this.enCombate=true;
+    }
+
+    private int resultadoCombate(int derrotados){
+        if(derrotados==enemigos.size())
+            return 0;
+        if(heroes.get(1).estado==Estado.INACTIVO)
+            return 1;
+        return -1;
+    }
+
+    private void terminaCombate(){
+        this.enCombate=false;
+    }
+
 
 
 }
