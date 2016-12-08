@@ -93,4 +93,24 @@ public class Mage extends Personaje {
         this.daño= nivel*5;
         this.dañoMagico = nivel*25;
     }
+
+    @Override
+    public void magia() {
+        if(mana==0) {
+            atacar();
+        }
+        else if(mana-4<=0) {
+            mana = 0;
+            millis=System.currentTimeMillis();
+            acelera=-3;
+            magia=true;
+        }
+        else {
+            mana -= 4;
+            millis=System.currentTimeMillis();
+            acelera=-3;
+            magia=true;
+        }
+
+    }
 }

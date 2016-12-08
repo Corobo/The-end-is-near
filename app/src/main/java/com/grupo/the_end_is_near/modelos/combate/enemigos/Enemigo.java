@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 
 import com.grupo.the_end_is_near.R;
 import com.grupo.the_end_is_near.gestores.CargadorGraficos;
+import com.grupo.the_end_is_near.global.Estado;
 import com.grupo.the_end_is_near.graficos.Sprite;
 import com.grupo.the_end_is_near.modelos.Modelo;
 import com.grupo.the_end_is_near.modelos.combate.jugadores.Personaje;
@@ -21,6 +22,7 @@ public class Enemigo extends Modelo {
     public int daño=30;
     public int tipo=0;
     public int ultimoDañoRecibido=0;
+    public int estado = Estado.ACTIVO;
 
     public boolean atacando=false;
     public int acelera=0;
