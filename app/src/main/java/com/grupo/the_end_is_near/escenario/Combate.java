@@ -77,25 +77,39 @@ public class Combate {
     public void actualizar(long tiempo) {
         int enemigosDerrotados = 0;
 
+        boolean ocupado=false;
         for(Personaje heroe:heroes){
             heroe.actualizar(tiempo);
+            if(heroe.estaOcupado())
+                ocupado=true;
         }
 
         for(Enemigo enemigo: enemigos){
+            if(enemigo.estaOcupado())
+                ocupado=true;
             enemigo.actualizar(tiempo);
             if(enemigo.vida<=0)
                 enemigosDerrotados++;
         }
 
-        if(resultadoCombate(enemigosDerrotados)==0){
+        if(resultadoCombate(enemigosDerrotados)==0&& !ocupado){
             //TODO AnimacionGanar + sumar experiencia y si sube de nivel recuperar vida.
             for(Personaje heroe:heroes){
+                if(heroe.estado == Estado.ACTIVO){
+                    heroe.reiniciarValores();
+                    heroe.accion("Parado");
+                }
                 heroe.subirNivel(heroe.nivel*35);
             }
-            terminaCombate();
-        }else if (resultadoCombate(enemigosDerrotados)==1){
+            if(!ocupado)
+                terminaCombate();
+        }else if (resultadoCombate(enemigosDerrotados)==1 && !ocupado){
             //TODO AnimacionPerder + volver al mapa volviendo a la entrada pero con un nivel menos.
             for(Personaje heroe:heroes){
+                if(heroe.estado == Estado.ACTIVO){
+                    heroe.reiniciarValores();
+                    heroe.accion("Parado");
+                }
                 heroe.bajarNivel();
             }
             //nivel.VolverPosada=true;
@@ -291,6 +305,7 @@ public class Combate {
     }
 
     private void terminaCombate(){
+        turno= Turno.JUGADOR;
         this.enCombate=false;
     }
 

@@ -257,5 +257,14 @@ public abstract class Personaje extends Modelo{
         calcularExperienciaNecesaria();
     }
 
+    public void reiniciarValores(){
+        atacando=false;
+        magia=false;
+        dañado=false;
+        estaBloqueando=false;
+
+        utilizado=false;
+    }
+
 
 }
