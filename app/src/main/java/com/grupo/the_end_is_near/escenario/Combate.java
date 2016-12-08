@@ -303,6 +303,7 @@ public class Combate {
     }
 
     private void terminaCombate(){
+        turno= Turno.JUGADOR;
         this.enCombate=false;
     }
 
