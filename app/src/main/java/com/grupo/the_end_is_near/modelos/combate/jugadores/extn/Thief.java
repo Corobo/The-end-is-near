@@ -5,6 +5,7 @@ import android.content.Context;
 import com.grupo.the_end_is_near.R;
 import com.grupo.the_end_is_near.gestores.CargadorGraficos;
 import com.grupo.the_end_is_near.graficos.Sprite;
+import com.grupo.the_end_is_near.modelos.combate.enemigos.Enemigo;
 import com.grupo.the_end_is_near.modelos.combate.jugadores.Personaje;
 
 /**
@@ -95,7 +96,10 @@ public class Thief extends Personaje {
         this.dañoMagico = nivel*10;
     }
     @Override
-    public void magia() {
+    public void magia(Enemigo enemigo) {
+        enemigoX=enemigo.x;
+        enemigoY=enemigo.y;
+
         if(mana==0) {
             atacar();
         }

@@ -48,7 +48,6 @@ public abstract class Personaje extends Modelo{
 
     //Puntero sprite actual
     public Sprite sprite;
-
     public Sprite hechizo;
 
     public HashMap<String,Sprite> sprites = new HashMap<String,Sprite> ();
