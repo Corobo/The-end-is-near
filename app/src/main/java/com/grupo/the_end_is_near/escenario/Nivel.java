@@ -171,6 +171,10 @@ public class Nivel {
                 // Ciudadano
                 return new Tile(CargadorGraficos.cargarDrawable(context,
                         R.drawable.ciudadano_3_fondo_verde), Tile.SOLIDO);
+            case '5':
+                // Ciudadano
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.ciudadano_13_fondo_verde), Tile.SOLIDO);
             case 'a':
                 // antorcha
                 return new Tile(CargadorGraficos.cargarDrawable(context,
@@ -181,9 +185,8 @@ public class Nivel {
                 int yCentroAbajoTileE1 = y * Tile.altura + Tile.altura;
                 enemigos.add(EnemiesFactory.getEnemigo1(context, xCentroAbajoTileE1,
                         yCentroAbajoTileE1));
-                return new Tile(CargadorGraficos.cargarDrawable(context, R.drawable.suelo_verde_1),
+                return new Tile(CargadorGraficos.cargarDrawable(context, R.drawable.suelo_marron),
                         Tile.PASABLE);
-
             case '4':
                 //Enemigo
                 int xCentroAbajoTileEI = x * Tile.ancho + Tile.ancho / 2;
@@ -192,6 +195,31 @@ public class Nivel {
                         yCentroAbajoTileEI));
                 return new Tile(CargadorGraficos.cargarDrawable(context, R.drawable.suelo_verde_1),
                         Tile.PASABLE);
+            //Dibujar la puerta
+            case 'I':
+                // parte arriba izquierda puerta
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.puerta_arriba_izquierda_abierta), Tile.SOLIDO);
+            case 'i':
+                // parte abajo izquierda puerta
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.puerta_abajo_izquierda_abierta), Tile.SOLIDO);
+            case 'O':
+                // parte arriba derecha puerta
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.puerta_arriba_derecha_abierta), Tile.SOLIDO);
+            case 'o':
+                // parte abajo derecha puerta
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.puerta_abajo_derecha_abierta), Tile.SOLIDO);
+            case 'K':
+                // Parte central de la puerta
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.puerta_parte_central), Tile.PASABLE);
+            case 'k':
+                // fondo de la puerta
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.puerta_fondo), Tile.PASABLE);
             case 'p':
                 // pocion suelo marron
                 return new Tile(CargadorGraficos.cargarDrawable(context,
