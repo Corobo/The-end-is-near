@@ -246,15 +246,6 @@ public class Nivel {
                         yCentroAbajoTileEI));
                 return new Tile(CargadorGraficos.cargarDrawable(context, R.drawable.suelo_verde_1),
                         Tile.PASABLE);
-
-            case '6':
-                //Enemigo
-                int xCentroAbajoTileB = x * Tile.ancho + Tile.ancho / 2;
-                int yCentroAbajoTileB = y * Tile.altura + Tile.altura;
-                enemigos.add(EnemiesFactory.getBoss1(context, xCentroAbajoTileB,
-                        yCentroAbajoTileB));
-                return new Tile(CargadorGraficos.cargarDrawable(context, R.drawable.suelo_verde_1),
-                        Tile.PASABLE);
             //Dibujar la puerta
             case 'I':
                 // parte arriba izquierda puerta
@@ -280,14 +271,11 @@ public class Nivel {
                 // fondo de la puerta
                 return new Tile(CargadorGraficos.cargarDrawable(context,
                         R.drawable.puerta_fondo), Tile.PASABLE);
+            //Fin dibujoar puerta
             case 'p':
                 // pocion suelo marron
-                int xCentroAbajoTileP = x * Tile.ancho + Tile.ancho / 2;
-                int yCentroAbajoTileP = y * Tile.altura + Tile.altura;
-                items.add(ItemsFactory.getPocion(context, xCentroAbajoTileP, yCentroAbajoTileP));
-
                 return new Tile(CargadorGraficos.cargarDrawable(context,
-                        R.drawable.suelo_marron), Tile.PASABLE);
+                        R.drawable.pocion_suelo_marron), Tile.SOLIDO);
             case 'Y':
                 // parte diagonal izquierda de la cabaña con suelo marron
                 return new Tile(CargadorGraficos.cargarDrawable(context,
@@ -384,6 +372,138 @@ public class Nivel {
                 // camino de tierra con linea Izquierda
                 return new Tile(CargadorGraficos.cargarDrawable(context,
                         R.drawable.suelo_marron_verde_linea_izquierda), Tile.PASABLE);
+            case 'B':
+                // parte Arriba izquierda agua
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_azul_esquina_izquierda_arriba), Tile.SOLIDO);
+            case 'b':
+                // parte abajo izquierda agua
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_azul_esquina_izquierda_abajo), Tile.SOLIDO);
+            case 'n':
+                // parte abajo derecha agua
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_azul_esquina_derecha_abajo), Tile.SOLIDO);
+            case 'N':
+                // parte Arriba derecha agua
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_azul_esquina_derecha_arriba), Tile.SOLIDO);
+            case 'M':
+                // linea Arriba  agua
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_azul_linea_arriba), Tile.SOLIDO);
+            case 'm':
+                // linea abajo  agua
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_azul_linea_abajo), Tile.SOLIDO);
+            case 'V':
+                // linea derecha  agua
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_azul_linea_derecha), Tile.SOLIDO);
+            case 'v':
+                // linea izquierda  agua
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_azul_linea_izquierda), Tile.SOLIDO);
+            case 'c':
+                // suelo azul
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_azul), Tile.SOLIDO);
+            case 'G':
+                // Cascada izquierda
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.cascada_izquierda), Tile.SOLIDO);
+            case 'g':
+                // Cascada derecha
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.cascada_derecha), Tile.SOLIDO);
+            case 'H':
+                // Cascada
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.cascada_1), Tile.SOLIDO);
+            case 'h':
+                // Cascada rota centro
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.cascada_rota_centro), Tile.SOLIDO);
+            case 'J':
+                // Cascada rota derecha
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.cascada_rota_derecha), Tile.SOLIDO);
+            case 'j':
+                // Cascada rota izquierda
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.cascada_rota_izquierda), Tile.SOLIDO);
+            case 'l':
+                // puente izquierda
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.puente_izquierda), Tile.PASABLE);
+            case 'L':
+                // puente derecha
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.puente_derecha), Tile.PASABLE);
+            case 'ñ':
+                // puente centro
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.puente_centro), Tile.PASABLE);
+            case ';':
+                // suelo de piedra
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_piedra), Tile.PASABLE);
+            case 'd':
+                // Tejado casa Arriba parte atras izquierda
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.tejado_atras_izquierda), Tile.SOLIDO);
+            case 'f':
+                // Tejado casa Arriba parte atras derecha
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.tejado_atras_derecha), Tile.SOLIDO);
+            case 'Ñ':
+                // Tejado medio izquierda
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.tejado_medio_izquierda), Tile.SOLIDO);
+            case 'P':
+                // Tejado medio derecha
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.tejado_medio_derecha), Tile.SOLIDO);
+            case 'Q':
+                // Tejado alante izquierda
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.tejado_alante_izquierda), Tile.SOLIDO);
+            case 's':
+                // Tejado alante derecha
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.tejado_alante_derecha), Tile.SOLIDO);
+            case 'z':
+                // Puerta casa izquierda
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.puerta_casa_izquierda), Tile.PASABLE);
+            case '!':
+                // Puerta casa derecha
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.puerta_casa_derecha), Tile.PASABLE);
+            case '%':
+                // Runa 1
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.runa_1), Tile.SOLIDO);
+            case '/':
+                // Runa 2
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.runa_2), Tile.SOLIDO);
+            case '(':
+                // Runa 3
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.runa_3), Tile.SOLIDO);
+            case ')':
+                // Verja horizontal
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.verja_horizontal), Tile.SOLIDO);
+            case '=':
+                // Verja hacia abajo
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.verja_hacia_arriba), Tile.SOLIDO);
+            case '?':
+                // Verja hacia arriba
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.verja_hacia_abajo), Tile.SOLIDO);
             default:
                 //cualquier otro caso
                 return new Tile(null, Tile.PASABLE);
