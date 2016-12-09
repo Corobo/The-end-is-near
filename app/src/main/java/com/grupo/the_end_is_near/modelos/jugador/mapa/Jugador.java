@@ -2,16 +2,16 @@ package com.grupo.the_end_is_near.modelos.jugador.mapa;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.util.Log;
 
 import com.grupo.the_end_is_near.R;
 import com.grupo.the_end_is_near.escenario.Nivel;
 import com.grupo.the_end_is_near.escenario.Tile;
 import com.grupo.the_end_is_near.gestores.CargadorGraficos;
-import com.grupo.the_end_is_near.gestores.Opciones;
 import com.grupo.the_end_is_near.gestores.Utilidades;
 import com.grupo.the_end_is_near.graficos.Sprite;
 import com.grupo.the_end_is_near.modelos.Modelo;
+import com.grupo.the_end_is_near.modelos.items.Item;
+import com.grupo.the_end_is_near.modelos.ciudadanos.Ciudadano;
 
 import java.util.HashMap;
 
@@ -31,7 +31,7 @@ public class Jugador extends Modelo {
     public static final String CAMINANDO_ARRIBA = "Caminando_arriba";
     public static final String CAMINANDO_ABAJO = "Caminando_abajo";
 
-    public int vidas;
+    private int vidas;
     // ACTUAL
     public double msInmunidad;
     public boolean golpeado = false;
@@ -175,7 +175,7 @@ public class Jugador extends Modelo {
 
     }
 
-    public void mover(Nivel nivel){
+    public void mover(Nivel nivel) {
         Tile[][] mapaTiles = nivel.getMapaTiles();
         int tileXJugadorIzquierda
                 = (int) (x - (ancho / 2 - 1)) / Tile.ancho;
@@ -191,6 +191,40 @@ public class Jugador extends Modelo {
         int tileYJugadorSuperior
                 = (int) (y - (altura / 2 - 1)) / Tile.altura;
 
+        //colisiones con los Itemas
+        boolean colisionaArriba = false;
+        boolean colisionaAbajo = false;
+        boolean colisionaDerecha = false;
+        boolean colisionaIzquierda = false;
+
+        //hace a los items sólidos
+        for (Item i : nivel.getItems()) {
+            if(colisiona(i)){
+                if(y-cAbajo < i.y)
+                    colisionaAbajo=true;
+                if(y-cArriba > i.y)
+                    colisionaArriba=true;
+                if(x+cDerecha<i.x)
+                    colisionaDerecha =true;
+                if(x-cIzquierda>i.x)
+                    colisionaIzquierda=true;
+            }
+        }
+
+        //hace a los ciudadanos sólidos
+        for(Ciudadano c : nivel.getBuenasGentes()){
+            if(colisiona(c)){
+                if(y < c.y)
+                    colisionaAbajo=true;
+                if(y > c.y)
+                    colisionaArriba=true;
+                if(x<c.x)
+                    colisionaDerecha =true;
+                if(x>c.x)
+                    colisionaIzquierda=true;
+            }
+        }
+
         // derecha o parado
         if (getVelocidadX() > 0) {
             // Tengo un tile delante y es PASABLE
@@ -205,7 +239,9 @@ public class Jugador extends Modelo {
                             Tile.PASABLE &&
                     mapaTiles[tileXJugadorDerecha][tileYJugadorCentro].tipoDeColision ==
                             Tile.PASABLE) {
-                x += getVelocidadX();
+
+                if (!colisionaDerecha)
+                    x += getVelocidadX();
 
                 // No tengo un tile PASABLE delante
                 // o es el FINAL del nivel o es uno SOLIDO
@@ -214,8 +250,6 @@ public class Jugador extends Modelo {
                     mapaTiles[tileXJugadorDerecha][tileYJugadorInferior].tipoDeColision ==
                             Tile.PASABLE &&
                     mapaTiles[tileXJugadorDerecha][tileYJugadorCentro].tipoDeColision ==
-                            Tile.PASABLE &&
-                    mapaTiles[tileXJugadorDerecha][tileYJugadorSuperior].tipoDeColision ==
                             Tile.PASABLE) {
 
                 // Si en el propio tile del jugador queda espacio para
@@ -247,7 +281,8 @@ public class Jugador extends Modelo {
                             Tile.PASABLE &&
                     mapaTiles[tileXJugadorIzquierda][tileYJugadorCentro].tipoDeColision ==
                             Tile.PASABLE) {
-                x += getVelocidadX();
+                if (!colisionaIzquierda)
+                    x += getVelocidadX();
 
                 // No tengo un tile PASABLE detrás
                 // o es el INICIO del nivel o es uno SOLIDO
@@ -255,8 +290,6 @@ public class Jugador extends Modelo {
                     mapaTiles[tileXJugadorIzquierda][tileYJugadorInferior].tipoDeColision
                             == Tile.PASABLE &&
                     mapaTiles[tileXJugadorIzquierda][tileYJugadorCentro].tipoDeColision
-                            == Tile.PASABLE &&
-                    mapaTiles[tileXJugadorIzquierda][tileYJugadorSuperior].tipoDeColision
                             == Tile.PASABLE) {
 
                 // Si en el propio tile del jugador queda espacio para
@@ -278,9 +311,10 @@ public class Jugador extends Modelo {
             // Tile superior PASABLE
             // Podemos seguir moviendo hacia arriba
             if (tileYJugadorSuperior - 1 >= 0 &&
-                    mapaTiles[tileXJugadorCentro][tileYJugadorInferior-1].tipoDeColision ==
+                    mapaTiles[tileXJugadorCentro][tileYJugadorInferior - 1].tipoDeColision ==
                             Tile.PASABLE) {
-                y += getVelocidadY();
+                if (!colisionaArriba)
+                    y += getVelocidadY();
 
             } else {
 
@@ -288,7 +322,7 @@ public class Jugador extends Modelo {
                 double distanciaY = (y - altura / 2) - TileJugadorBordeSuperior;
 
                 if (distanciaY > 0 &&
-                        mapaTiles[tileXJugadorCentro][tileYJugadorInferior-1].tipoDeColision ==
+                        mapaTiles[tileXJugadorCentro][tileYJugadorInferior - 1].tipoDeColision ==
                                 Tile.PASABLE) {
                     y += Utilidades.proximoACero(-distanciaY, getVelocidadY());
 
@@ -306,7 +340,8 @@ public class Jugador extends Modelo {
                     mapaTiles[tileXJugadorCentro][tileYJugadorInferior + 1].tipoDeColision ==
                             Tile.PASABLE) {
 
-                y += getVelocidadY();
+                if (!colisionaAbajo)
+                    y += getVelocidadY();
 
             } else if (tileYJugadorInferior + 1 <= nivel.altoMapaTiles() - 1) {
 
@@ -353,6 +388,13 @@ public class Jugador extends Modelo {
         }
     }
 
+    public int getVidas() {
+        return vidas;
+    }
+
+    public void setVidas(int vidas) {
+        this.vidas = vidas;
+    }
 
     public double getVelocidadX() {
         return velocidadX;

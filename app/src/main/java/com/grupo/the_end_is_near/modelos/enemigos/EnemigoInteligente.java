@@ -15,13 +15,10 @@ import com.grupo.the_end_is_near.graficos.Sprite;
 
 public class EnemigoInteligente extends Enemigo {
 
-    public static final String UP = "up";
-    public static final String FRONT = "front";
-
     public double velocidadY;
 
-    public EnemigoInteligente(Context context, double xInicial, double yInicial) {
-        super(context, xInicial, yInicial, 60, 60);
+    public EnemigoInteligente(Context context, double xInicial, double yInicial, int idEnemigo) {
+        super(context, xInicial, yInicial, 60, 60, idEnemigo);
         setVelocidadX(0);
         setVelocidadY(0);
     }
@@ -71,14 +68,14 @@ public class EnemigoInteligente extends Enemigo {
             if (velocidadX < 0)
                 setSprite(_getSprites().get(CAMINANDO_IZQUIERDA));
 
-            if (velocidadX == 0){
-                if(velocidadY < 0)
+            if (velocidadX == 0) {
+                if (velocidadY < 0)
                     setSprite(_getSprites().get(UP));
-                else{
+                else {
                     setSprite(_getSprites().get(FRONT));
                 }
-                }
             }
+        }
 
     }
 

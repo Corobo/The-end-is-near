@@ -124,7 +124,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     }
                 }
                 if(btAccion.estaPulsado(x[i],y[i])){
-                    //nivel.accionJugador();
+                    if (accion[i] == ACTION_DOWN) {
+                        nivel.btAccionPulsado = true;
+                    }
                 }
             }
         }
@@ -236,6 +238,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             //nivel.accionJugador();
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    public static Nivel getNivel() {
+        return nivel;
     }
 
     @Override

@@ -11,12 +11,17 @@ import android.util.Log;
 import com.grupo.the_end_is_near.GameView;
 import com.grupo.the_end_is_near.R;
 import com.grupo.the_end_is_near.factorias.EnemiesFactory;
+import com.grupo.the_end_is_near.factorias.ItemsFactory;
+import com.grupo.the_end_is_near.factorias.PaisanosFactory;
 import com.grupo.the_end_is_near.gestores.CargadorGraficos;
-import com.grupo.the_end_is_near.gestores.Utilidades;
+import com.grupo.the_end_is_near.modelos.Conversation;
 import com.grupo.the_end_is_near.modelos.enemigos.EState;
 import com.grupo.the_end_is_near.modelos.enemigos.Enemigo;
 import com.grupo.the_end_is_near.modelos.escenarios.Fondo;
+import com.grupo.the_end_is_near.modelos.items.IStates;
+import com.grupo.the_end_is_near.modelos.items.Item;
 import com.grupo.the_end_is_near.modelos.jugador.mapa.Jugador;
+import com.grupo.the_end_is_near.modelos.ciudadanos.Ciudadano;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -31,6 +36,9 @@ public class Nivel {
     private Jugador jugador;
     private Fondo fondo;
     private List<Enemigo> enemigos;
+    private List<Item> items;
+    private List<Ciudadano> buenasGentes;
+    private Conversation conver;
 
     public boolean inicializado;
     private Tile[][] mapaTiles;
@@ -43,6 +51,7 @@ public class Nivel {
 
     public boolean padArribaPulsado = false;
     public boolean padAbajoPulsado = false;
+    public boolean btAccionPulsado = false;
 
     public GameView gameView;
 
@@ -68,7 +77,10 @@ public class Nivel {
         scrollEjeY = 0;
 
         mensaje = CargadorGraficos.cargarBitmap(context, R.drawable.description);
+        conver = null;
         enemigos = new LinkedList<Enemigo>();
+        items = new LinkedList<Item>();
+        buenasGentes = new LinkedList<Ciudadano>();
         nivelPausado = true;
         inicializarMapaTiles();
         //TODO ajustar scroll
@@ -82,10 +94,20 @@ public class Nivel {
             for (Enemigo enemigo : enemigos) {
                 enemigo.actualizar(tiempo);
             }
+
+            for (Item i : items)
+                i.actualizar(tiempo);
+
+            for (Ciudadano p : buenasGentes)
+                p.actualizar(tiempo);
+
             jugador.procesarOrdenes(orientacionPadX, orientacionPadY);
             jugador.actualizar(tiempo);
 
             aplicarReglasMovimiento();
+
+            if (btAccionPulsado)
+                btAccionPulsado = false;
         }
     }
 
@@ -94,11 +116,21 @@ public class Nivel {
         if (inicializado) {
             fondo.dibujar(canvas);
             dibujarTiles(canvas);
+
+            for (Item i : items)
+                i.dibujar(canvas);
+
+            for (Ciudadano p : buenasGentes)
+                p.dibujar(canvas);
+
             jugador.dibujar(canvas);
 
             for (Enemigo enemigo : enemigos) {
                 enemigo.dibujar(canvas);
             }
+
+            if(conver != null)
+                conver.dibujar(canvas);
 
             if (nivelPausado) {
                 // la foto mide 480x320
@@ -168,13 +200,32 @@ public class Nivel {
                 return new Tile(CargadorGraficos.cargarDrawable(context,
                         R.drawable.suelo_verde_1), Tile.PASABLE);
             case '2':
-                // Ciudadano
+                // Ciudadano Genaro
+                int xCentroAbajoTileG = x * Tile.ancho + Tile.ancho / 2;
+                int yCentroAbajoTileG = y * Tile.altura + Tile.altura;
+
+                buenasGentes.add(PaisanosFactory.getGenaro(context,xCentroAbajoTileG,yCentroAbajoTileG));
                 return new Tile(CargadorGraficos.cargarDrawable(context,
-                        R.drawable.ciudadano_3_fondo_verde), Tile.SOLIDO);
+                        R.drawable.suelo_verde_1), Tile.PASABLE);
             case '5':
-                // Ciudadano
+                // Ciudadano Manolo
+                // Ciudadano Genaro
+                int xCentroAbajoTileM = x * Tile.ancho + Tile.ancho / 2;
+                int yCentroAbajoTileM = y * Tile.altura + Tile.altura;
+
+                buenasGentes.add(PaisanosFactory.getManolo(context,xCentroAbajoTileM,yCentroAbajoTileM));
                 return new Tile(CargadorGraficos.cargarDrawable(context,
-                        R.drawable.ciudadano_13_fondo_verde), Tile.SOLIDO);
+                        R.drawable.suelo_verde_1), Tile.PASABLE);
+
+            case '7':
+                // Ciudadano Manolo
+                // Ciudadano Genaro
+                int xCentroAbajoTileMa = x * Tile.ancho + Tile.ancho / 2;
+                int yCentroAbajoTileMa = y * Tile.altura + Tile.altura;
+
+                buenasGentes.add(PaisanosFactory.getMariPepa(context,xCentroAbajoTileMa,yCentroAbajoTileMa));
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_verde_1), Tile.PASABLE);
             case 'a':
                 // antorcha
                 return new Tile(CargadorGraficos.cargarDrawable(context,
@@ -193,6 +244,15 @@ public class Nivel {
                 int yCentroAbajoTileEI = y * Tile.altura + Tile.altura;
                 enemigos.add(EnemiesFactory.getEnemigoInteligente(context, xCentroAbajoTileEI,
                         yCentroAbajoTileEI));
+                return new Tile(CargadorGraficos.cargarDrawable(context, R.drawable.suelo_verde_1),
+                        Tile.PASABLE);
+
+            case '6':
+                //Enemigo
+                int xCentroAbajoTileB = x * Tile.ancho + Tile.ancho / 2;
+                int yCentroAbajoTileB = y * Tile.altura + Tile.altura;
+                enemigos.add(EnemiesFactory.getBoss1(context, xCentroAbajoTileB,
+                        yCentroAbajoTileB));
                 return new Tile(CargadorGraficos.cargarDrawable(context, R.drawable.suelo_verde_1),
                         Tile.PASABLE);
             //Dibujar la puerta
@@ -222,8 +282,12 @@ public class Nivel {
                         R.drawable.puerta_fondo), Tile.PASABLE);
             case 'p':
                 // pocion suelo marron
+                int xCentroAbajoTileP = x * Tile.ancho + Tile.ancho / 2;
+                int yCentroAbajoTileP = y * Tile.altura + Tile.altura;
+                items.add(ItemsFactory.getPocion(context, xCentroAbajoTileP, yCentroAbajoTileP));
+
                 return new Tile(CargadorGraficos.cargarDrawable(context,
-                        R.drawable.pocion_suelo_marron), Tile.SOLIDO);
+                        R.drawable.suelo_marron), Tile.PASABLE);
             case 'Y':
                 // parte diagonal izquierda de la cabaña con suelo marron
                 return new Tile(CargadorGraficos.cargarDrawable(context,
@@ -429,8 +493,25 @@ public class Nivel {
             }
         }
 
-        //movemos el jugador
-        jugador.mover(this);
+        //movemos el jugador sin no está en medio de una apasionante conversación con un pueblerino
+        if(conver== null)
+            jugador.mover(this);
+
+        //elimina los items recolectados y captura la colisión
+        for (Iterator<Item> iterator = items.iterator(); iterator.hasNext(); ) {
+            Item r = iterator.next();
+
+            if (r.estado == IStates.ELIMINAR)
+                iterator.remove();
+            if (jugador.colisiona(r))
+                r.doSomething(this);
+        }
+
+        for(Ciudadano p: buenasGentes)
+        {
+            if(jugador.colisiona(p))
+                p.hablar(this);
+        }
     }
 
     public Tile[][] getMapaTiles() {
@@ -439,6 +520,22 @@ public class Nivel {
 
     public Jugador getJugador() {
         return jugador;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public List<Ciudadano> getBuenasGentes() {
+        return buenasGentes;
+    }
+
+    public Conversation getConver() {
+        return conver;
+    }
+
+    public void setConver(Conversation conver) {
+        this.conver = conver;
     }
 
     private float tilesEnDistanciaX(double distanciaX) {
