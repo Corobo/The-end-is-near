@@ -2,9 +2,9 @@ package com.grupo.the_end_is_near.factorias;
 
 import android.content.Context;
 
-import com.grupo.the_end_is_near.modelos.items.Item;
-import com.grupo.the_end_is_near.modelos.items.Key;
-import com.grupo.the_end_is_near.modelos.items.Pocion;
+import com.grupo.the_end_is_near.modelos.mapa.items.Item;
+import com.grupo.the_end_is_near.modelos.mapa.items.Key;
+import com.grupo.the_end_is_near.modelos.mapa.items.Pocion;
 
 
 /**

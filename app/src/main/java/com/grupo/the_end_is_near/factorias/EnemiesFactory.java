@@ -2,10 +2,10 @@ package com.grupo.the_end_is_near.factorias;
 
 import android.content.Context;
 
-import com.grupo.the_end_is_near.modelos.enemigos.Boss1;
-import com.grupo.the_end_is_near.modelos.enemigos.Enemigo;
-import com.grupo.the_end_is_near.modelos.enemigos.Enemigo1;
-import com.grupo.the_end_is_near.modelos.enemigos.EnemigoInteligente;
+import com.grupo.the_end_is_near.modelos.mapa.enemigos.Boss1;
+import com.grupo.the_end_is_near.modelos.mapa.enemigos.Enemigo;
+import com.grupo.the_end_is_near.modelos.mapa.enemigos.Enemigo1;
+import com.grupo.the_end_is_near.modelos.mapa.enemigos.EnemigoInteligente;
 
 /**
  * Created by sergiocueto on 05/11/2016.

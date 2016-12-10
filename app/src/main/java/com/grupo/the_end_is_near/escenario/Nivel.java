@@ -14,14 +14,14 @@ import com.grupo.the_end_is_near.factorias.EnemiesFactory;
 import com.grupo.the_end_is_near.factorias.ItemsFactory;
 import com.grupo.the_end_is_near.factorias.PaisanosFactory;
 import com.grupo.the_end_is_near.gestores.CargadorGraficos;
-import com.grupo.the_end_is_near.modelos.Conversation;
-import com.grupo.the_end_is_near.modelos.enemigos.EState;
-import com.grupo.the_end_is_near.modelos.enemigos.Enemigo;
-import com.grupo.the_end_is_near.modelos.escenarios.Fondo;
-import com.grupo.the_end_is_near.modelos.items.IStates;
-import com.grupo.the_end_is_near.modelos.items.Item;
-import com.grupo.the_end_is_near.modelos.jugador.mapa.Jugador;
-import com.grupo.the_end_is_near.modelos.ciudadanos.Ciudadano;
+import com.grupo.the_end_is_near.modelos.mapa.Conversation;
+import com.grupo.the_end_is_near.modelos.mapa.enemigos.EState;
+import com.grupo.the_end_is_near.modelos.mapa.enemigos.Enemigo;
+import com.grupo.the_end_is_near.modelos.mapa.escenarios.Fondo;
+import com.grupo.the_end_is_near.modelos.mapa.items.IStates;
+import com.grupo.the_end_is_near.modelos.mapa.items.Item;
+import com.grupo.the_end_is_near.modelos.mapa.jugador.Jugador;
+import com.grupo.the_end_is_near.modelos.mapa.ciudadanos.Ciudadano;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -31,6 +31,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Nivel {
+    public Combate combate;
     private Context context = null;
     private int numeroNivel;
     private Jugador jugador;
@@ -77,13 +78,14 @@ public class Nivel {
         scrollEjeX = 0;
         scrollEjeY = 0;
 
+        combate = new Combate(context,this);
         mensaje = CargadorGraficos.cargarBitmap(context, R.drawable.description);
         conver = null;
         key = false;
         enemigos = new LinkedList<Enemigo>();
         items = new LinkedList<Item>();
         buenasGentes = new LinkedList<Ciudadano>();
-        nivelPausado = true;
+        nivelPausado = false;
         inicializarMapaTiles();
         //TODO ajustar scroll
         scrollEjeY = (int) (altoMapaTiles() - tilesEnDistanciaY(GameView.pantallaAlto)) * Tile.altura;
@@ -91,7 +93,7 @@ public class Nivel {
 
 
     public void actualizar(long tiempo) throws Exception {
-        if (inicializado) {
+            if (inicializado) {
 
             for (Enemigo enemigo : enemigos) {
                 enemigo.actualizar(tiempo);
@@ -619,8 +621,8 @@ public class Nivel {
                     tileXJugadorIzquierda + rango > tileXEnemigoIzquierda) {
 
                 if (jugador.colisiona(enemigo)) {
-                    //TODO Lanzar Pelea
-                    //eliminamos al enemigo del mapa
+                    nivelPausado=true;
+                    combate.iniciaCombate();
                     enemigo.destruir();
                     iterator.remove();
                 }
