@@ -5,5 +5,5 @@ package com.grupo.the_end_is_near;
  */
 
 public enum Maps {
-    DEFAULT_WORLD, CASTEL, WORLD2
+    DEFAULT_WORLD, WORLD2, CASTEL
 }

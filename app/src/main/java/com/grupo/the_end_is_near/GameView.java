@@ -139,7 +139,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     protected void inicializar() throws Exception {
         pad = new Pad(context);
         btAccion = new BotonAccion(context);
-        cargarNivel(Maps.DEFAULT_WORLD);
+        cargarNivel(Maps.WORLD2);
         if (!Opciones.musica)
             gestorAudio.pararMusicaAmbiente();
     }
