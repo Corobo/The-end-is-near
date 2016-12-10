@@ -8,6 +8,8 @@ import com.grupo.the_end_is_near.escenario.Tile;
 import com.grupo.the_end_is_near.gestores.CargadorGraficos;
 import com.grupo.the_end_is_near.gestores.Utilidades;
 import com.grupo.the_end_is_near.graficos.Sprite;
+import com.grupo.the_end_is_near.modelos.ciudadanos.Ciudadano;
+import com.grupo.the_end_is_near.modelos.items.Item;
 
 /**
  * Created by sergiocueto on 06/11/2016.
@@ -51,6 +53,18 @@ public class Enemigo1 extends Enemigo {
 
     @Override
     public void mover(Nivel nivel) {
+        //comento porque tal como está el mapa hay un zombie que siempre choca con un caramelo
+        //colisiones con items
+//        for(Item item :nivel.getItems()){
+//            if(colisiona(item))
+//                girar();
+//        }
+
+        //colisiones enemigo ciudadano
+        for(Ciudadano ciu : nivel.getBuenasGentes()){
+            if(colisiona(ciu))
+                girar();
+        }
         Tile[][] mapaTiles = nivel.getMapaTiles();
         int anchoMapaTiles = mapaTiles.length;
 

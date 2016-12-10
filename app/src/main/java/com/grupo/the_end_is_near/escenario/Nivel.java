@@ -39,6 +39,7 @@ public class Nivel {
     private List<Item> items;
     private List<Ciudadano> buenasGentes;
     private Conversation conver;
+    private boolean key;
 
     public boolean inicializado;
     private Tile[][] mapaTiles;
@@ -78,6 +79,7 @@ public class Nivel {
 
         mensaje = CargadorGraficos.cargarBitmap(context, R.drawable.description);
         conver = null;
+        key = false;
         enemigos = new LinkedList<Enemigo>();
         items = new LinkedList<Item>();
         buenasGentes = new LinkedList<Ciudadano>();
@@ -193,7 +195,7 @@ public class Nivel {
             case '1':
                 // Jugador
                 // Posicion centro abajo
-                int xCentroAbajoTile = x * Tile.ancho + Tile.ancho / 2;
+                int xCentroAbajoTile = x * Tile.ancho + Tile.ancho ;
                 int yCentroAbajoTile = y * Tile.altura + Tile.altura;
                 jugador = new Jugador(context, xCentroAbajoTile, yCentroAbajoTile, 3);
 
@@ -201,7 +203,7 @@ public class Nivel {
                         R.drawable.suelo_verde_1), Tile.PASABLE);
             case '2':
                 // Ciudadano Genaro
-                int xCentroAbajoTileG = x * Tile.ancho + Tile.ancho / 2;
+                int xCentroAbajoTileG = x * Tile.ancho + Tile.ancho ;
                 int yCentroAbajoTileG = y * Tile.altura + Tile.altura;
 
                 buenasGentes.add(PaisanosFactory.getGenaro(context,xCentroAbajoTileG,yCentroAbajoTileG));
@@ -210,7 +212,7 @@ public class Nivel {
             case '5':
                 // Ciudadano Manolo
                 // Ciudadano Genaro
-                int xCentroAbajoTileM = x * Tile.ancho + Tile.ancho / 2;
+                int xCentroAbajoTileM = x * Tile.ancho + Tile.ancho ;
                 int yCentroAbajoTileM = y * Tile.altura + Tile.altura;
 
                 buenasGentes.add(PaisanosFactory.getManolo(context,xCentroAbajoTileM,yCentroAbajoTileM));
@@ -220,7 +222,7 @@ public class Nivel {
             case '7':
                 // Ciudadano Manolo
                 // Ciudadano Genaro
-                int xCentroAbajoTileMa = x * Tile.ancho + Tile.ancho / 2;
+                int xCentroAbajoTileMa = x * Tile.ancho + Tile.ancho;
                 int yCentroAbajoTileMa = y * Tile.altura + Tile.altura;
 
                 buenasGentes.add(PaisanosFactory.getMariPepa(context,xCentroAbajoTileMa,yCentroAbajoTileMa));
@@ -232,7 +234,7 @@ public class Nivel {
                         R.drawable.antorcha_marron), Tile.SOLIDO);
             case '3':
                 //Enemigo
-                int xCentroAbajoTileE1 = x * Tile.ancho + Tile.ancho / 2;
+                int xCentroAbajoTileE1 = x * Tile.ancho + Tile.ancho;
                 int yCentroAbajoTileE1 = y * Tile.altura + Tile.altura;
                 enemigos.add(EnemiesFactory.getEnemigo1(context, xCentroAbajoTileE1,
                         yCentroAbajoTileE1));
@@ -240,7 +242,7 @@ public class Nivel {
                         Tile.PASABLE);
             case '4':
                 //Enemigo
-                int xCentroAbajoTileEI = x * Tile.ancho + Tile.ancho / 2;
+                int xCentroAbajoTileEI = x * Tile.ancho + Tile.ancho;
                 int yCentroAbajoTileEI = y * Tile.altura + Tile.altura;
                 enemigos.add(EnemiesFactory.getEnemigoInteligente(context, xCentroAbajoTileEI,
                         yCentroAbajoTileEI));
@@ -274,8 +276,20 @@ public class Nivel {
             //Fin dibujoar puerta
             case 'p':
                 // pocion suelo marron
+                int xCentroAbajoTileP = x * Tile.ancho + Tile.ancho;
+                int yCentroAbajoTileP = y * Tile.altura + Tile.altura;
+                items.add(ItemsFactory.getPocion(context, xCentroAbajoTileP, yCentroAbajoTileP));
+
                 return new Tile(CargadorGraficos.cargarDrawable(context,
-                        R.drawable.pocion_suelo_marron), Tile.SOLIDO);
+                        R.drawable.suelo_marron), Tile.PASABLE);
+            case 'x':
+                // llave suelo marron
+                int xCentroAbajoTileK = x * Tile.ancho + Tile.ancho;
+                int yCentroAbajoTileK = y * Tile.altura + Tile.altura;
+                items.add(ItemsFactory.getKey(context, xCentroAbajoTileK, yCentroAbajoTileK));
+
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_marron), Tile.PASABLE);
             case 'Y':
                 // parte diagonal izquierda de la cabaña con suelo marron
                 return new Tile(CargadorGraficos.cargarDrawable(context,
@@ -617,6 +631,9 @@ public class Nivel {
         if(conver== null)
             jugador.mover(this);
 
+        for(Ciudadano ciu : buenasGentes)
+                ciu.mover(this);
+
         //elimina los items recolectados y captura la colisión
         for (Iterator<Item> iterator = items.iterator(); iterator.hasNext(); ) {
             Item r = iterator.next();
@@ -656,6 +673,14 @@ public class Nivel {
 
     public void setConver(Conversation conver) {
         this.conver = conver;
+    }
+
+    public boolean isKey() {
+        return key;
+    }
+
+    public void setKey(boolean key) {
+        this.key = key;
     }
 
     private float tilesEnDistanciaX(double distanciaX) {

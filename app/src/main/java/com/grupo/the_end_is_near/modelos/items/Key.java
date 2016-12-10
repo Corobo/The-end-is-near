@@ -33,7 +33,10 @@ public class Key extends Item {
 
     @Override
     public void doSomething(Nivel nivel) throws Exception {
-        //es una gochada
-        //gameView.getNivel().setLLave(true);
+        boolean pulsado = nivel.btAccionPulsado;
+        if(pulsado && estado == IStates.ACTIVO){
+            nivel.setKey(true);
+            estado = IStates.RECOLECTADO;
+        }
     }
 }

@@ -2,6 +2,8 @@ package com.grupo.the_end_is_near.modelos;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 
 import com.grupo.the_end_is_near.R;
 import com.grupo.the_end_is_near.escenario.Nivel;
@@ -27,6 +29,12 @@ public class Conversation extends Modelo {
         imagen.setBounds(xIzquierda, yArriva, xIzquierda
                 + ancho, yArriva + altura);
         imagen.draw(canvas);
+
+        Paint paint = new Paint();
+        paint.setColor(Color.BLACK);
+        paint.setAntiAlias(true);
+        paint.setTextSize(18);
+        canvas.drawText(String.valueOf(text), (float) (xIzquierda+ ancho*0.18), (int)y-Nivel.scrollEjeY, paint);
     }
 
     public void setText(String text) {

@@ -61,6 +61,10 @@ public abstract class Ciudadano extends Modelo {
         }
     }
 
+    public void mover(Nivel nivel){
+        //no hace nada, por lo general los ciudadanos no se mueven
+    }
+
     /*se le pasa directamente el gameView para que los Items puedan realizar cualquier tipo
      de acciones sobre el juego */
     public void hablar(Nivel nivel){
@@ -68,6 +72,8 @@ public abstract class Ciudadano extends Modelo {
         if(pulsado ){
             estado = PStates.HABLANDO;
             if(index < frases.length){
+                if(index < frases.length -1)
+                    frases[index]+="\n...";
                 if(index==0)
                     nivel.setConver(new Conversation(context,this.x,this.y-(altura+8),frases[index]));
                 else

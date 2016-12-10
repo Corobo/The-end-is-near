@@ -16,7 +16,7 @@ public class Genaro extends Ciudadano {
         super(context, x, y, 40, 40);
 
         nombre = "Genaro";
-        frases = new String[]{"buenos dias","caca de baca"};
+        frases = new String[]{"buenos dias","caca de vaca"};
 
         Sprite sprite = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.ciudadano_3),
