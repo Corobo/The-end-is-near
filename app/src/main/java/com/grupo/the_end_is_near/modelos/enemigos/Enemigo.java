@@ -41,7 +41,7 @@ public abstract class Enemigo extends Modelo {
                    int idEnemigo) {
         super(context, 0, 0, altura, ancho);
 
-        this.x = xInicial;
+        this.x = xInicial -ancho/2;
         this.y = yInicial - altura/2;
         this.idEnemigo = idEnemigo;
 

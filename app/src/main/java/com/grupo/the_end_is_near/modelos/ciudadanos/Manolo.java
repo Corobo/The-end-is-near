@@ -52,8 +52,10 @@ public class Manolo extends Ciudadano {
                 nivel.setConver(null);
                 index = 0;
                 estado=PStates.ACTIVO;
-                if(nivel.isKey())
+                if(nivel.isKey()){
                     moverse =true;
+                    nivel.addPortal(360,10);
+                }
             }
 
         }

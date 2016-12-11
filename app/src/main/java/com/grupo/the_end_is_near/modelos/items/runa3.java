@@ -9,16 +9,15 @@ import com.grupo.the_end_is_near.gestores.CargadorGraficos;
 import com.grupo.the_end_is_near.graficos.Sprite;
 
 /**
- * Created by sergiocueto on 05/11/2016.
+ * Created by sergiocueto on 11/12/2016.
  */
 
-public class Pocion extends Item {
-
-    public Pocion(Context context, double x, double y) {
-        super(context, x, y, 35, 32, false);
-
+public class Runa3 extends Item {
+    private static final int IDENT =3;
+    public Runa3(Context context, double x, double y) {
+        super(context, x, y, 40, 40,true);
         Sprite sprite = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.pocion),
+                CargadorGraficos.cargarDrawable(context, R.drawable.runa_3),
                 ancho, altura,
                 1, 1, true);
 
@@ -32,11 +31,7 @@ public class Pocion extends Item {
     }
 
     @Override
-    public void doSomething(Nivel nivel) {
-        boolean pulsado = nivel.btAccionPulsado;
-        if(pulsado && estado == IStates.ACTIVO){
-            estado = IStates.RECOLECTADO;
-            nivel.getJugador().setVidas(nivel.getJugador().getVidas()+1);
-        }
+    public void doSomething(Nivel nivel) throws Exception {
+        nivel.addConvinacion(IDENT);
     }
 }

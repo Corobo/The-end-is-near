@@ -37,12 +37,20 @@ public class Nivel {
     private Fondo fondo;
     private List<Enemigo> enemigos;
     private List<Item> items;
+    private Item portal;
     private List<Ciudadano> buenasGentes;
     private Conversation conver;
-    private boolean key;
 
     public boolean inicializado;
     private Tile[][] mapaTiles;
+
+    int cindex = 0;
+    int xKey=0;
+    int yKey =0;
+    private int key=0;
+    private boolean hasKey;
+
+    private int[] convinaciones;
 
     public float orientacionPadX = 0;
     public float orientacionPadY = 0;
@@ -77,11 +85,14 @@ public class Nivel {
         scrollEjeX = 0;
         scrollEjeY = 0;
 
+        convinaciones = new int[]{-1,-1,-1};
         mensaje = CargadorGraficos.cargarBitmap(context, R.drawable.description);
         conver = null;
-        key = false;
+        hasKey = false;
         enemigos = new LinkedList<Enemigo>();
         items = new LinkedList<Item>();
+        portal = null;
+
         buenasGentes = new LinkedList<Ciudadano>();
         nivelPausado = true;
         inicializarMapaTiles();
@@ -99,6 +110,9 @@ public class Nivel {
 
             for (Item i : items)
                 i.actualizar(tiempo);
+
+            if(portal != null)
+                portal.actualizar(tiempo);
 
             for (Ciudadano p : buenasGentes)
                 p.actualizar(tiempo);
@@ -131,7 +145,7 @@ public class Nivel {
                 enemigo.dibujar(canvas);
             }
 
-            if(conver != null)
+            if (conver != null)
                 conver.dibujar(canvas);
 
             if (nivelPausado) {
@@ -195,7 +209,7 @@ public class Nivel {
             case '1':
                 // Jugador
                 // Posicion centro abajo
-                int xCentroAbajoTile = x * Tile.ancho + Tile.ancho ;
+                int xCentroAbajoTile = x * Tile.ancho + Tile.ancho;
                 int yCentroAbajoTile = y * Tile.altura + Tile.altura;
                 jugador = new Jugador(context, xCentroAbajoTile, yCentroAbajoTile, 3);
 
@@ -203,19 +217,19 @@ public class Nivel {
                         R.drawable.suelo_verde_1), Tile.PASABLE);
             case '2':
                 // Ciudadano Genaro
-                int xCentroAbajoTileG = x * Tile.ancho + Tile.ancho ;
+                int xCentroAbajoTileG = x * Tile.ancho + Tile.ancho;
                 int yCentroAbajoTileG = y * Tile.altura + Tile.altura;
 
-                buenasGentes.add(PaisanosFactory.getGenaro(context,xCentroAbajoTileG,yCentroAbajoTileG));
+                buenasGentes.add(PaisanosFactory.getGenaro(context, xCentroAbajoTileG, yCentroAbajoTileG));
                 return new Tile(CargadorGraficos.cargarDrawable(context,
                         R.drawable.suelo_verde_1), Tile.PASABLE);
             case '5':
                 // Ciudadano Manolo
                 // Ciudadano Genaro
-                int xCentroAbajoTileM = x * Tile.ancho + Tile.ancho ;
+                int xCentroAbajoTileM = x * Tile.ancho + Tile.ancho;
                 int yCentroAbajoTileM = y * Tile.altura + Tile.altura;
 
-                buenasGentes.add(PaisanosFactory.getManolo(context,xCentroAbajoTileM,yCentroAbajoTileM));
+                buenasGentes.add(PaisanosFactory.getManolo(context, xCentroAbajoTileM, yCentroAbajoTileM));
                 return new Tile(CargadorGraficos.cargarDrawable(context,
                         R.drawable.suelo_verde_1), Tile.PASABLE);
 
@@ -225,7 +239,7 @@ public class Nivel {
                 int xCentroAbajoTileMa = x * Tile.ancho + Tile.ancho;
                 int yCentroAbajoTileMa = y * Tile.altura + Tile.altura;
 
-                buenasGentes.add(PaisanosFactory.getMariPepa(context,xCentroAbajoTileMa,yCentroAbajoTileMa));
+                buenasGentes.add(PaisanosFactory.getMariPepa(context, xCentroAbajoTileMa, yCentroAbajoTileMa));
                 return new Tile(CargadorGraficos.cargarDrawable(context,
                         R.drawable.suelo_verde_1), Tile.PASABLE);
             case 'a':
@@ -247,6 +261,14 @@ public class Nivel {
                 enemigos.add(EnemiesFactory.getEnemigoInteligente(context, xCentroAbajoTileEI,
                         yCentroAbajoTileEI));
                 return new Tile(CargadorGraficos.cargarDrawable(context, R.drawable.suelo_verde_1),
+                        Tile.PASABLE);
+            case '6':
+                //Enemigo
+                int xCentroAbajoTileB = x * Tile.ancho + Tile.ancho;
+                int yCentroAbajoTileB = y * Tile.altura + Tile.altura;
+                enemigos.add(EnemiesFactory.getBoss1(context, xCentroAbajoTileB,
+                        yCentroAbajoTileB));
+                return new Tile(CargadorGraficos.cargarDrawable(context, R.drawable.suelo_marron),
                         Tile.PASABLE);
             //Dibujar la puerta
             case 'I':
@@ -279,14 +301,6 @@ public class Nivel {
                 int xCentroAbajoTileP = x * Tile.ancho + Tile.ancho;
                 int yCentroAbajoTileP = y * Tile.altura + Tile.altura;
                 items.add(ItemsFactory.getPocion(context, xCentroAbajoTileP, yCentroAbajoTileP));
-
-                return new Tile(CargadorGraficos.cargarDrawable(context,
-                        R.drawable.suelo_marron), Tile.PASABLE);
-            case 'x':
-                // llave suelo marron
-                int xCentroAbajoTileK = x * Tile.ancho + Tile.ancho;
-                int yCentroAbajoTileK = y * Tile.altura + Tile.altura;
-                items.add(ItemsFactory.getKey(context, xCentroAbajoTileK, yCentroAbajoTileK));
 
                 return new Tile(CargadorGraficos.cargarDrawable(context,
                         R.drawable.suelo_marron), Tile.PASABLE);
@@ -496,16 +510,22 @@ public class Nivel {
                         R.drawable.puerta_casa_derecha), Tile.PASABLE);
             case '%':
                 // Runa 1
-                return new Tile(CargadorGraficos.cargarDrawable(context,
-                        R.drawable.runa_1), Tile.SOLIDO);
+                int xCentroAbajoTileR1 = x * Tile.ancho + Tile.ancho;
+                int yCentroAbajoTileR1 = y * Tile.altura + Tile.altura;
+                items.add(ItemsFactory.getRuna1(context, xCentroAbajoTileR1, yCentroAbajoTileR1));
+                return new Tile(null, Tile.PASABLE);
             case '/':
                 // Runa 2
-                return new Tile(CargadorGraficos.cargarDrawable(context,
-                        R.drawable.runa_2), Tile.SOLIDO);
+                int xCentroAbajoTileR2 = x * Tile.ancho + Tile.ancho;
+                int yCentroAbajoTileR2 = y * Tile.altura + Tile.altura;
+                items.add(ItemsFactory.getRuna2(context, xCentroAbajoTileR2, yCentroAbajoTileR2));
+                return new Tile(null, Tile.PASABLE);
             case '(':
                 // Runa 3
-                return new Tile(CargadorGraficos.cargarDrawable(context,
-                        R.drawable.runa_3), Tile.SOLIDO);
+                int xCentroAbajoTileR3 = x * Tile.ancho + Tile.ancho;
+                int yCentroAbajoTileR3 = y * Tile.altura + Tile.altura;
+                items.add(ItemsFactory.getRuna3(context, xCentroAbajoTileR3, yCentroAbajoTileR3));
+                return new Tile(null, Tile.PASABLE);
             case ')':
                 // Verja horizontal
                 return new Tile(CargadorGraficos.cargarDrawable(context,
@@ -518,6 +538,11 @@ public class Nivel {
                 // Verja hacia arriba
                 return new Tile(CargadorGraficos.cargarDrawable(context,
                         R.drawable.verja_hacia_abajo), Tile.SOLIDO);
+            case 'x':
+                xKey =x * Tile.ancho + Tile.ancho;
+                yKey = y * Tile.altura + Tile.altura;
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_piedra), Tile.PASABLE);
             default:
                 //cualquier otro caso
                 return new Tile(null, Tile.PASABLE);
@@ -628,12 +653,16 @@ public class Nivel {
         }
 
         //movemos el jugador sin no está en medio de una apasionante conversación con un pueblerino
-        if(conver== null)
+        if (conver == null)
             jugador.mover(this);
 
-        for(Ciudadano ciu : buenasGentes)
-                ciu.mover(this);
+        for (Ciudadano ciu : buenasGentes)
+            ciu.mover(this);
 
+        if(key ==1){
+            items.add(ItemsFactory.getKey(context,xKey,yKey));
+            key++;
+        }
         //elimina los items recolectados y captura la colisión
         for (Iterator<Item> iterator = items.iterator(); iterator.hasNext(); ) {
             Item r = iterator.next();
@@ -644,11 +673,40 @@ public class Nivel {
                 r.doSomething(this);
         }
 
-        for(Ciudadano p: buenasGentes)
-        {
-            if(jugador.colisiona(p))
+        for (Ciudadano p : buenasGentes) {
+            if (jugador.colisiona(p))
                 p.hablar(this);
         }
+
+        if(portal!= null && jugador.colisiona(portal))
+            portal.doSomething(this);
+    }
+
+    //usa el módulo para insertar siepre en la siguiente posición a la última que insertó o en la
+    // primera si la última inserción fué en la ultima posicion
+    public void addConvinacion(int convinacion) {
+        int pos = cindex % (convinaciones.length);
+        if(pos ==0 || convinaciones[pos-1] != convinacion){
+            convinaciones[cindex % convinaciones.length] = convinacion;
+            cindex++;
+
+            //comprobar si se cumple la secuencia deseada en convinaciones
+            for (int i = 0; i < convinaciones.length; i++) {
+                if (convinaciones[i] == 1){
+                    if(convinaciones[(i + 1) % convinaciones.length]==2 &&
+                            convinaciones[(i + 2) % convinaciones.length]==3 ){
+                        //si la variable key es 1 se añade una llave desde update y de actualiza el valor.
+                        // Esto asegura que solo se podrá generar una llave en el juego
+                        key ++;
+                    }
+
+                }
+            }
+        }
+    }
+
+    public void addPortal(double x , double y){
+        portal = ItemsFactory.getPortal1(context,x,y);
     }
 
     public Tile[][] getMapaTiles() {
@@ -676,11 +734,11 @@ public class Nivel {
     }
 
     public boolean isKey() {
-        return key;
+        return hasKey;
     }
 
     public void setKey(boolean key) {
-        this.key = key;
+        this.hasKey = key;
     }
 
     private float tilesEnDistanciaX(double distanciaX) {
