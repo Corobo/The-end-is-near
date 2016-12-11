@@ -56,7 +56,7 @@ public class Combate {
         this.context=context;
         this.fondo = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.fondo_01),
-                512, 312,
+                GameView.pantallaAncho, GameView.pantallaAlto,
                 1, 1, false);
 
         enemigos= new LinkedList<Enemigo>();
