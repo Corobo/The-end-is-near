@@ -51,6 +51,7 @@ public class Combate {
 
     public Personaje compañeroAtacando=null;
     public int compañerosTerminados=0;
+    public int pociones;
 
     public Combate(Context context) {
         this.context=context;
@@ -162,9 +163,15 @@ public class Combate {
     }
 
     public void pocion() {
-
+        if(pociones>0) {
+            for (Personaje heroe : heroes) {
+                heroe.restablecerVida();
+            }
+            pociones--;
+        }
     }
     public void huir() {
+        terminaCombate();
     }
 
     public void turnoEnemigos(){

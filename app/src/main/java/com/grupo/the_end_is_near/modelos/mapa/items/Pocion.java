@@ -2,10 +2,12 @@ package com.grupo.the_end_is_near.modelos.mapa.items;
 
 import android.content.Context;
 
+import com.grupo.the_end_is_near.GameView;
 import com.grupo.the_end_is_near.R;
 import com.grupo.the_end_is_near.escenario.Nivel;
 import com.grupo.the_end_is_near.gestores.CargadorGraficos;
 import com.grupo.the_end_is_near.graficos.Sprite;
+import com.grupo.the_end_is_near.modelos.combate.jugadores.Personaje;
 
 /**
  * Created by sergiocueto on 05/11/2016.
@@ -35,7 +37,17 @@ public class Pocion extends Item {
         boolean pulsado = nivel.btAccionPulsado;
         if(pulsado && estado == IStates.ACTIVO){
             estado = IStates.RECOLECTADO;
-            nivel.getJugador().setVidas(nivel.getJugador().getVidas()-1);
+            boolean usarPocion=true;
+            for(Personaje heroe:GameView.combate.heroes){
+                if((heroe.vida<heroe.vidaMaxima || heroe.mana<heroe.manaMaximo) &&  usarPocion){
+                    heroe.restablecerVida();
+                }
+                else{
+                    usarPocion=false;
+                }
+            }
+            if(!usarPocion)
+                GameView.combate.pociones++;
         }
     }
 }

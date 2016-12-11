@@ -269,6 +269,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             nivel.dibujar(canvas);
             pad.dibujar(canvas);
             btAccion.dibujar(canvas);
+            barraVida.dibujar(canvas);
+            Paint textoPersonajes = new Paint();
+            textoPersonajes.setAntiAlias(true);
+            textoPersonajes.setColor(Color.WHITE);
+            canvas.drawText("Thief : ", (float) (pantallaAncho * 0.55), (float) (pantallaAlto * 0.85), textoPersonajes);
+            canvas.drawText(combate.heroes.get(0).vida + " / " + combate.heroes.get(0).vidaMaxima, (float) (pantallaAncho * 0.65), (float) (pantallaAlto * 0.85), textoPersonajes);
+            canvas.drawText(combate.heroes.get(0).mana + " / " + combate.heroes.get(0).manaMaximo, (float) (pantallaAncho * 0.80), (float) (pantallaAlto * 0.85), textoPersonajes);
+            canvas.drawText("Warrior : ", (float) (pantallaAncho * 0.55), (float) (pantallaAlto * 0.89), textoPersonajes);
+            canvas.drawText(combate.heroes.get(1).vida + " / " + combate.heroes.get(1).vidaMaxima, (float) (pantallaAncho * 0.65), (float) (pantallaAlto * 0.89), textoPersonajes);
+            canvas.drawText(combate.heroes.get(1).mana + " / " + combate.heroes.get(1).manaMaximo, (float) (pantallaAncho * 0.80), (float) (pantallaAlto * 0.89), textoPersonajes);
+            canvas.drawText("Mage : ", (float) (pantallaAncho * 0.55), (float) (pantallaAlto * 0.93), textoPersonajes);
+            canvas.drawText(combate.heroes.get(2).vida + " / " + combate.heroes.get(2).vidaMaxima, (float) (pantallaAncho * 0.65), (float) (pantallaAlto * 0.93), textoPersonajes);
+            canvas.drawText(combate.heroes.get(2).mana + " / " + combate.heroes.get(2).manaMaximo, (float) (pantallaAncho * 0.80), (float) (pantallaAlto * 0.93), textoPersonajes);
         }
         if (combate.enCombate) {
             //gestorAudio.reproducirMusicaCombate(); TODO No reproduce si tenemos esto asi

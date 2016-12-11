@@ -270,5 +270,14 @@ public abstract class Personaje extends Modelo{
         utilizado=false;
     }
 
+    public void restablecerVida(){
+        estado = Estado.ACTIVO;
+        calcularVida();
+        calcularMana();
+        calcularDaño();
+        calcularExperienciaNecesaria();
+        accion("Parado");
+    }
+
 
 }
