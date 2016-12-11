@@ -37,7 +37,6 @@ public class Combate {
 
     public boolean enCombate;
     private Context context;
-    private Nivel nivel;
 
     public List<Enemigo> enemigos;
     public List<Personaje> heroes;
@@ -53,9 +52,8 @@ public class Combate {
     public Personaje compañeroAtacando=null;
     public int compañerosTerminados=0;
 
-    public Combate(Context context,Nivel nivel) {
+    public Combate(Context context) {
         this.context=context;
-        this.nivel=nivel;
         this.fondo = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.fondo_01),
                 512, 312,
@@ -63,7 +61,6 @@ public class Combate {
 
         enemigos= new LinkedList<Enemigo>();
         heroes =new LinkedList<Personaje>();
-        iniciarEnemigosAleatorios();
 
         heroes.add(new Thief(context, GameView.pantallaAncho/1.3, GameView.pantallaAlto / 3.5));
         heroes.add(new Warrior(context, GameView.pantallaAncho/1.25, GameView.pantallaAlto / 2.5));
@@ -319,7 +316,7 @@ public class Combate {
 
     private void terminaCombate(){
         this.enCombate=false;
-        this.nivel.nivelPausado=false;
+        GameView.nivel.nivelPausado=false;
     }
 
 

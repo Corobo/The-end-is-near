@@ -31,7 +31,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Nivel {
-    public Combate combate;
     private Context context = null;
     private int numeroNivel;
     private Jugador jugador;
@@ -78,7 +77,6 @@ public class Nivel {
         scrollEjeX = 0;
         scrollEjeY = 0;
 
-        combate = new Combate(context,this);
         mensaje = CargadorGraficos.cargarBitmap(context, R.drawable.description);
         conver = null;
         key = false;
@@ -622,7 +620,7 @@ public class Nivel {
 
                 if (jugador.colisiona(enemigo)) {
                     nivelPausado=true;
-                    combate.iniciaCombate();
+                    GameView.combate.iniciaCombate();
                     enemigo.destruir();
                     iterator.remove();
                 }
