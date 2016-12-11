@@ -2,6 +2,7 @@ package com.grupo.the_end_is_near.modelos.mapa.items;
 
 import android.content.Context;
 
+import com.grupo.the_end_is_near.GameView;
 import com.grupo.the_end_is_near.R;
 import com.grupo.the_end_is_near.escenario.Nivel;
 import com.grupo.the_end_is_near.gestores.CargadorGraficos;
@@ -14,7 +15,7 @@ import com.grupo.the_end_is_near.graficos.Sprite;
 public class Key extends Item {
 
     public Key(Context context, double x, double y) {
-        super(context, x, y, 35, 32);
+        super(context, x, y, 35, 32,false);
 
         Sprite sprite = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.key),

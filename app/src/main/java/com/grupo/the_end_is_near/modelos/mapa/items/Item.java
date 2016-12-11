@@ -3,6 +3,7 @@ package com.grupo.the_end_is_near.modelos.mapa.items;
 import android.content.Context;
 import android.graphics.Canvas;
 
+import com.grupo.the_end_is_near.GameView;
 import com.grupo.the_end_is_near.escenario.Nivel;
 import com.grupo.the_end_is_near.graficos.Sprite;
 import com.grupo.the_end_is_near.modelos.Modelo;
@@ -18,13 +19,15 @@ public abstract class Item extends Modelo{
     public static final String DEFAULT = "default";
     public static final String RECOLECTANDO = "recolectando";
 
+    private boolean pasable = false;
     private Sprite sprite;
     private HashMap<String,Sprite> sprites = new HashMap<String,Sprite>();
 
-    public Item(Context context, double x, double y, int altura, int ancho) {
+    public Item(Context context, double x, double y, int altura, int ancho, boolean pasable) {
         super(context, x, y, altura, ancho);
         this.x = x-ancho/2;
         this.y = y - altura/2;
+        this.pasable = pasable;
     }
 
 
@@ -66,7 +69,11 @@ public abstract class Item extends Modelo{
         }
     }
 
+    public boolean isPasable() {
+        return pasable;
+    }
+
     /*se le pasa directamente el nivel para que los Items puedan realizar cualquier tipo
-     de acciones sobre el */
+         de acciones sobre el */
     public abstract void doSomething(Nivel nivel) throws Exception;
 }

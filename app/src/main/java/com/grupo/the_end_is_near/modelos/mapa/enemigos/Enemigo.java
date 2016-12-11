@@ -3,7 +3,11 @@ package com.grupo.the_end_is_near.modelos.mapa.enemigos;
 import android.content.Context;
 import android.graphics.Canvas;
 
+import com.grupo.the_end_is_near.R;
 import com.grupo.the_end_is_near.escenario.Nivel;
+import com.grupo.the_end_is_near.escenario.Tile;
+import com.grupo.the_end_is_near.gestores.CargadorGraficos;
+import com.grupo.the_end_is_near.gestores.Utilidades;
 import com.grupo.the_end_is_near.graficos.Sprite;
 import com.grupo.the_end_is_near.modelos.Modelo;
 
@@ -36,7 +40,7 @@ public abstract class Enemigo extends Modelo {
                    int idEnemigo) {
         super(context, 0, 0, altura, ancho);
 
-        this.x = xInicial;
+        this.x = xInicial -ancho/2;
         this.y = yInicial - altura/2;
         this.idEnemigo = idEnemigo;
 

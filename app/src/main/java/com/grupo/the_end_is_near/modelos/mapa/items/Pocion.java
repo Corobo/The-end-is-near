@@ -16,7 +16,7 @@ import com.grupo.the_end_is_near.modelos.combate.jugadores.Personaje;
 public class Pocion extends Item {
 
     public Pocion(Context context, double x, double y) {
-        super(context, x, y, 35, 32);
+        super(context, x, y, 35, 32,false);
 
         Sprite sprite = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.pocion),

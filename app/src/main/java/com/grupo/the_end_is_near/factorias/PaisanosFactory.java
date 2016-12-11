@@ -2,10 +2,11 @@ package com.grupo.the_end_is_near.factorias;
 
 import android.content.Context;
 
+import com.grupo.the_end_is_near.modelos.mapa.ciudadanos.Ciudadano;
 import com.grupo.the_end_is_near.modelos.mapa.ciudadanos.Genaro;
 import com.grupo.the_end_is_near.modelos.mapa.ciudadanos.Manolo;
 import com.grupo.the_end_is_near.modelos.mapa.ciudadanos.MariPepa;
-import com.grupo.the_end_is_near.modelos.mapa.ciudadanos.Ciudadano;
+
 
 /**
  * Created by sergiocueto on 08/12/2016.

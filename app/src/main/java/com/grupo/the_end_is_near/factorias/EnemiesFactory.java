@@ -7,6 +7,7 @@ import com.grupo.the_end_is_near.modelos.mapa.enemigos.Enemigo;
 import com.grupo.the_end_is_near.modelos.mapa.enemigos.Enemigo1;
 import com.grupo.the_end_is_near.modelos.mapa.enemigos.EnemigoInteligente;
 
+
 /**
  * Created by sergiocueto on 05/11/2016.
  */

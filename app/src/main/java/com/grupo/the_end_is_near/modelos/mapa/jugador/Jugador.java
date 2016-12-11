@@ -10,8 +10,8 @@ import com.grupo.the_end_is_near.gestores.CargadorGraficos;
 import com.grupo.the_end_is_near.gestores.Utilidades;
 import com.grupo.the_end_is_near.graficos.Sprite;
 import com.grupo.the_end_is_near.modelos.Modelo;
-import com.grupo.the_end_is_near.modelos.mapa.items.Item;
 import com.grupo.the_end_is_near.modelos.mapa.ciudadanos.Ciudadano;
+import com.grupo.the_end_is_near.modelos.mapa.items.Item;
 
 import java.util.HashMap;
 
@@ -64,7 +64,7 @@ public class Jugador extends Modelo {
         super(context, 0, 0, 40, 40);
 
         // guardamos la posición inicial porque más tarde vamos a reiniciarlo
-        this.xInicial = xInicial;
+        this.xInicial = xInicial - ancho /2;
         this.yInicial = yInicial - altura / 2;
 
         this.x = this.xInicial;
@@ -199,7 +199,7 @@ public class Jugador extends Modelo {
 
         //hace a los items sólidos
         for (Item i : nivel.getItems()) {
-            if(colisiona(i)){
+            if(colisiona(i) && !i.isPasable()){
                 if(y-cAbajo < i.y)
                     colisionaAbajo=true;
                 if(y-cArriba > i.y)
