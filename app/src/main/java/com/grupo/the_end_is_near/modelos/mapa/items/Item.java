@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 
 import com.grupo.the_end_is_near.GameView;
 import com.grupo.the_end_is_near.escenario.Nivel;
+import com.grupo.the_end_is_near.global.Estado;
 import com.grupo.the_end_is_near.graficos.Sprite;
 import com.grupo.the_end_is_near.modelos.Modelo;
 
@@ -15,7 +16,7 @@ import java.util.HashMap;
  */
 
 public abstract class Item extends Modelo{
-    public IStates estado = IStates.ACTIVO;
+    public int estado = Estado.ACTIVO;
     public static final String DEFAULT = "default";
     public static final String RECOLECTANDO = "recolectando";
 
@@ -57,14 +58,14 @@ public abstract class Item extends Modelo{
         if(sprite != null)
             finSprite = sprite.actualizar(tiempo);
 
-        if ( estado == IStates.RECOLECTADO){
+        if ( estado == Estado.RECOLECTADO){
             if(finSprite == true)
-                estado = IStates.ELIMINAR;
+                estado = Estado.ELIMINAR;
             else{
                 if(sprites.containsKey(RECOLECTANDO))
                     sprite = sprites.get(RECOLECTANDO);
                 else
-                    estado = IStates.ELIMINAR;
+                    estado = Estado.ELIMINAR;
             }
         }
     }

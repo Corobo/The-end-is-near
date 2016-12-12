@@ -5,6 +5,7 @@ import android.content.Context;
 import com.grupo.the_end_is_near.R;
 import com.grupo.the_end_is_near.escenario.Nivel;
 import com.grupo.the_end_is_near.gestores.CargadorGraficos;
+import com.grupo.the_end_is_near.global.Estado;
 import com.grupo.the_end_is_near.graficos.Sprite;
 import com.grupo.the_end_is_near.modelos.mapa.Conversation;
 
@@ -27,7 +28,7 @@ public class Manolo extends Ciudadano {
         frases = new String[]{"No puedes pasar!!", "corred insensatos", "Sin la llave no pasas"};
 
         Sprite sprite = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.ciudadano_13),
+                CargadorGraficos.cargarDrawable(context, R.drawable.guardian_puerta),
                 ancho, altura,
                 1, 1, true);
         inicializar(sprite, null);
@@ -39,7 +40,7 @@ public class Manolo extends Ciudadano {
         if(pulsado ){
             if(nivel.isKey())
                 frases = new String[]{"veo que conseguiste la llave","ahora ya puedes pasar"};
-            estado = PStates.HABLANDO;
+            estado = Estado.HABLANDO;
             if(index < frases.length){
                 if(index < frases.length -1)
                     frases[index]+="\n...";
@@ -51,7 +52,7 @@ public class Manolo extends Ciudadano {
             }else{
                 nivel.setConver(null);
                 index = 0;
-                estado=PStates.ACTIVO;
+                estado=Estado.ACTIVO;
                 if(nivel.isKey()){
                     moverse =true;
                     nivel.addPortal(360,10);

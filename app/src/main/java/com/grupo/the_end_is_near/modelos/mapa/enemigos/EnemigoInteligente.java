@@ -7,6 +7,7 @@ import com.grupo.the_end_is_near.escenario.Nivel;
 import com.grupo.the_end_is_near.escenario.Tile;
 import com.grupo.the_end_is_near.gestores.CargadorGraficos;
 import com.grupo.the_end_is_near.gestores.Utilidades;
+import com.grupo.the_end_is_near.global.Estado;
 import com.grupo.the_end_is_near.graficos.Sprite;
 
 /**
@@ -58,8 +59,8 @@ public class EnemigoInteligente extends Enemigo {
         Sprite sprite = _getSprite();
         boolean finSprite = sprite.actualizar(tiempo);
 
-        if (estado == EState.INACTIVO) {
-            estado = EState.ELIMINAR;
+        if (estado == Estado.INACTIVO) {
+            estado = Estado.ELIMINAR;
         } else {
 
             if (velocidadX > 0)

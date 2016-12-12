@@ -23,28 +23,16 @@ public class Enemigo1 extends Enemigo {
     @Override
     public void inicializar() {
         Sprite caminandoDerecha = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.enemyrunright),
+                CargadorGraficos.cargarDrawable(context, R.drawable.enemigo_derecha_moviendo),
                 ancho, altura,
-                4, 4, true);
+                3, 3, true);
         _getSprites().put(CAMINANDO_DERECHA, caminandoDerecha);
 
         Sprite caminandoIzquierda = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.enemyrun),
+                CargadorGraficos.cargarDrawable(context, R.drawable.enemigo_izquierda_moviendo),
                 ancho, altura,
-                4, 4, true);
+                3, 3, true);
         _getSprites().put(CAMINANDO_IZQUIERDA, caminandoIzquierda);
-
-        Sprite muerteDerecha = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.enemydieright),
-                ancho, altura,
-                4, 8, false);
-        _getSprites().put(MUERTE_DERECHA, muerteDerecha);
-
-        Sprite muerteIzquierda = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.enemydie),
-                ancho, altura,
-                4, 8, false);
-        _getSprites().put(MUERTE_IZQUIERDA, muerteIzquierda);
 
 
         setSprite(caminandoDerecha);

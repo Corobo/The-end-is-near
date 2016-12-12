@@ -8,6 +8,7 @@ import com.grupo.the_end_is_near.escenario.Nivel;
 import com.grupo.the_end_is_near.escenario.Tile;
 import com.grupo.the_end_is_near.gestores.CargadorGraficos;
 import com.grupo.the_end_is_near.gestores.Utilidades;
+import com.grupo.the_end_is_near.global.Estado;
 import com.grupo.the_end_is_near.graficos.Sprite;
 import com.grupo.the_end_is_near.modelos.Modelo;
 
@@ -18,12 +19,10 @@ import java.util.HashMap;
  */
 
 public abstract class Enemigo extends Modelo {
-    public EState estado = EState.ACTIVO;
+    public int estado = Estado.ACTIVO;
 
     public static final String CAMINANDO_DERECHA = "Caminando_derecha";
     public static final String CAMINANDO_IZQUIERDA = "caminando_izquierda";
-    public static final String MUERTE_DERECHA = "muerte_derecha";
-    public static final String MUERTE_IZQUIERDA = "muerte_izquierda";
     public static final String UP = "up";
     public static final String FRONT = "front";
 
@@ -54,11 +53,7 @@ public abstract class Enemigo extends Modelo {
     public void actualizar (long tiempo) {
         boolean finSprite = sprite.actualizar(tiempo);
 
-        if (estado == EState.INACTIVO){
-            if (velocidadX > 0)
-                sprite = sprites.get(MUERTE_DERECHA);
-            else
-                sprite = sprites.get(MUERTE_IZQUIERDA);
+        if (estado == Estado.INACTIVO){
 
         } else {
 
@@ -70,8 +65,8 @@ public abstract class Enemigo extends Modelo {
             }
         }
 
-        if ( estado == EState.INACTIVO && finSprite == true){
-            estado = EState.ELIMINAR;
+        if ( estado == Estado.INACTIVO && finSprite == true){
+            estado = Estado.ELIMINAR;
         }
 
     }
@@ -80,7 +75,7 @@ public abstract class Enemigo extends Modelo {
 
     public void destruir (){
         velocidadX = 0;
-        estado = EState.INACTIVO;
+        estado = Estado.INACTIVO;
     }
 
     public void dibujar(Canvas canvas){

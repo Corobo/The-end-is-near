@@ -14,12 +14,11 @@ import com.grupo.the_end_is_near.factorias.EnemiesFactory;
 import com.grupo.the_end_is_near.factorias.ItemsFactory;
 import com.grupo.the_end_is_near.factorias.PaisanosFactory;
 import com.grupo.the_end_is_near.gestores.CargadorGraficos;
+import com.grupo.the_end_is_near.global.Estado;
 import com.grupo.the_end_is_near.modelos.mapa.Conversation;
 import com.grupo.the_end_is_near.modelos.mapa.ciudadanos.Ciudadano;
-import com.grupo.the_end_is_near.modelos.mapa.enemigos.EState;
 import com.grupo.the_end_is_near.modelos.mapa.enemigos.Enemigo;
 import com.grupo.the_end_is_near.modelos.mapa.escenarios.Fondo;
-import com.grupo.the_end_is_near.modelos.mapa.items.IStates;
 import com.grupo.the_end_is_near.modelos.mapa.items.Item;
 import com.grupo.the_end_is_near.modelos.mapa.jugador.Jugador;
 
@@ -641,12 +640,12 @@ public class Nivel {
         for (Iterator<Enemigo> iterator = enemigos.iterator(); iterator.hasNext(); ) {
             Enemigo enemigo = iterator.next();
 
-            if (enemigo.estado == EState.ELIMINAR) {
+            if (enemigo.estado == Estado.ELIMINAR) {
                 iterator.remove();
                 continue;
             }
 
-            if (enemigo.estado != EState.ACTIVO)
+            if (enemigo.estado != Estado.ACTIVO)
                 continue;
 
             int tileXEnemigoIzquierda =
@@ -685,7 +684,7 @@ public class Nivel {
         for (Iterator<Item> iterator = items.iterator(); iterator.hasNext(); ) {
             Item r = iterator.next();
 
-            if (r.estado == IStates.ELIMINAR)
+            if (r.estado == Estado.ELIMINAR)
                 iterator.remove();
             if (jugador.colisiona(r))
                 r.doSomething(this);

@@ -6,6 +6,7 @@ import com.grupo.the_end_is_near.GameView;
 import com.grupo.the_end_is_near.R;
 import com.grupo.the_end_is_near.escenario.Nivel;
 import com.grupo.the_end_is_near.gestores.CargadorGraficos;
+import com.grupo.the_end_is_near.global.Estado;
 import com.grupo.the_end_is_near.graficos.Sprite;
 import com.grupo.the_end_is_near.modelos.combate.jugadores.Personaje;
 
@@ -35,8 +36,8 @@ public class Pocion extends Item {
     @Override
     public void doSomething(Nivel nivel) {
         boolean pulsado = nivel.btAccionPulsado;
-        if(pulsado && estado == IStates.ACTIVO){
-            estado = IStates.RECOLECTADO;
+        if(pulsado && estado == Estado.ACTIVO){
+            estado = Estado.RECOLECTADO;
             boolean usarPocion=true;
             for(Personaje heroe:GameView.combate.heroes){
                 if((heroe.vida<heroe.vidaMaxima || heroe.mana<heroe.manaMaximo) &&  usarPocion){

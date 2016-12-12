@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 
 import com.grupo.the_end_is_near.escenario.Nivel;
+import com.grupo.the_end_is_near.global.Estado;
 import com.grupo.the_end_is_near.graficos.Sprite;
 import com.grupo.the_end_is_near.modelos.mapa.Conversation;
 import com.grupo.the_end_is_near.modelos.Modelo;
@@ -16,7 +17,7 @@ import java.util.HashMap;
 
 public abstract class Ciudadano extends Modelo {
 
-    public PStates estado = PStates.ACTIVO;
+    public int estado = Estado.ACTIVO;
     private Sprite sprite;
     private HashMap<String, Sprite> sprites = new HashMap<String, Sprite>();
     public static final String DEFAULT = "default";
@@ -52,7 +53,7 @@ public abstract class Ciudadano extends Modelo {
         if (sprite != null)
             finSprite = sprite.actualizar(tiempo);
 
-        if (estado == PStates.HABLANDO) {
+        if (estado == Estado.HABLANDO) {
             if (finSprite){
                 sprite = sprites.get(DEFAULT);
             }
@@ -70,7 +71,7 @@ public abstract class Ciudadano extends Modelo {
     public void hablar(Nivel nivel){
         boolean pulsado = nivel.btAccionPulsado;
         if(pulsado ){
-            estado = PStates.HABLANDO;
+            estado = Estado.HABLANDO;
             if(index < frases.length){
                 if(index < frases.length -1)
                     frases[index]+="\n...";
@@ -82,7 +83,7 @@ public abstract class Ciudadano extends Modelo {
             }else{
                 nivel.setConver(null);
                 index = 0;
-                estado=PStates.ACTIVO;
+                estado=Estado.ACTIVO;
             }
         }
     };

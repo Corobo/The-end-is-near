@@ -13,15 +13,33 @@ import com.grupo.the_end_is_near.graficos.Sprite;
 public class MariPepa extends Ciudadano {
 
     public MariPepa(Context context, double x, double y) {
-        super(context, x, y, 38, 38);
+        super(context, x, y, 41, 29);
 
         nombre = "MariPepa";
         frases = new String[]{"No me seas faltoso", "y tomate unas marañuelas"};
 
-        Sprite sprite = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.ciudadano_2),
-                ancho, altura,
-                1, 1, true);
+        int aldeana = new Double(Math.random() * 3).intValue();
+        Sprite sprite = null;
+        switch (aldeana) {
+            case 0:
+                sprite = new Sprite(
+                        CargadorGraficos.cargarDrawable(context, R.drawable.aldeana1),
+                        ancho, altura,
+                        1, 1, true);
+                break;
+            case 1:
+                sprite = new Sprite(
+                        CargadorGraficos.cargarDrawable(context, R.drawable.aldeana2),
+                        ancho, altura,
+                        1, 1, true);
+                break;
+            case 2:
+                sprite = new Sprite(
+                        CargadorGraficos.cargarDrawable(context, R.drawable.aldeana3),
+                        ancho, altura,
+                        1, 1, true);
+                break;
+        }
         inicializar(sprite, null);
     }
 }
