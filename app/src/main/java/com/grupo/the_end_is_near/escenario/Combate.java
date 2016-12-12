@@ -77,10 +77,10 @@ public class Combate {
     }
 
     public void actualizar(long tiempo) {
-        turnoCompañeros();
-
-
         int enemigosDerrotados = 0;
+
+        turnoCompañeros();
+        turnoEnemigos();
 
         boolean ocupado=false;
         for(Personaje heroe:heroes){
@@ -110,8 +110,9 @@ public class Combate {
                 }
                 heroe.subirNivel(heroe.nivel*35);
             }
-            if(!ocupado)
+            if(!ocupado) {
                 terminaCombate();
+            }
         }else if (resultadoCombate(enemigosDerrotados)==1 && !ocupado){
             //TODO AnimacionPerder + volver al mapa volviendo a la entrada pero con un nivel menos.
             for(Personaje heroe:heroes){
@@ -122,11 +123,11 @@ public class Combate {
                 heroe.bajarNivel();
             }
             //nivel.VolverPosada=true;
-            terminaCombate();
+            if(!ocupado) {
+                terminaCombate();
+            }
         }
 
-
-        turnoEnemigos();
     }
 
     public void dibujar(Canvas canvas) {
@@ -186,10 +187,9 @@ public class Combate {
     public void turnoEnemigos(){
         if(turno==Turno.ENEMIGO) {
             for (Enemigo enemigo : enemigos){
-                if(!enemigo.utilizado && ((enemigoAtacando!=null && !enemigoAtacando.estaOcupado()) || enemigoAtacando==null)) {
-                    enemigosTerminados = enemigosTerminados + 1;
+                enemigosTerminados = enemigosTerminados + 1;
+                if(enemigo.estado==Estado.ACTIVO &&!enemigo.utilizado && ((enemigoAtacando!=null && !enemigoAtacando.estaOcupado()) || enemigoAtacando==null)) {
                     enemigo.utilizado=true;
-
                     int x = new Double(Math.random() * 3).intValue();
                     Personaje heroe = heroes.get(x);
                     if(heroe.estado == Estado.ACTIVO) {
@@ -201,7 +201,9 @@ public class Combate {
                     }
                 }
             }
-            if(enemigosTerminados >= enemigos.size() && !enemigoAtacando.estaOcupado()){
+            if(enemigoAtacando!=null)
+                System.out.println(enemigosTerminados+","+enemigos.size()+","+enemigoAtacando.estaOcupado());
+            if(enemigosTerminados >= enemigos.size() && (enemigoAtacando!=null && !enemigoAtacando.estaOcupado())){
                 todosEnemigosUsados();
                 enemigosTerminados=0;
                 enemigoAtacando=null;
@@ -332,6 +334,7 @@ public class Combate {
 
     public void iniciaCombate(boolean esBoss){
         GameView.nivel.nivelPausado=true;
+        GameView.nivel.pararJugador();
         if(esBoss)
             generarBoss();
         else
@@ -349,13 +352,12 @@ public class Combate {
     }
 
     private void terminaCombate(){
-        this.enCombate=false;
-        GameView.nivel.getJugador().x=jX;
-        GameView.nivel.getJugador().y=jY;
-        GameView.nivel.getJugador().setVelocidadY(0);
-        GameView.nivel.getJugador().setVelocidadX(0);
+        this.enCombate = false;
+        GameView.nivel.getJugador().x = jX;
+        GameView.nivel.getJugador().y = jY;
+        GameView.nivel.pararJugador();
 
-        GameView.nivel.nivelPausado=false;
+        GameView.nivel.nivelPausado = false;
     }
 
 

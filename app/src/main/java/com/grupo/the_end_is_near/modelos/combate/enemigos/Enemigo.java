@@ -62,7 +62,7 @@ public class Enemigo extends Modelo {
 
     public void dibujar(Canvas canvas){
         if(estado==Estado.ACTIVO)
-        sprite.dibujarSprite(canvas, (int) x , (int) y, golpeado); //TODO golpeado
+            sprite.dibujarSprite(canvas, (int) x , (int) y, golpeado);
     }
 
     public int golpear(int tipoJugador,int nivelJugador){
