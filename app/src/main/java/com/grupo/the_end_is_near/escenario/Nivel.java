@@ -94,7 +94,7 @@ public class Nivel {
         portal = null;
 
         buenasGentes = new LinkedList<Ciudadano>();
-        nivelPausado = true;
+        nivelPausado = false;
         inicializarMapaTiles();
         //TODO ajustar scroll
         scrollEjeY = (int) (altoMapaTiles() - tilesEnDistanciaY(GameView.pantallaAlto)) * Tile.altura;
@@ -102,7 +102,7 @@ public class Nivel {
 
 
     public void actualizar(long tiempo) throws Exception {
-        if (inicializado && !nivelPausado) {
+        if (inicializado && !nivelPausado && !GameView.combate.enCombate) {
 
             for (Enemigo enemigo : enemigos) {
                 enemigo.actualizar(tiempo);
@@ -129,7 +129,7 @@ public class Nivel {
 
 
     public void dibujar(Canvas canvas) {
-        if (inicializado && !nivelPausado) {
+        if (inicializado && !nivelPausado && !GameView.combate.enCombate) {
             fondo.dibujar(canvas);
             dibujarTiles(canvas);
 
@@ -721,6 +721,11 @@ public class Nivel {
                 }
             }
         }
+    }
+
+    public void pararJugador(){
+        this.jugador.setVelocidadY(0);
+        this.jugador.setVelocidadX(0);
     }
 
     public void setJugador(Jugador j){
