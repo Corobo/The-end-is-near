@@ -216,13 +216,21 @@ public class Nivel {
                 return new Tile(CargadorGraficos.cargarDrawable(context,
                         R.drawable.suelo_verde_1), Tile.PASABLE);
             case '2':
-                // Ciudadano Genaro
+                // Ciudadano Genaro con suelo verde
                 int xCentroAbajoTileG = x * Tile.ancho + Tile.ancho;
                 int yCentroAbajoTileG = y * Tile.altura + Tile.altura;
 
                 buenasGentes.add(PaisanosFactory.getGenaro(context, xCentroAbajoTileG, yCentroAbajoTileG));
                 return new Tile(CargadorGraficos.cargarDrawable(context,
                         R.drawable.suelo_verde_1), Tile.PASABLE);
+            case '0':
+                // Ciudadano Genaro con suelo de piedra
+                int xCentroAbajoTileG2 = x * Tile.ancho + Tile.ancho;
+                int yCentroAbajoTileG2 = y * Tile.altura + Tile.altura;
+
+                buenasGentes.add(PaisanosFactory.getGenaro(context, xCentroAbajoTileG2, yCentroAbajoTileG2));
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_piedra), Tile.PASABLE);
             case '5':
                 // Ciudadano Manolo
                 // Ciudadano Genaro
@@ -235,7 +243,6 @@ public class Nivel {
 
             case '7':
                 // Ciudadano Manolo
-                // Ciudadano Genaro
                 int xCentroAbajoTileMa = x * Tile.ancho + Tile.ancho;
                 int yCentroAbajoTileMa = y * Tile.altura + Tile.altura;
 
@@ -255,12 +262,20 @@ public class Nivel {
                 return new Tile(CargadorGraficos.cargarDrawable(context, R.drawable.suelo_marron),
                         Tile.PASABLE);
             case '4':
-                //Enemigo
+                //Enemigo Intelligente suelo verde
                 int xCentroAbajoTileEI = x * Tile.ancho + Tile.ancho;
                 int yCentroAbajoTileEI = y * Tile.altura + Tile.altura;
                 enemigos.add(EnemiesFactory.getEnemigoInteligente(context, xCentroAbajoTileEI,
                         yCentroAbajoTileEI));
                 return new Tile(CargadorGraficos.cargarDrawable(context, R.drawable.suelo_verde_1),
+                        Tile.PASABLE);
+            case '8':
+                //Enemigo Inteligente suelo marron
+                int xCentroAbajoTileEI2 = x * Tile.ancho + Tile.ancho;
+                int yCentroAbajoTileEI2 = y * Tile.altura + Tile.altura;
+                enemigos.add(EnemiesFactory.getEnemigoInteligente(context, xCentroAbajoTileEI2,
+                        yCentroAbajoTileEI2));
+                return new Tile(CargadorGraficos.cargarDrawable(context, R.drawable.suelo_marron),
                         Tile.PASABLE);
             case '6':
                 //Enemigo
