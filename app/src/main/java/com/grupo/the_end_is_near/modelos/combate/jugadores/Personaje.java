@@ -3,9 +3,11 @@ package com.grupo.the_end_is_near.modelos.combate.jugadores;
 import android.content.Context;
 import android.graphics.Canvas;
 
+import com.grupo.the_end_is_near.GameView;
 import com.grupo.the_end_is_near.R;
 import com.grupo.the_end_is_near.escenario.Nivel;
 import com.grupo.the_end_is_near.gestores.CargadorGraficos;
+import com.grupo.the_end_is_near.gestores.GestorAudio;
 import com.grupo.the_end_is_near.global.Estado;
 import com.grupo.the_end_is_near.graficos.Sprite;
 import com.grupo.the_end_is_near.modelos.Modelo;
@@ -149,6 +151,7 @@ public abstract class Personaje extends Modelo{
             acelera = -3;
             sprite = sprites.get("Avanza");
             atacando = true;
+            GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_GOLPE_COMBATE);
         }else{
             atacando=false;
         }

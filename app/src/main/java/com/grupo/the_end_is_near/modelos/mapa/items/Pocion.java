@@ -6,6 +6,7 @@ import com.grupo.the_end_is_near.GameView;
 import com.grupo.the_end_is_near.R;
 import com.grupo.the_end_is_near.escenario.Nivel;
 import com.grupo.the_end_is_near.gestores.CargadorGraficos;
+import com.grupo.the_end_is_near.gestores.GestorAudio;
 import com.grupo.the_end_is_near.global.Estado;
 import com.grupo.the_end_is_near.graficos.Sprite;
 import com.grupo.the_end_is_near.modelos.combate.jugadores.Personaje;
@@ -47,8 +48,13 @@ public class Pocion extends Item {
                     usarPocion=false;
                 }
             }
-            if(!usarPocion)
+            if(!usarPocion) {
                 GameView.combate.pociones++;
+                GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_RECOGER_POCION_MAPA);
+            }
+            else{
+                GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_POCION_MAPA);
+            }
         }
     }
 }

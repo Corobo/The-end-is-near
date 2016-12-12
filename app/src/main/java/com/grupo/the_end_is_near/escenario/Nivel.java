@@ -14,6 +14,7 @@ import com.grupo.the_end_is_near.factorias.EnemiesFactory;
 import com.grupo.the_end_is_near.factorias.ItemsFactory;
 import com.grupo.the_end_is_near.factorias.PaisanosFactory;
 import com.grupo.the_end_is_near.gestores.CargadorGraficos;
+import com.grupo.the_end_is_near.gestores.GestorAudio;
 import com.grupo.the_end_is_near.global.Estado;
 import com.grupo.the_end_is_near.modelos.mapa.Conversation;
 import com.grupo.the_end_is_near.modelos.mapa.ciudadanos.Ciudadano;
@@ -715,8 +716,10 @@ public class Nivel {
         }
 
         for (Ciudadano p : buenasGentes) {
-            if (jugador.colisiona(p))
+            if (jugador.colisiona(p)) {
                 p.hablar(this);
+
+            }
         }
 
         if(portal!= null && jugador.colisiona(portal))

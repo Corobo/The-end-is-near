@@ -13,7 +13,6 @@ import android.view.SurfaceView;
 import com.grupo.the_end_is_near.escenario.Combate;
 import com.grupo.the_end_is_near.escenario.Nivel;
 import com.grupo.the_end_is_near.gestores.GestorAudio;
-import com.grupo.the_end_is_near.gestores.Opciones;
 import com.grupo.the_end_is_near.modelos.mapa.controles.BotonAccion;
 import com.grupo.the_end_is_near.modelos.mapa.controles.Pad;
 import com.grupo.the_end_is_near.global.Estado;
@@ -55,7 +54,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private Marcador marcador2;
     private Marcador marcador3;
 
-    public GestorAudio gestorAudio;
+    public static GestorAudio gestorAudio;
 
     public boolean pausa = false;
 
@@ -236,7 +235,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         marcador3 = new Marcador(context, 3.5, -0.7);
         cargarNivel(Maps.DEFAULT_WORLD);
         combate = new Combate(context);
-        gestorAudio.reproducirMusicaCombate();
     }
 
     public void cargarNivel(Maps mapa) throws Exception {
@@ -248,11 +246,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void inicializarGestorAudio(Context context) {
         gestorAudio = GestorAudio.getInstancia(context, R.raw.musica_fondo, R.raw.musica_combate);
         gestorAudio.reproducirMusicaAmbiente();
-        gestorAudio.registrarSonido(GestorAudio.SONIDO_DISPARO_JUGADOR,
-                R.raw.lanzar_objeto);
-        gestorAudio.registrarSonido(GestorAudio.SONIDO_SALTO_JUGADOR, R.raw.salto_jugador);
-        gestorAudio.registrarSonido(GestorAudio.SONIDO_ENEMIGO_GOLPEADO, R.raw.disparo_golpea);
-        gestorAudio.registrarSonido(GestorAudio.SONIDO_JUGADOR_GOLPEADO, R.raw.jugador_golpeado);
+        gestorAudio.registrarSonido(GestorAudio.SONIDO_GOLPE_COMBATE,R.raw.golpe_combate);
+        gestorAudio.registrarSonido(GestorAudio.SONIDO_MAGIA_MAGO_COMBATE,R.raw.magia_mago);
+        gestorAudio.registrarSonido(GestorAudio.SONIDO_MAGIA_WARRIOR_COMBATE,R.raw.magia_warrior);
+        gestorAudio.registrarSonido(GestorAudio.SONIDO_MAGIA_THIEF_COMBATE,R.raw.magia_thief);
+        gestorAudio.registrarSonido(GestorAudio.SONIDO_POCION_COMBATE,R.raw.pocion_combate);
+        gestorAudio.registrarSonido(GestorAudio.SONIDO_POCION_MAPA,R.raw.pocion_mapa);
+        gestorAudio.registrarSonido(GestorAudio.SONIDO_RECOGER_POCION_MAPA,R.raw.sonido_recoger_pocion);
+        gestorAudio.registrarSonido(GestorAudio.SONIDO_GANANCIA_COMBATE,R.raw.sonido_victoria);
+        gestorAudio.registrarSonido(GestorAudio.SONIDO_PERDIDA_COMBATE,R.raw.sonido_perder);
+        gestorAudio.registrarSonido(GestorAudio.SONIDO_LEVELDOWN_MAPA,R.raw.sonido_perder);
+        gestorAudio.registrarSonido(GestorAudio.SONIDO_LEVELUP_MAPA,R.raw.pocion_mapa);
+        gestorAudio.registrarSonido(GestorAudio.SONIDO_HABLAR_MAPA,R.raw.sonido_hablar);
+        gestorAudio.registrarSonido(GestorAudio.SONIDO_INICIO_COMBATE,R.raw.sonido_inicio_combate);
+
     }
 
     public void actualizar(long tiempo) throws Exception {

@@ -3,7 +3,9 @@ package com.grupo.the_end_is_near.modelos.mapa.ciudadanos;
 import android.content.Context;
 import android.graphics.Canvas;
 
+import com.grupo.the_end_is_near.GameView;
 import com.grupo.the_end_is_near.escenario.Nivel;
+import com.grupo.the_end_is_near.gestores.GestorAudio;
 import com.grupo.the_end_is_near.global.Estado;
 import com.grupo.the_end_is_near.graficos.Sprite;
 import com.grupo.the_end_is_near.modelos.mapa.Conversation;
@@ -70,6 +72,7 @@ public abstract class Ciudadano extends Modelo {
     public void hablar(Nivel nivel) {
         boolean pulsado = nivel.btAccionPulsado;
         if (pulsado) {
+            GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_HABLAR_MAPA);
             estado = Estado.HABLANDO;
             if (index < frases.length) {
                 if (index < frases.length - 1)

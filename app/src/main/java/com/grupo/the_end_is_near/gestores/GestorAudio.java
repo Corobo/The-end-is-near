@@ -8,10 +8,21 @@ import android.media.SoundPool;
 import java.util.HashMap;
 
 public class GestorAudio implements MediaPlayer.OnPreparedListener {
-    public static final int SONIDO_DISPARO_JUGADOR = 1;
-    public static final int SONIDO_SALTO_JUGADOR = 2;
-    public static final int SONIDO_ENEMIGO_GOLPEADO = 3;
-    public static final int SONIDO_JUGADOR_GOLPEADO = 4;
+    public static final int SONIDO_INICIO_COMBATE = 0;
+    public static final int SONIDO_GANANCIA_COMBATE = 1;
+    public static final int SONIDO_PERDIDA_COMBATE = 2;
+    public static final int SONIDO_POCION_COMBATE = 3;
+    public static final int SONIDO_MAGIA_MAGO_COMBATE = 4;
+    public static final int SONIDO_MAGIA_THIEF_COMBATE = 5;
+    public static final int SONIDO_MAGIA_WARRIOR_COMBATE = 6;
+    public static final int SONIDO_GOLPE_COMBATE = 7;
+    public static final int SONIDO_HABLAR_MAPA = 10;
+    public static final int SONIDO_POCION_MAPA = 11;
+    public static final int SONIDO_RECOGER_POCION_MAPA = 12;
+    public static final int SONIDO_LEVELUP_MAPA = 13;
+    public static final int SONIDO_LEVELDOWN_MAPA = 14;
+
+
     // Pool de sonidos, para efectos de sonido.
     // Suele fallar el utilizar ficheros de sonido demasiado grandes
     private SoundPool poolSonidos;

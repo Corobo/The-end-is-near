@@ -2,8 +2,10 @@ package com.grupo.the_end_is_near.modelos.combate.jugadores.extn;
 
 import android.content.Context;
 
+import com.grupo.the_end_is_near.GameView;
 import com.grupo.the_end_is_near.R;
 import com.grupo.the_end_is_near.gestores.CargadorGraficos;
+import com.grupo.the_end_is_near.gestores.GestorAudio;
 import com.grupo.the_end_is_near.graficos.Sprite;
 import com.grupo.the_end_is_near.modelos.combate.enemigos.Enemigo;
 import com.grupo.the_end_is_near.modelos.combate.jugadores.Personaje;
@@ -106,12 +108,14 @@ public class Warrior extends Personaje {
             millis=System.currentTimeMillis();
             acelera=-3;
             magia=true;
+            GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_MAGIA_WARRIOR_COMBATE);
         }
         else {
             mana -= 6;
             millis=System.currentTimeMillis();
             acelera=-3;
             magia=true;
+            GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_MAGIA_WARRIOR_COMBATE);
         }
 
     }

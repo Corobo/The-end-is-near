@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import com.grupo.the_end_is_near.GameView;
 import com.grupo.the_end_is_near.R;
 import com.grupo.the_end_is_near.gestores.CargadorGraficos;
+import com.grupo.the_end_is_near.gestores.GestorAudio;
 import com.grupo.the_end_is_near.global.Estado;
 import com.grupo.the_end_is_near.global.Turno;
 import com.grupo.the_end_is_near.graficos.Sprite;
@@ -109,9 +110,12 @@ public class Combate {
                     heroe.accion("Parado");
                 }
                 heroe.subirNivel(heroe.nivel*35);
+
             }
+            GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_LEVELUP_MAPA);
             if(!ocupado) {
                 terminaCombate();
+                GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_GANANCIA_COMBATE);
             }
         }else if (resultadoCombate(enemigosDerrotados)==1 && !ocupado){
             //TODO AnimacionPerder + volver al mapa volviendo a la entrada pero con un nivel menos.
@@ -121,10 +125,13 @@ public class Combate {
                     heroe.accion("Parado");
                 }
                 heroe.bajarNivel();
+
             }
+            GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_LEVELDOWN_MAPA);
             //nivel.VolverPosada=true;
             if(!ocupado) {
                 terminaCombate();
+                GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_PERDIDA_COMBATE);
             }
         }
 
@@ -178,6 +185,7 @@ public class Combate {
             }
             pociones--;
             turno=Turno.COMPAÑEROS;
+            GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_POCION_COMBATE);
         }
     }
     public void huir() {
@@ -334,6 +342,7 @@ public class Combate {
     }
 
     public void iniciaCombate(boolean esBoss){
+        GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_INICIO_COMBATE);
         GameView.nivel.nivelPausado=true;
         GameView.nivel.pararJugador();
         if(esBoss)
