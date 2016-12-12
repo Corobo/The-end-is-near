@@ -182,6 +182,7 @@ public class Combate {
     }
     public void huir() {
         terminaCombate();
+        turno = Turno.JUGADOR;
     }
 
     public void turnoEnemigos(){
