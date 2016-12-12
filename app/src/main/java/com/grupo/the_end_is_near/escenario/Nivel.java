@@ -248,6 +248,30 @@ public class Nivel {
                 buenasGentes.add(PaisanosFactory.getMariPepa(context, xCentroAbajoTileMa, yCentroAbajoTileMa));
                 return new Tile(CargadorGraficos.cargarDrawable(context,
                         R.drawable.suelo_verde_1), Tile.PASABLE);
+            case '9':
+                // Ciudadano Rigoverto
+                int xCentroAbajoTileRi = x * Tile.ancho + Tile.ancho;
+                int yCentroAbajoTileRi = y * Tile.altura + Tile.altura;
+
+                buenasGentes.add(PaisanosFactory.getRigoverto(context, xCentroAbajoTileRi, yCentroAbajoTileRi));
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_verde_1), Tile.PASABLE);
+            case '¡':
+                // Ciudadano Genérico piedra
+                int xCentroAbajoTileGe = x * Tile.ancho + Tile.ancho;
+                int yCentroAbajoTileGe = y * Tile.altura + Tile.altura;
+
+                buenasGentes.add(PaisanosFactory.getGenericCiu(context, xCentroAbajoTileGe, yCentroAbajoTileGe));
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_piedra), Tile.PASABLE);
+            case '&':
+                // Ciudadano Genérico piedra
+                int xCentroAbajoTileGe2 = x * Tile.ancho + Tile.ancho;
+                int yCentroAbajoTileGe2 = y * Tile.altura + Tile.altura;
+
+                buenasGentes.add(PaisanosFactory.getGenericCiu(context, xCentroAbajoTileGe2, yCentroAbajoTileGe2));
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_marron), Tile.PASABLE);
             case 'a':
                 // antorcha
                 return new Tile(CargadorGraficos.cargarDrawable(context,

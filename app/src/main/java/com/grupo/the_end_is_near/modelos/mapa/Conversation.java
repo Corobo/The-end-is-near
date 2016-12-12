@@ -35,7 +35,7 @@ public class Conversation extends Modelo {
         paint.setColor(Color.BLACK);
         paint.setAntiAlias(true);
         paint.setTextSize(18);
-        canvas.drawText(String.valueOf(text), (float) (xIzquierda+ ancho*0.18), (int)y-Nivel.scrollEjeY, paint);
+        canvas.drawText(String.valueOf(text), (float) (xIzquierda+ ancho*0.12), (int)y-Nivel.scrollEjeY, paint);
     }
 
     public void setText(String text) {

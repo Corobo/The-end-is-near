@@ -74,7 +74,7 @@ public abstract class Ciudadano extends Modelo {
             estado = Estado.HABLANDO;
             if(index < frases.length){
                 if(index < frases.length -1)
-                    frases[index]+="\n...";
+                    frases[index]+="...";
                 if(index==0)
                     nivel.setConver(new Conversation(context,this.x,this.y-(altura+8),frases[index]));
                 else

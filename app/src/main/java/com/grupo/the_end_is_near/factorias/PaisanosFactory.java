@@ -6,6 +6,8 @@ import com.grupo.the_end_is_near.modelos.mapa.ciudadanos.Ciudadano;
 import com.grupo.the_end_is_near.modelos.mapa.ciudadanos.Genaro;
 import com.grupo.the_end_is_near.modelos.mapa.ciudadanos.Manolo;
 import com.grupo.the_end_is_near.modelos.mapa.ciudadanos.MariPepa;
+import com.grupo.the_end_is_near.modelos.mapa.ciudadanos.Generico;
+import com.grupo.the_end_is_near.modelos.mapa.ciudadanos.Rigoverto;
 
 
 /**
@@ -24,5 +26,13 @@ public class PaisanosFactory {
 
     public static Ciudadano getManolo(Context context, double x, double y){
         return new Manolo(context,x,y);
+    }
+
+    public static Ciudadano getRigoverto(Context context, double x, double y){
+        return new Rigoverto(context,x,y);
+    }
+
+    public static Ciudadano getGenericCiu(Context context, double x, double y){
+        return new Generico(context,x,y);
     }
 }

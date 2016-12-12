@@ -25,7 +25,7 @@ public class Manolo extends Ciudadano {
         moverse = false;
 
         nombre = "Manolo";
-        frases = new String[]{"No puedes pasar!!", "corred insensatos", "Sin la llave no pasas"};
+        frases = new String[]{"No puedes pasar!!", "corred insensatos"};
 
         Sprite sprite = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.guardian_puerta),
@@ -39,7 +39,7 @@ public class Manolo extends Ciudadano {
         boolean pulsado = nivel.btAccionPulsado;
         if(pulsado ){
             if(nivel.isKey())
-                frases = new String[]{"veo que conseguiste la llave","ahora ya puedes pasar"};
+                frases = new String[]{"Conseguiste la llave","ahora puedes pasar"};
             estado = Estado.HABLANDO;
             if(index < frases.length){
                 if(index < frases.length -1)

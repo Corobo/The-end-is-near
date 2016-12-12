@@ -16,30 +16,14 @@ public class MariPepa extends Ciudadano {
         super(context, x, y, 41, 29);
 
         nombre = "MariPepa";
-        frases = new String[]{"No me seas faltoso", "y tomate unas marañuelas"};
+        frases = new String[]{"Cuenta la profecía", "que una persona", "de puro de corazón",
+                "pisará las rúnas de", "la sabiduría", "en sentido anti horario", "y se le mostrará el ",
+                "camino a la verdad", "Feliz pascua !!"};
 
-        int aldeana = new Double(Math.random() * 3).intValue();
-        Sprite sprite = null;
-        switch (aldeana) {
-            case 0:
-                sprite = new Sprite(
-                        CargadorGraficos.cargarDrawable(context, R.drawable.aldeana1),
-                        ancho, altura,
-                        1, 1, true);
-                break;
-            case 1:
-                sprite = new Sprite(
-                        CargadorGraficos.cargarDrawable(context, R.drawable.aldeana2),
-                        ancho, altura,
-                        1, 1, true);
-                break;
-            case 2:
-                sprite = new Sprite(
-                        CargadorGraficos.cargarDrawable(context, R.drawable.aldeana3),
-                        ancho, altura,
-                        1, 1, true);
-                break;
-        }
+        Sprite sprite = new Sprite(
+                CargadorGraficos.cargarDrawable(context, R.drawable.aldeana1),
+                ancho, altura,
+                1, 1, true);
         inicializar(sprite, null);
     }
 }
