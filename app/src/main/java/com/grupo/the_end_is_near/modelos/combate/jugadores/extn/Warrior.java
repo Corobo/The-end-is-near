@@ -68,7 +68,7 @@ public class Warrior extends Personaje {
         Sprite dañado = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.warrior_10),
                 34, 48,
-                3, 1, true);
+                3, 1, false);
         sprites.put(DAÑADO,dañado);
 
         Sprite morir = new Sprite(

@@ -408,6 +408,10 @@ public class Jugador extends Modelo {
         this.velocidadY = velocidadY;
     }
 
+    public void setVelocidadX(float velocidadX) {
+        this.velocidadX = velocidadX;
+    }
+
     public void setPosicionInicial(double xInicial, double yInicial) {
         this.xInicial = xInicial;
         this.yInicial = yInicial;

@@ -69,7 +69,7 @@ public class Thief extends Personaje {
         Sprite dañado = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.thief_10),
                 35, 45,
-                3, 1, true);
+                3, 1, false);
         sprites.put(DAÑADO,dañado);
 
         Sprite morir = new Sprite(

@@ -49,12 +49,20 @@ public class Enemigo extends Modelo {
         this.xInicial=xInicial;
     }
 
+    public Enemigo(Context context, double xInicial, double yInicial,int ancho,int alto) {
+        super(context, xInicial, yInicial, ancho,alto);
+        inicializar();
+        sprite = sprites.get("Parado");
+        this.xInicial=xInicial;
+    }
+
     public void inicializar(){
 
     }
 
     public void dibujar(Canvas canvas){
-        sprite.dibujarSprite(canvas, (int) x , (int) y, golpeado);
+        if(estado==Estado.ACTIVO)
+        sprite.dibujarSprite(canvas, (int) x , (int) y, golpeado); //TODO golpeado
     }
 
     public int golpear(int tipoJugador,int nivelJugador){

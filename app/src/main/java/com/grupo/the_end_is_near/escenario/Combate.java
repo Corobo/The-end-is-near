@@ -12,6 +12,7 @@ import com.grupo.the_end_is_near.gestores.CargadorGraficos;
 import com.grupo.the_end_is_near.global.Estado;
 import com.grupo.the_end_is_near.global.Turno;
 import com.grupo.the_end_is_near.graficos.Sprite;
+import com.grupo.the_end_is_near.modelos.combate.enemigos.extn.Boss;
 import com.grupo.the_end_is_near.modelos.combate.enemigos.extn.EnemigoTipo1;
 import com.grupo.the_end_is_near.modelos.combate.enemigos.extn.EnemigoTipo2;
 import com.grupo.the_end_is_near.modelos.combate.enemigos.extn.EnemigoTipo3;
@@ -20,6 +21,7 @@ import com.grupo.the_end_is_near.modelos.combate.jugadores.Personaje;
 import com.grupo.the_end_is_near.modelos.combate.jugadores.extn.Thief;
 import com.grupo.the_end_is_near.modelos.combate.jugadores.extn.Warrior;
 import com.grupo.the_end_is_near.modelos.combate.enemigos.Enemigo;
+import com.grupo.the_end_is_near.modelos.mapa.jugador.Jugador;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -53,6 +55,9 @@ public class Combate {
     public int compañerosTerminados=0;
     public int pociones;
 
+    public int jX;
+    public int jY;
+
     public Combate(Context context) {
         this.context=context;
         this.fondo = new Sprite(
@@ -72,6 +77,9 @@ public class Combate {
     }
 
     public void actualizar(long tiempo) {
+        turnoCompañeros();
+
+
         int enemigosDerrotados = 0;
 
         boolean ocupado=false;
@@ -117,7 +125,7 @@ public class Combate {
             terminaCombate();
         }
 
-        turnoCompañeros();
+
         turnoEnemigos();
     }
 
@@ -145,7 +153,7 @@ public class Combate {
 
     public void defender(){
         if(turno==Turno.JUGADOR) {
-            turno=Turno.COMPAÑEROS;
+            turno=Turno.ENEMIGO;
             heroes.get(1).bloquear();
             heroes.get(0).bloquear();
             heroes.get(2).bloquear();
@@ -168,6 +176,7 @@ public class Combate {
                 heroe.restablecerVida();
             }
             pociones--;
+            turno=Turno.COMPAÑEROS;
         }
     }
     public void huir() {
@@ -180,8 +189,6 @@ public class Combate {
                 if(!enemigo.utilizado && ((enemigoAtacando!=null && !enemigoAtacando.estaOcupado()) || enemigoAtacando==null)) {
                     enemigosTerminados = enemigosTerminados + 1;
                     enemigo.utilizado=true;
-                    int activos = 0;
-                    //for(Jugador persoanje:heroes)
 
                     int x = new Double(Math.random() * 3).intValue();
                     Personaje heroe = heroes.get(x);
@@ -215,13 +222,17 @@ public class Combate {
                             compañerosTerminados = compañerosTerminados + 1;
                             int x = new Double(Math.random() * enemigos.size()).intValue();
                             Enemigo enemigo = enemigos.get(x);
-                            enemigoAtacando = enemigo;
+                            //enemigoAtacando = enemigo;
                             heroe.accionAleatoria(enemigo);
+                            heroe.utilizado=true;
                             if (enemigo.estado == Estado.ACTIVO)
                                 enemigo.golpeado(heroe.tipo, heroe.daño);
+                            else{
+                                enemigo=primerEnemigoActivo();
+                                if(enemigo!=null)
+                                    enemigo.golpeado(heroe.tipo, heroe.daño);
+                            }
                             compañeroAtacando = heroe;
-                            //GameView.pintarDaño= x;
-                            //GameView.dañoActual = enemigo.ultimoDañoRecibido;
                         }
                     }
                 }
@@ -235,6 +246,14 @@ public class Combate {
         }else{
             turno = Turno.ENEMIGO;
         }
+    }
+
+    private Enemigo primerEnemigoActivo() {
+        for (Enemigo enemigo:enemigos){
+            if(enemigo.estado==Estado.ACTIVO)
+                return enemigo;
+        }
+        return null;
     }
 
     public void todosCompañerosUsados(){
@@ -307,8 +326,16 @@ public class Combate {
         }
     }
 
-    public void iniciaCombate(){
-        generarEnemigos();
+    private void generarBoss() {
+        enemigos.add(new Boss(context, GameView.pantallaAncho / (3), GameView.pantallaAlto / (2.5)));
+    }
+
+    public void iniciaCombate(boolean esBoss){
+        GameView.nivel.nivelPausado=true;
+        if(esBoss)
+            generarBoss();
+        else
+            generarEnemigos();
         this.enCombate=true;
         turno= Turno.JUGADOR;
     }
@@ -323,6 +350,11 @@ public class Combate {
 
     private void terminaCombate(){
         this.enCombate=false;
+        GameView.nivel.getJugador().x=jX;
+        GameView.nivel.getJugador().y=jY;
+        GameView.nivel.getJugador().setVelocidadY(0);
+        GameView.nivel.getJugador().setVelocidadX(0);
+
         GameView.nivel.nivelPausado=false;
     }
 

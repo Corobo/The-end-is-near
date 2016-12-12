@@ -102,7 +102,7 @@ public class Nivel {
 
 
     public void actualizar(long tiempo) throws Exception {
-        if (inicializado) {
+        if (inicializado && !nivelPausado) {
 
             for (Enemigo enemigo : enemigos) {
                 enemigo.actualizar(tiempo);
@@ -129,7 +129,7 @@ public class Nivel {
 
 
     public void dibujar(Canvas canvas) {
-        if (inicializado) {
+        if (inicializado && !nivelPausado) {
             fondo.dibujar(canvas);
             dibujarTiles(canvas);
 
@@ -646,7 +646,9 @@ public class Nivel {
                 if (jugador.colisiona(enemigo)) {
                     //TODO Lanzar Pelea
                     //eliminamos al enemigo del mapa
-                    GameView.combate.iniciaCombate();
+                    GameView.combate.jX=(int) jugador.x;
+                    GameView.combate.jY=(int) jugador.y;
+                    GameView.combate.iniciaCombate(false);
                     enemigo.destruir();
                     iterator.remove();
                 }
@@ -704,6 +706,10 @@ public class Nivel {
                 }
             }
         }
+    }
+
+    public void setJugador(Jugador j){
+        this.jugador=j;
     }
 
     public void addPortal(double x , double y){

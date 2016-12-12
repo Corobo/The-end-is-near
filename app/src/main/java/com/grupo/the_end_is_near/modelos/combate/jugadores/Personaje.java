@@ -131,7 +131,7 @@ public abstract class Personaje extends Modelo{
         }
 
         if(dañado){
-            if (s - millis > 1000) {
+            if (s - millis > 2000) {
                 sprite = sprites.get("Parado");
                 millis = 0;
                 dañado=false;

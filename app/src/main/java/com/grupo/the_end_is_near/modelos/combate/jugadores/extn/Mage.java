@@ -69,7 +69,7 @@ public class Mage extends Personaje {
         Sprite dañado = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.mage_10),
                 39, 48,
-                3, 1, true);
+                3, 1, false);
         sprites.put(DAÑADO,dañado);
 
         Sprite morir = new Sprite(
