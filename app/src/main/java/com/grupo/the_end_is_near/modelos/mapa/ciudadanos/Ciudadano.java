@@ -24,7 +24,7 @@ public abstract class Ciudadano extends Modelo {
     public static final String HABLANDO = "default";
 
     protected String[] frases;
-    protected int index =0;
+    protected int index = 0;
     protected String nombre;
 
 
@@ -54,37 +54,39 @@ public abstract class Ciudadano extends Modelo {
             finSprite = sprite.actualizar(tiempo);
 
         if (estado == Estado.HABLANDO) {
-            if (finSprite){
+            if (finSprite) {
                 sprite = sprites.get(DEFAULT);
-            }
-            else if (sprites.containsKey(HABLANDO))
+            } else if (sprites.containsKey(HABLANDO))
                 sprite = sprites.get(HABLANDO);
         }
     }
 
-    public void mover(Nivel nivel){
+    public void mover(Nivel nivel) {
         //no hace nada, por lo general los ciudadanos no se mueven
     }
 
     /*se le pasa directamente el gameView para que los Items puedan realizar cualquier tipo
      de acciones sobre el juego */
-    public void hablar(Nivel nivel){
+    public void hablar(Nivel nivel) {
         boolean pulsado = nivel.btAccionPulsado;
-        if(pulsado ){
+        if (pulsado) {
             estado = Estado.HABLANDO;
-            if(index < frases.length){
-                if(index < frases.length -1)
-                    frases[index]+="...";
-                if(index==0)
-                    nivel.setConver(new Conversation(context,this.x,this.y-(altura+8),frases[index]));
+            if (index < frases.length) {
+                if (index < frases.length - 1)
+                    frases[index] += "...";
+                if (index == 0)
+                    nivel.setConver(new Conversation(context, this.x, this.y - (altura + 8),
+                            frases[index], nombre));
                 else
-                nivel.getConver().setText(frases[index]);
+                    nivel.getConver().setText(frases[index]);
                 index++;
-            }else{
+            } else {
                 nivel.setConver(null);
                 index = 0;
-                estado=Estado.ACTIVO;
+                estado = Estado.ACTIVO;
             }
         }
-    };
+    }
+
+    ;
 }

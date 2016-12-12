@@ -35,39 +35,42 @@ public class Manolo extends Ciudadano {
     }
 
     @Override
-    public void hablar(Nivel nivel){
+    public void hablar(Nivel nivel) {
         boolean pulsado = nivel.btAccionPulsado;
-        if(pulsado ){
-            if(nivel.isKey())
-                frases = new String[]{"Conseguiste la llave","ahora puedes pasar"};
+        if (pulsado) {
+            if (nivel.isKey())
+                frases = new String[]{"Conseguiste la llave", "ahora puedes pasar"};
             estado = Estado.HABLANDO;
-            if(index < frases.length){
-                if(index < frases.length -1)
-                    frases[index]+="\n...";
-                if(index==0)
-                    nivel.setConver(new Conversation(context,this.x,this.y-(altura+8),frases[index]));
+            if (index < frases.length) {
+                if (index < frases.length - 1)
+                    frases[index] += "\n...";
+                if (index == 0)
+                    nivel.setConver(new Conversation(context, this.x, this.y - (altura + 8),
+                            frases[index], nombre));
                 else
                     nivel.getConver().setText(frases[index]);
                 index++;
-            }else{
+            } else {
                 nivel.setConver(null);
                 index = 0;
-                estado=Estado.ACTIVO;
-                if(nivel.isKey()){
-                    moverse =true;
-                    nivel.addPortal(360,10);
+                estado = Estado.ACTIVO;
+                if (nivel.isKey()) {
+                    moverse = true;
+                    nivel.addPortal(360, 10);
                 }
             }
 
         }
-    };
+    }
+
+    ;
 
     @Override
-    public void mover(Nivel nivel){
-        if(moverse && desplazamiento < 44){
+    public void mover(Nivel nivel) {
+        if (moverse && desplazamiento < 44) {
             desplazamiento++;
 
-            x -=1.2;
+            x -= 1.2;
 
         }
 

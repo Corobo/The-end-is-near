@@ -16,9 +16,11 @@ import com.grupo.the_end_is_near.modelos.Modelo;
 
 public class Conversation extends Modelo {
     private String text;
-    public Conversation(Context context, double x, double y, String text) {
+    private String name;
+    public Conversation(Context context, double x, double y, String text, String name) {
         super(context, x, y, 50, 200);
         this.text = text;
+        this.name = name;
         imagen = CargadorGraficos.cargarDrawable(context, R.drawable.message);
     }
 
@@ -32,10 +34,13 @@ public class Conversation extends Modelo {
         imagen.draw(canvas);
 
         Paint paint = new Paint();
-        paint.setColor(Color.BLACK);
+        paint.setColor(Color.DKGRAY);
         paint.setAntiAlias(true);
-        paint.setTextSize(18);
-        canvas.drawText(String.valueOf(text), (float) (xIzquierda+ ancho*0.12), (int)y-Nivel.scrollEjeY, paint);
+        paint.setTextSize(16);
+        canvas.drawText(String.valueOf(name+":"), (float) (xIzquierda+ ancho*0.12), (float)(y-Nivel.scrollEjeY-altura*0.14), paint);
+        paint.setColor(Color.BLACK);
+        paint.setTextSize(14);
+        canvas.drawText(String.valueOf(text), (float) (xIzquierda+ ancho*0.12), (float)(y-Nivel.scrollEjeY+altura*0.16), paint);
     }
 
     public void setText(String text) {
