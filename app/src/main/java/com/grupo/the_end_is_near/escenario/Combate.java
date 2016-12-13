@@ -75,7 +75,6 @@ public class Combate {
         heroes.add(new Mage(context, GameView.pantallaAncho/1.2, GameView.pantallaAlto / 1.9));
 
         enCombate=false; //TODO debe ser false. Por el momento true para probarlo
-        turnoEnemigos();
     }
 
     public void actualizar(long tiempo) {
@@ -257,6 +256,7 @@ public class Combate {
                 }
                 if ((compañerosTerminados >= heroes.size() && !compañeroAtacando.estaOcupado()) || compañerosMuertos >= 2) {
                     todosCompañerosUsados();
+                    todosEnemigosUsados();
                     compañerosTerminados = 0;
                     compañeroAtacando = null;
                     turno = Turno.ENEMIGO;
@@ -283,6 +283,8 @@ public class Combate {
 
     public void todosEnemigosUsados(){
         for(Enemigo enemigo:enemigos){
+            enemigo.golpeado=false;
+            enemigo.sprite = enemigo.sprites.get("Parado");
             enemigo.utilizado=false;
         }
     }
