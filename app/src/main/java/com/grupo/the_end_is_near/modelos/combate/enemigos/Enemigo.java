@@ -110,6 +110,10 @@ public class Enemigo extends Modelo {
             if (this.tipo == 3 && tipoJugador == 2) {
                 return (daño - 15) * nivelJugador;
             }
+            if (this.tipo == 4) {
+            return (daño) * nivelJugador/2;
+            }
+
         return -1;
 
     }
@@ -207,6 +211,10 @@ public class Enemigo extends Modelo {
                 ultimoDañoRecibido = dañoJugador - 15;
             }
             if (this.tipo == 3 && tipoJugador == 2) {
+                vida -= (dañoJugador + 15);
+                ultimoDañoRecibido = dañoJugador + 15;
+            }
+            if (this.tipo == 4 ) {
                 vida -= (dañoJugador + 15);
                 ultimoDañoRecibido = dañoJugador + 15;
             }

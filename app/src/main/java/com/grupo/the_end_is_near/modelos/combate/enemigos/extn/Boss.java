@@ -17,8 +17,8 @@ public class Boss extends Enemigo {
         super(context, xInicial, yInicial,129,148);
 
         this.tipo=4;
-        this.vida = 2000;
-        this.daño = 60;
+        this.vida = 9999;
+        this.daño = 10000;
     }
 
     @Override
@@ -28,12 +28,13 @@ public class Boss extends Enemigo {
                 ancho, altura,
                 1, 1, true);
         sprites.put(PARADO, parado);
-    /*
+
         Sprite dañado = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.enemy_02_golpeado_anim),
                 ancho, altura,
                 4, 2, false);
         sprites.put(DAÑADO,dañado);
-        */
+
+        sprite = parado;
     }
 }

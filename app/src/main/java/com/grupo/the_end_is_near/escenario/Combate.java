@@ -55,6 +55,7 @@ public class Combate {
     public Personaje compañeroAtacando=null;
     public int compañerosTerminados=0;
     public int pociones;
+    public boolean jefe;
 
     public int jX;
     public int jY;
@@ -116,6 +117,8 @@ public class Combate {
                 GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_LEVELUP_MAPA);
             }
             if(!ocupado) {
+                if(jefe)
+                    GameView.nivel.ganoJefe = 1;
                 terminaCombate();
                 GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_GANANCIA_COMBATE);
             }
@@ -132,6 +135,8 @@ public class Combate {
             GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_LEVELDOWN_MAPA);
             //nivel.VolverPosada=true;
             if(!ocupado) {
+                if(jefe)
+                    GameView.nivel.ganoJefe = 0;
                 terminaCombate();
                 GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_PERDIDA_COMBATE);
             }
@@ -342,12 +347,17 @@ public class Combate {
 
     private void generarBoss() {
         enemigos.add(new Boss(context, GameView.pantallaAncho / (3), GameView.pantallaAlto / (2.5)));
+        this.fondo = new Sprite(
+                CargadorGraficos.cargarDrawable(context, R.drawable.fondo_08),
+                GameView.pantallaAncho, GameView.pantallaAlto,
+                1, 1, false);
     }
 
     public void iniciaCombate(boolean esBoss){
         GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_INICIO_COMBATE);
         GameView.nivel.nivelPausado=true;
         GameView.nivel.pararJugador();
+        jefe = esBoss;
         if(esBoss)
             generarBoss();
         else

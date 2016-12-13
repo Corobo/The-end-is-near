@@ -18,6 +18,7 @@ import com.grupo.the_end_is_near.gestores.GestorAudio;
 import com.grupo.the_end_is_near.global.Estado;
 import com.grupo.the_end_is_near.modelos.mapa.Conversation;
 import com.grupo.the_end_is_near.modelos.mapa.ciudadanos.Ciudadano;
+import com.grupo.the_end_is_near.modelos.mapa.enemigos.Boss1;
 import com.grupo.the_end_is_near.modelos.mapa.enemigos.Enemigo;
 import com.grupo.the_end_is_near.modelos.mapa.escenarios.Fondo;
 import com.grupo.the_end_is_near.modelos.mapa.items.Item;
@@ -42,6 +43,7 @@ public class Nivel {
     private Conversation conver;
 
     public boolean inicializado;
+    public int ganoJefe = -1;
     private Tile[][] mapaTiles;
 
     int cindex = 0;
@@ -64,7 +66,6 @@ public class Nivel {
 
     public GameView gameView;
 
-    public Bitmap mensaje;
     public boolean nivelPausado;
 
     public Nivel(Context context, int numeroNivel) throws Exception {
@@ -86,7 +87,6 @@ public class Nivel {
         scrollEjeY = 0;
 
         convinaciones = new int[]{-1,-1,-1};
-        mensaje = CargadorGraficos.cargarBitmap(context, R.drawable.description);
         conver = null;
         hasKey = false;
         enemigos = new LinkedList<Enemigo>();
@@ -102,7 +102,7 @@ public class Nivel {
 
 
     public void actualizar(long tiempo) throws Exception {
-        if (inicializado && !nivelPausado && !GameView.combate.enCombate) {
+        if (inicializado && !nivelPausado && !GameView.combate.enCombate && ganoJefe==-1) {
 
             for (Enemigo enemigo : enemigos) {
                 enemigo.actualizar(tiempo);
@@ -120,6 +120,14 @@ public class Nivel {
             jugador.procesarOrdenes(orientacionPadX, orientacionPadY);
             jugador.actualizar(tiempo);
 
+            if(ganoJefe==0){
+              GameView.gestorAudio.pararMusicaAmbiente();
+
+            }
+            if(ganoJefe==1){
+
+            }
+
             aplicarReglasMovimiento();
 
             if (btAccionPulsado)
@@ -129,7 +137,7 @@ public class Nivel {
 
 
     public void dibujar(Canvas canvas) {
-        if (inicializado && !nivelPausado && !GameView.combate.enCombate) {
+        if (inicializado && !nivelPausado && !GameView.combate.enCombate && ganoJefe==-1) {
             fondo.dibujar(canvas);
             dibujarTiles(canvas);
 
@@ -148,20 +156,6 @@ public class Nivel {
             if (conver != null)
                 conver.dibujar(canvas);
 
-            if (nivelPausado) {
-                // la foto mide 480x320
-                Rect orgigen = new Rect(0, 0,
-                        480, 320);
-
-                Paint efectoTransparente = new Paint();
-                efectoTransparente.setAntiAlias(true);
-
-                Rect destino = new Rect((int) (GameView.pantallaAncho / 2 - 480 / 2),
-                        (int) (GameView.pantallaAlto / 2 - 320 / 2),
-                        (int) (GameView.pantallaAncho / 2 + 480 / 2),
-                        (int) (GameView.pantallaAlto / 2 + 320 / 2));
-                canvas.drawBitmap(mensaje, orgigen, destino, null);
-            }
         }
     }
 
@@ -688,7 +682,10 @@ public class Nivel {
                     GameView.gestorAudio.pararMusicaAmbiente();
                     GameView.combate.jX=(int) jugador.x;
                     GameView.combate.jY=(int) jugador.y;
-                    GameView.combate.iniciaCombate(false);
+                    if(enemigo instanceof Boss1)
+                        GameView.combate.iniciaCombate(true);
+                    else
+                        GameView.combate.iniciaCombate(false);
                     enemigo.destruir();
                     iterator.remove();
                 }

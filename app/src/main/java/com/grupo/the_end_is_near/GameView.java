@@ -1,9 +1,11 @@
 package com.grupo.the_end_is_near;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -12,6 +14,7 @@ import android.view.SurfaceView;
 
 import com.grupo.the_end_is_near.escenario.Combate;
 import com.grupo.the_end_is_near.escenario.Nivel;
+import com.grupo.the_end_is_near.gestores.CargadorGraficos;
 import com.grupo.the_end_is_near.gestores.GestorAudio;
 import com.grupo.the_end_is_near.modelos.mapa.controles.BotonAccion;
 import com.grupo.the_end_is_near.modelos.mapa.controles.Pad;
@@ -38,6 +41,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public static Nivel nivel;
     public static Combate combate;
+    Bitmap mensaje;
 
     private Pad pad;
     private BotonAccion btAccion;
@@ -115,7 +119,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 break;
         }
 
-        procesarEventosTouch();
+        try {
+            procesarEventosTouch();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return true;
     }
 
@@ -127,8 +135,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     float x[] = new float[6];
     float y[] = new float[6];
 
-    public void procesarEventosTouch() {
-        if (!combate.enCombate) {
+    public void procesarEventosTouch() throws Exception {
+        if (!combate.enCombate && nivel.ganoJefe==-1) {
             boolean pulsacionPadMover = false;
 
             for (int i = 0; i < 6; i++) {
@@ -168,7 +176,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 nivel.orientacionPadX = 0;
                 nivel.orientacionPadY = 0;
             }
-        } else {
+        } else if(combate.enCombate && nivel.ganoJefe==-1) {
             for (int i = 0; i < 6; i++) {
                 if (accion[i] != NO_ACTION) {
 
@@ -216,6 +224,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 }
             }
         }
+        else{
+            for (int i = 0; i < 6; i++) {
+                if (accion[i] == ACTION_DOWN) {
+                    if (nivel.ganoJefe!=-1)
+                        reiniciar();
+                }
+            }
+        }
+    }
+
+    private void reiniciar() throws Exception {
+        cargarNivel(Maps.DEFAULT_WORLD);
+        combate = new Combate(context);
     }
 
     protected void inicializar() throws Exception {
@@ -233,7 +254,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         marcador1 = new Marcador(context, 0.75, 0);
         marcador2 = new Marcador(context, 3.5, 1.5);
         marcador3 = new Marcador(context, 3.5, -0.7);
-        cargarNivel(Maps.DEFAULT_WORLD);
+        cargarNivel(Maps.WORLD2);
         combate = new Combate(context);
     }
 
@@ -274,7 +295,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     protected void dibujar(Canvas canvas) {
-        if (!nivel.nivelPausado && !combate.enCombate) {
+        if (!nivel.nivelPausado && !combate.enCombate && nivel.ganoJefe==-1) {
             nivel.dibujar(canvas);
             pad.dibujar(canvas);
             btAccion.dibujar(canvas);
@@ -292,7 +313,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             canvas.drawText(combate.heroes.get(2).vida + " / " + combate.heroes.get(2).vidaMaxima, (float) (pantallaAncho * 0.65), (float) (pantallaAlto * 0.93), textoPersonajes);
             canvas.drawText(combate.heroes.get(2).mana + " / " + combate.heroes.get(2).manaMaximo, (float) (pantallaAncho * 0.80), (float) (pantallaAlto * 0.93), textoPersonajes);
         }
-        if (combate.enCombate) {
+        else if (combate.enCombate) {
             //gestorAudio.reproducirMusicaCombate(); TODO No reproduce si tenemos esto asi
             combate.dibujar(canvas);
             atacar.dibujar(canvas);
@@ -348,6 +369,35 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     canvas.drawText("" + dañoActual, (float) (pantallaAncho / 1.35), (float) (pantallaAlto / 1.9), textoDaño);
                 }
             }
+        }
+        else  if (nivel.ganoJefe==0) {
+            mensaje = CargadorGraficos.cargarBitmap(context,R.drawable.jefe_gana);
+                // la foto mide 480x320
+                Rect orgigen = new Rect(0, 0,
+                        480, 320);
+
+                Paint efectoTransparente = new Paint();
+                efectoTransparente.setAntiAlias(true);
+
+                Rect destino = new Rect((int) (GameView.pantallaAncho / 2 - 480 / 2),
+                        (int) (GameView.pantallaAlto / 2 - 320 / 2),
+                        (int) (GameView.pantallaAncho / 2 + 480 / 2),
+                        (int) (GameView.pantallaAlto / 2 + 320 / 2));
+                canvas.drawBitmap(mensaje, orgigen, destino, null);
+        }else if (nivel.ganoJefe==1) {
+            mensaje = CargadorGraficos.cargarBitmap(context,R.drawable.jefe_pierde);
+                // la foto mide 480x320
+                Rect orgigen = new Rect(0, 0,
+                        480, 320);
+
+                Paint efectoTransparente = new Paint();
+                efectoTransparente.setAntiAlias(true);
+
+                Rect destino = new Rect((int) (GameView.pantallaAncho / 2 - 480 / 2),
+                        (int) (GameView.pantallaAlto / 2 - 320 / 2),
+                        (int) (GameView.pantallaAncho / 2 + 480 / 2),
+                        (int) (GameView.pantallaAlto / 2 + 320 / 2));
+                canvas.drawBitmap(mensaje, orgigen, destino, null);
         }
     }
 
