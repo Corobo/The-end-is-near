@@ -244,8 +244,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void inicializarGestorAudio(Context context) {
-        gestorAudio = GestorAudio.getInstancia(context, R.raw.musica_fondo, R.raw.musica_combate);
-        gestorAudio.reproducirMusicaAmbiente();
+        gestorAudio = GestorAudio.getInstancia(context, R.raw.sonido_ambiente);
         gestorAudio.registrarSonido(GestorAudio.SONIDO_GOLPE_COMBATE,R.raw.golpe_combate);
         gestorAudio.registrarSonido(GestorAudio.SONIDO_MAGIA_MAGO_COMBATE,R.raw.magia_mago);
         gestorAudio.registrarSonido(GestorAudio.SONIDO_MAGIA_WARRIOR_COMBATE,R.raw.magia_warrior);
@@ -259,6 +258,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         gestorAudio.registrarSonido(GestorAudio.SONIDO_LEVELUP_MAPA,R.raw.pocion_mapa);
         gestorAudio.registrarSonido(GestorAudio.SONIDO_HABLAR_MAPA,R.raw.sonido_hablar);
         gestorAudio.registrarSonido(GestorAudio.SONIDO_INICIO_COMBATE,R.raw.sonido_inicio_combate);
+        gestorAudio.registrarSonido(GestorAudio.SONIDO_APARECE_LLAVE,R.raw.sonido_llave);
+        gestorAudio.registrarSonido(GestorAudio.SONIDO_HUIR_COMBATE,R.raw.sonido_huir);
+        gestorAudio.registrarSonido(GestorAudio.SONIDO_PERSONAJE_GOLPEADO,R.raw.jugador_golpeado);
 
     }
 

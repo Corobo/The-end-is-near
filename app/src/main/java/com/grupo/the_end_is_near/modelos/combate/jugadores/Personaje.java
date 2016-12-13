@@ -243,9 +243,10 @@ public abstract class Personaje extends Modelo{
         experiencia = 0;
     }
 
-    public void subirNivel(int expGanada){
+    public boolean subirNivel(int expGanada){
         experiencia += expGanada;
         if(experiencia>=experienciaNecesaria){
+
             nivel++;
             estado = Estado.ACTIVO;
             calcularVida();
@@ -253,7 +254,9 @@ public abstract class Personaje extends Modelo{
             calcularDaño();
             calcularExperienciaNecesaria();
             accion("Parado");
+            return true;
         }
+        return false;
     }
     public void bajarNivel(){
         nivel--;

@@ -3,8 +3,10 @@ package com.grupo.the_end_is_near.modelos.combate.enemigos;
 import android.content.Context;
 import android.graphics.Canvas;
 
+import com.grupo.the_end_is_near.GameView;
 import com.grupo.the_end_is_near.R;
 import com.grupo.the_end_is_near.gestores.CargadorGraficos;
+import com.grupo.the_end_is_near.gestores.GestorAudio;
 import com.grupo.the_end_is_near.global.Estado;
 import com.grupo.the_end_is_near.graficos.Sprite;
 import com.grupo.the_end_is_near.modelos.Modelo;
@@ -70,6 +72,7 @@ public class Enemigo extends Modelo {
             acelera = 3;
             atacando = true;
             ataco = true;
+            GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_PERSONAJE_GOLPEADO);
 
             if (this.tipo == 0 && tipoJugador == 0) {
                 return daño * nivelJugador;

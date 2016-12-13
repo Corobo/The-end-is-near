@@ -6,6 +6,7 @@ import com.grupo.the_end_is_near.GameView;
 import com.grupo.the_end_is_near.R;
 import com.grupo.the_end_is_near.escenario.Nivel;
 import com.grupo.the_end_is_near.gestores.CargadorGraficos;
+import com.grupo.the_end_is_near.gestores.GestorAudio;
 import com.grupo.the_end_is_near.global.Estado;
 import com.grupo.the_end_is_near.graficos.Sprite;
 
@@ -36,6 +37,7 @@ public class Key extends Item {
     public void doSomething(Nivel nivel) throws Exception {
         boolean pulsado = nivel.btAccionPulsado;
         if(pulsado && estado == Estado.ACTIVO){
+            GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_RECOGER_POCION_MAPA);
             nivel.setKey(true);
             estado = Estado.RECOLECTADO;
         }

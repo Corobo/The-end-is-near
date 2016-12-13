@@ -21,6 +21,9 @@ public class GestorAudio implements MediaPlayer.OnPreparedListener {
     public static final int SONIDO_RECOGER_POCION_MAPA = 12;
     public static final int SONIDO_LEVELUP_MAPA = 13;
     public static final int SONIDO_LEVELDOWN_MAPA = 14;
+    public static final int SONIDO_APARECE_LLAVE = 15;
+    public static final int SONIDO_HUIR_COMBATE = 16;
+    public static final int SONIDO_PERSONAJE_GOLPEADO = 17;
 
 
     // Pool de sonidos, para efectos de sonido.
@@ -30,17 +33,16 @@ public class GestorAudio implements MediaPlayer.OnPreparedListener {
     private Context contexto;
     // Media Player para bucle de sonido de fondo1.
     private MediaPlayer sonidoAmbiente;
-    private MediaPlayer sonidoCombate;
     private AudioManager gestorAudio;
 
     private static GestorAudio instancia = null;
 
     public static GestorAudio getInstancia(Context contexto,
-                                           int idMusicaAmbiente,int idMusicaCombate) {
+                                           int idMusicaAmbiente) {
         synchronized (GestorAudio.class) {
             if (instancia == null) {
                 instancia = new GestorAudio();
-                instancia.initSounds(contexto, idMusicaAmbiente,idMusicaCombate);
+                instancia.initSounds(contexto, idMusicaAmbiente);
             }
             return instancia;
         }
@@ -54,24 +56,20 @@ public class GestorAudio implements MediaPlayer.OnPreparedListener {
     private GestorAudio() {
     }
 
-    public void initSounds(Context contexto, int idMusicaAmbiente,int idMusicaCombate) {
+    public void initSounds(Context contexto, int idMusicaAmbiente) {
         this.contexto = contexto;
         poolSonidos = new SoundPool(4, AudioManager.STREAM_MUSIC, 100);
         mapSonidos = new HashMap<Integer, Integer>();
         gestorAudio = (AudioManager) contexto
                 .getSystemService(Context.AUDIO_SERVICE);
-        sonidoAmbiente = MediaPlayer.create(contexto, idMusicaCombate);
+        sonidoAmbiente = MediaPlayer.create(contexto, idMusicaAmbiente);
         sonidoAmbiente.setLooping(true);
         sonidoAmbiente.setVolume(1, 1);
 
-        sonidoCombate = MediaPlayer.create(contexto, idMusicaCombate);
-        sonidoCombate.setLooping(true);
-        sonidoCombate.setVolume(1, 1);
     }
 
     public void reproducirMusicaAmbiente() {
         try {
-            pararMusicaCombate();
             if (!sonidoAmbiente.isPlaying()) {
                 try {
                     sonidoAmbiente.setOnPreparedListener(this);
@@ -89,11 +87,6 @@ public class GestorAudio implements MediaPlayer.OnPreparedListener {
         }
     }
 
-    public void pararMusicaCombate(){
-        if (sonidoCombate.isPlaying()) {
-            sonidoCombate.stop();
-        }
-    }
 
     @Override
     public void onPrepared(MediaPlayer mp) {
@@ -116,17 +109,4 @@ public class GestorAudio implements MediaPlayer.OnPreparedListener {
                 volumen, volumen, 1, 0, 1f);
     }
 
-    public void reproducirMusicaCombate() {
-        try {
-            pararMusicaAmbiente();
-            if (!sonidoCombate.isPlaying()) {
-                try {
-                    sonidoCombate.setOnPreparedListener(this);
-                    sonidoCombate.prepareAsync();
-                } catch (Exception e) {
-                }
-            }
-        } catch (Exception e) {
-        }
-    }
 }

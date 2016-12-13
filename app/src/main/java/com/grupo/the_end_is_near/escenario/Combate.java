@@ -104,15 +104,17 @@ public class Combate {
 
         if(resultadoCombate(enemigosDerrotados)==0&& !ocupado){
             //TODO AnimacionGanar + sumar experiencia y si sube de nivel recuperar vida.
+            boolean sonarNivelUp=false;
             for(Personaje heroe:heroes){
                 if(heroe.estado == Estado.ACTIVO){
                     heroe.reiniciarValores();
                     heroe.accion("Parado");
                 }
-                heroe.subirNivel(heroe.nivel*35);
-
+                sonarNivelUp = heroe.subirNivel(heroe.nivel*35);
             }
-            GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_LEVELUP_MAPA);
+            if(sonarNivelUp){
+                GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_LEVELUP_MAPA);
+            }
             if(!ocupado) {
                 terminaCombate();
                 GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_GANANCIA_COMBATE);
@@ -189,6 +191,7 @@ public class Combate {
         }
     }
     public void huir() {
+        GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_HUIR_COMBATE);
         terminaCombate();
         turno = Turno.JUGADOR;
     }
@@ -362,6 +365,7 @@ public class Combate {
     }
 
     private void terminaCombate(){
+        GameView.gestorAudio.reproducirMusicaAmbiente();
         this.enCombate = false;
         GameView.nivel.getJugador().x = jX;
         GameView.nivel.getJugador().y = jY;

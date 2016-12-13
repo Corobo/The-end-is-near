@@ -685,6 +685,7 @@ public class Nivel {
                 if (jugador.colisiona(enemigo)) {
                     //TODO Lanzar Pelea
                     //eliminamos al enemigo del mapa
+                    GameView.gestorAudio.pararMusicaAmbiente();
                     GameView.combate.jX=(int) jugador.x;
                     GameView.combate.jY=(int) jugador.y;
                     GameView.combate.iniciaCombate(false);
@@ -742,6 +743,7 @@ public class Nivel {
                         //si la variable key es 1 se añade una llave desde update y de actualiza el valor.
                         // Esto asegura que solo se podrá generar una llave en el juego
                         key ++;
+                        GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_APARECE_LLAVE);
                     }
 
                 }
