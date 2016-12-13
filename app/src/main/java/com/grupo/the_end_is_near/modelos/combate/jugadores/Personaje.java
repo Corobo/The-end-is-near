@@ -15,10 +15,6 @@ import com.grupo.the_end_is_near.modelos.combate.enemigos.Enemigo;
 
 import java.util.HashMap;
 
-/**
- * Created by jaime on 05/12/2016.
- */
-
 public abstract class Personaje extends Modelo{
 
 
@@ -98,6 +94,8 @@ public abstract class Personaje extends Modelo{
             sprite.setFrameActual(0);
             sprite = sprites.get("Parado");
         }
+
+        //Actualizando sprites mientras ataca
         if(atacando) {
             if (s - millis > 550 && acelera < 0) {
                 acelera = 3;
@@ -112,6 +110,7 @@ public abstract class Personaje extends Modelo{
             x = x + acelera;
         }
 
+        //Actualizando sprites mientras utiliza magia
         if(magia){
             if (s - millis > 550 && s - millis < 1000 && acelera < 0) {
                 sprite = sprites.get("Magia");
@@ -132,6 +131,7 @@ public abstract class Personaje extends Modelo{
             x = x + acelera;
         }
 
+        //Actualizando sprites mientras es dañado
         if(dañado){
             if (s - millis > 2000) {
                 sprite = sprites.get("Parado");
@@ -145,6 +145,11 @@ public abstract class Personaje extends Modelo{
         sprite = sprites.get(s);
     }
 
+    /**
+     * El personaje ataca a un enemigo, siempre y cuando este este activo.
+     * Además comienza la animación de ataque, avanzando un poco para realizar dicho ataque.
+     * @param enemigo
+     */
     public void atacar(Enemigo enemigo){
         if(enemigo.estado==Estado.ACTIVO) {
             millis = System.currentTimeMillis();
@@ -157,6 +162,12 @@ public abstract class Personaje extends Modelo{
         }
     }
 
+    /**
+     * El personaje realiza un hechizo a un enemigo, siempre y cuando este este activo.
+     * Además marca que esta realizando magia, de cara a realizar el sprite, tanto del jugador
+     * invocando el hechizo, como del propio hechizo, en la posicion X,Y del enemigo.
+     * @param enemigo
+     */
     public void magia(Enemigo enemigo){
         if(enemigo.estado==Estado.ACTIVO) {
             enemigoX = enemigo.x;
@@ -171,16 +182,20 @@ public abstract class Personaje extends Modelo{
         }
     }
 
+    /**
+     * El jugador entra en estado de bloqueo. De este modo no se verá afectado por los ataques de
+     * los enemigos.
+     */
     public void bloquear(){
         sprite = sprites.get("Defensa");
         estaBloqueando=true;
     }
 
-    public void dejarBloquear(){
-        sprite = sprites.get("Parado");
-        estaBloqueando=false;
-    }
-
+    /**
+     * El jugador recibe daño, siempre y cuando no este bloqueado.
+     * Su vida se verá reducida y podrá morir si es 0.
+     * @param daño
+     */
     public void golpeado(int daño){
         if(!estaBloqueando) {
             this.vida = this.vida - daño;
@@ -195,6 +210,10 @@ public abstract class Personaje extends Modelo{
         }
     }
 
+    /**
+     * El jugador pasa a estar inactivo.
+     * Este estado podrá ser cambiado si, otro jugador sube de nivel o se toma una poción.
+     */
     public void morir(){
         estado= Estado.INACTIVO;
         sprite = sprites.get("Morir");
@@ -205,6 +224,11 @@ public abstract class Personaje extends Modelo{
         return atacando || magia || dañado;
     }
 
+    /**
+     * Entre atacar y realizar magia, el jugador realizará una de estas dos acciones de forma
+     * aleatoria.
+     * @param enemigo
+     */
     public void accionAleatoria(Enemigo enemigo) {
         if(enemigo.estado==Estado.ACTIVO) {
             if (!utilizado) {
@@ -243,6 +267,12 @@ public abstract class Personaje extends Modelo{
         experiencia = 0;
     }
 
+    /**
+     * Calcula en función de la experiencia ganada, si el jugador subirá de nivel o no. Además
+     * incorpora los nuevos valores si sube de nivel.
+     * @param expGanada
+     * @return true en caso de subir de nivel.
+     */
     public boolean subirNivel(int expGanada){
         experiencia += expGanada;
         if(experiencia>=experienciaNecesaria){
@@ -258,6 +288,10 @@ public abstract class Personaje extends Modelo{
         }
         return false;
     }
+
+    /**
+     * Reduce el nivel del jugador, calculando sus nuevos valores.
+     */
     public void bajarNivel(){
         nivel--;
         estado = Estado.ACTIVO;
@@ -276,6 +310,9 @@ public abstract class Personaje extends Modelo{
         utilizado=false;
     }
 
+    /**
+     * El jugador reestablece todas sus facultades, y pasa a estar ACTIVO.
+     */
     public void restablecerVida(){
         estado = Estado.ACTIVO;
         calcularVida();

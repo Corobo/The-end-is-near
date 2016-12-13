@@ -29,15 +29,6 @@ import java.util.List;
 
 public class Combate {
 
-    //TODO
-    //1. Colocar personajes con la animación estandar (parados)
-    //2. Animaciones para el ataque de Heroes y de enemigos
-    //El heroe que ataque se mueve un poco a la izquierda y si es un enemigo hacia la derecha.
-    //A continuación vuelven a su posición inicial
-    //3. Animación para el Heroe recibiendo el daño. El enemigo lo mismo.
-    //4. Animación de muerte para cada Heroe y enemigo (este podría simplemente desaparecer)
-    //5. Pantalla de victoria/derrota
-
     public boolean enCombate;
     private Context context;
 
@@ -45,7 +36,6 @@ public class Combate {
     public List<Personaje> heroes;
 
     private Sprite fondo;
-    public long millis;
 
     public int turno= Turno.JUGADOR;
 
@@ -54,6 +44,7 @@ public class Combate {
 
     public Personaje compañeroAtacando=null;
     public int compañerosTerminados=0;
+
     public int pociones;
     public boolean jefe;
 
@@ -74,18 +65,20 @@ public class Combate {
         heroes.add(new Warrior(context, GameView.pantallaAncho/1.25, GameView.pantallaAlto / 2.5));
         heroes.add(new Mage(context, GameView.pantallaAncho/1.2, GameView.pantallaAlto / 1.9));
 
-        enCombate=false; //TODO debe ser false. Por el momento true para probarlo
+        enCombate=false;
     }
 
     public void actualizar(long tiempo) {
-        int enemigosDerrotados = 0;
+        int enemigosDerrotados = 0; //Para saber si hemos derrotados a todos o no
+        boolean ocupado=false; //Nos dice si hay alguien ocupado en este momento
 
         turnoCompañeros();
         turnoEnemigos();
 
-        boolean ocupado=false;
+
         for(Personaje heroe:heroes){
             if(turno==Turno.JUGADOR && heroe.estaBloqueando) {
+                //Nuevo turno, y por lo tanto ya no estará bloqueado
                 heroe.accion("Parado");
                 heroe.estaBloqueando = false;
             }
@@ -103,7 +96,7 @@ public class Combate {
         }
 
         if(resultadoCombate(enemigosDerrotados)==0&& !ocupado){
-            //TODO AnimacionGanar + sumar experiencia y si sube de nivel recuperar vida.
+            //Gano el combate, por lo tanto sube la experiencia
             boolean sonarNivelUp=false;
             for(Personaje heroe:heroes){
                 if(heroe.estado == Estado.ACTIVO){
@@ -122,17 +115,15 @@ public class Combate {
                 GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_GANANCIA_COMBATE);
             }
         }else if (resultadoCombate(enemigosDerrotados)==1 && !ocupado){
-            //TODO AnimacionPerder + volver al mapa volviendo a la entrada pero con un nivel menos.
+            //Perdio el combate, por lo tanto baja de nivel
             for(Personaje heroe:heroes){
                 if(heroe.estado == Estado.ACTIVO){
                     heroe.reiniciarValores();
                     heroe.accion("Parado");
                 }
                 heroe.bajarNivel();
-
             }
             GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_LEVELDOWN_MAPA);
-            //nivel.VolverPosada=true;
             if(!ocupado) {
                 if(jefe)
                     GameView.nivel.ganoJefe = 0;
@@ -155,6 +146,10 @@ public class Combate {
         }
     }
 
+    /**
+     * El usuario ataca con su personaje, seleccionando a un enemigo. A continuación
+     * deja paso al turno de los compañeros.
+     */
     public void atacar(){
         if(turno==Turno.JUGADOR) {
             turno=Turno.COMPAÑEROS;
@@ -165,6 +160,10 @@ public class Combate {
         }
     }
 
+    /**
+     * El usuario se defiende, y sus compañeros le imitan. Puesto que en ese turno solo esta
+     * defendiendo, se pasará al turno de los enemigos.
+     */
     public void defender(){
         if(turno==Turno.JUGADOR) {
             turno=Turno.ENEMIGO;
@@ -174,6 +173,10 @@ public class Combate {
         }
     }
 
+    /**
+     * El usuario realiza un hechizo con su personaje, seleccionando a un enemigo. A continuación
+     * deja paso al turno de los compañeros.
+     */
     public void magia(){
         if(turno==Turno.JUGADOR) {
             turno=Turno.COMPAÑEROS;
@@ -184,6 +187,10 @@ public class Combate {
         }
     }
 
+    /**
+     * Mientras que tenga pociones, podrá reestablecer la vida de todos los heroes.
+     * Esto consumirá un turno del jugador.
+     */
     public void pocion() {
         if(pociones>0) {
             for (Personaje heroe : heroes) {
@@ -194,40 +201,51 @@ public class Combate {
             GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_POCION_COMBATE);
         }
     }
+
+    /**
+     * El usuario deja el combate
+     */
     public void huir() {
         GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_HUIR_COMBATE);
         terminaCombate();
         turno = Turno.JUGADOR;
     }
 
+    /**
+     * Cada enemigo activo atacará aleatoriamente a un heroe del campo que este activo también
+     */
     public void turnoEnemigos(){
         if(turno==Turno.ENEMIGO) {
             for (Enemigo enemigo : enemigos){
                 enemigosTerminados = enemigosTerminados + 1;
                 if(enemigo.estado==Estado.ACTIVO &&!enemigo.utilizado && ((enemigoAtacando!=null && !enemigoAtacando.estaOcupado()) || enemigoAtacando==null)) {
-                    enemigo.utilizado=true;
-                    int x = new Double(Math.random() * 3).intValue();
+                    enemigo.utilizado=true; //Ya se utilizo este heroe
+
+                    int x = new Double(Math.random() * 3).intValue(); //Elije uno aleatoriamente
                     Personaje heroe = heroes.get(x);
-                    if(heroe.estado == Estado.ACTIVO) {
+
+                    if(heroe.estado == Estado.ACTIVO) { //Solo si el heroe no esta muerto ya
                         int daño = enemigo.golpear(heroe.tipo, heroe.nivel);
                         enemigoAtacando = enemigo;
                         heroe.golpeado(daño);
+
                         GameView.pintarDaño=x;
                         GameView.dañoActual=daño;
                     }
                 }
             }
-            if(enemigoAtacando!=null)
-                System.out.println(enemigosTerminados+","+enemigos.size()+","+enemigoAtacando.estaOcupado());
             if(enemigosTerminados >= enemigos.size() && (enemigoAtacando!=null && !enemigoAtacando.estaOcupado())){
                 todosEnemigosUsados();
                 enemigosTerminados=0;
                 enemigoAtacando=null;
-                turno= Turno.JUGADOR;
+                turno= Turno.JUGADOR;//El jugador podrá volver a seleccionar una acción
             }
         }
     }
 
+    /**
+     * Cada compañero activo atacará aleatoriamente a un enemigo del campo que este activo también.
+     */
     public void turnoCompañeros(){
         int compañerosMuertos=0;
         if(!heroes.get(1).estaBloqueando) {
@@ -238,15 +256,17 @@ public class Combate {
                     if ((compañeroAtacando != null && !compañeroAtacando.estaOcupado()) || compañeroAtacando == null) {
                         if (heroe.tipo != 0 && heroe.estado == Estado.ACTIVO) {
                             compañerosTerminados = compañerosTerminados + 1;
+
                             int x = new Double(Math.random() * enemigos.size()).intValue();
                             Enemigo enemigo = enemigos.get(x);
-                            //enemigoAtacando = enemigo;
+
                             heroe.accionAleatoria(enemigo);
                             heroe.utilizado=true;
+
                             if (enemigo.estado == Estado.ACTIVO)
                                 enemigo.golpeado(heroe.tipo, heroe.daño);
                             else{
-                                enemigo=primerEnemigoActivo();
+                                enemigo=primerEnemigoActivo(); //Buscará un enemigo que si este activo
                                 if(enemigo!=null)
                                     enemigo.golpeado(heroe.tipo, heroe.daño);
                             }
@@ -259,7 +279,7 @@ public class Combate {
                     todosEnemigosUsados();
                     compañerosTerminados = 0;
                     compañeroAtacando = null;
-                    turno = Turno.ENEMIGO;
+                    turno = Turno.ENEMIGO; //Turno de los compañeros terminado, pasamos el turno a los enemigos
                 }
             }
         }else{
@@ -267,6 +287,9 @@ public class Combate {
         }
     }
 
+    /**
+     * @return el primer enemigo activo que encuentre del listado de enemigos
+     */
     private Enemigo primerEnemigoActivo() {
         for (Enemigo enemigo:enemigos){
             if(enemigo.estado==Estado.ACTIVO)
@@ -275,12 +298,20 @@ public class Combate {
         return null;
     }
 
+    /**
+     * Inicializa todos los heroes para que esten listos para ser usados en posteriores
+     * turnos
+     */
     public void todosCompañerosUsados(){
         for(Personaje heroe:heroes){
             heroe.utilizado=false;
         }
     }
 
+    /**
+     * Inicializa todos los enemigos para que esten listos para ser usados en posteriores
+     * turnos
+     */
     public void todosEnemigosUsados(){
         for(Enemigo enemigo:enemigos){
             enemigo.golpeado=false;
@@ -289,30 +320,10 @@ public class Combate {
         }
     }
 
-    private void iniciarEnemigosAleatorios() {
-        double pos =0;
-        double posY=0;
-        int x = new Double(Math.random() * 3).intValue();
-        while (x >= 0) {
-            int tipoEnemigo = new Double(Math.random() * 3).intValue()+1;
-            if(tipoEnemigo==1)
-                enemigos.add(new EnemigoTipo1(context, GameView.pantallaAncho / (3 + pos), GameView.pantallaAlto / (2.5 + posY)));
-            if(tipoEnemigo==2)
-                enemigos.add(new EnemigoTipo2(context, GameView.pantallaAncho / (3 + pos), GameView.pantallaAlto / (2.5 + posY)));
-            if(tipoEnemigo==3)
-                enemigos.add(new EnemigoTipo3(context, GameView.pantallaAncho / (3 + pos), GameView.pantallaAlto / (2.5 + posY)));
-            x--;
-            if(pos==0) {
-                pos = pos + 1.5;
-                posY = posY +1.5;
-            }
-            else if(pos==1.5) {
-                pos = 1.5;
-                posY = -0.7;
-            }
-        }
-    }
 
+    /**
+     * Genera aleatoriamente los enemigos en el combate
+     */
     private void generarEnemigos(){
         if(enemigos.size()==1){
             enemigos.remove(0);
@@ -347,6 +358,9 @@ public class Combate {
         }
     }
 
+    /**
+     * Genera un único enemigo, mas fuerte que los normales, para el combate.
+     */
     private void generarBoss() {
         enemigos.add(new Boss(context, GameView.pantallaAncho / (3), GameView.pantallaAlto / (2.5)));
         this.fondo = new Sprite(
@@ -355,6 +369,10 @@ public class Combate {
                 1, 1, false);
     }
 
+    /**
+     * Inicializa el combate, parando el mapa en el que el jugador se estaba moviendo con anterioridad
+     * @param esBoss
+     */
     public void iniciaCombate(boolean esBoss){
         GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_INICIO_COMBATE);
         GameView.nivel.nivelPausado=true;
@@ -376,6 +394,9 @@ public class Combate {
         return -1;
     }
 
+    /**
+     * Devuelve al jugador al mapa, y salimos del combate.
+     */
     private void terminaCombate(){
         GameView.gestorAudio.reproducirMusicaAmbiente();
         this.enCombate = false;

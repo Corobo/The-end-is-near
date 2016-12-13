@@ -14,10 +14,6 @@ import com.grupo.the_end_is_near.modelos.combate.jugadores.Personaje;
 
 import java.util.HashMap;
 
-/**
- * Created by jaime on 05/12/2016.
- */
-
 public class Enemigo extends Modelo {
 
     public int vida=300;
@@ -67,6 +63,12 @@ public class Enemigo extends Modelo {
             sprite.dibujarSprite(canvas, (int) x , (int) y, golpeado);
     }
 
+    /**
+     * Calculo de valores para el golpe
+     * @param tipoJugador
+     * @param nivelJugador
+     * @return Valor del daño que le corresponde al jugador, según su nivel y tipo.
+     */
     public int golpear(int tipoJugador,int nivelJugador){
             millis = System.currentTimeMillis();
             acelera = 3;
@@ -158,6 +160,12 @@ public class Enemigo extends Modelo {
         }
     }
 
+    /**
+     * Calculo de valores para el daño que recibirá el enemigo. Además de iniciar las
+     * animaciones pertinentes a ser golpeado.
+     * @param tipoJugador
+     * @param dañoJugador
+     */
     public void golpeado(int tipoJugador,int dañoJugador){
         if(estado == Estado.ACTIVO) {
             millis = System.currentTimeMillis();
