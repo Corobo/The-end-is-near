@@ -40,7 +40,7 @@ public class Conversation extends Modelo {
         canvas.drawText(String.valueOf(name+":"), (float) (xIzquierda+ ancho*0.12), (float)(y-Nivel.scrollEjeY-altura*0.14), paint);
         paint.setColor(Color.BLACK);
         paint.setTextSize(14);
-        canvas.drawText(String.valueOf(text), (float) (xIzquierda+ ancho*0.12), (float)(y-Nivel.scrollEjeY+altura*0.16), paint);
+        canvas.drawText(String.valueOf(text), (float) (xIzquierda+ ancho*0.12), (float)(y-Nivel.scrollEjeY+altura*0.20), paint);
     }
 
     public void setText(String text) {

@@ -75,7 +75,7 @@ public abstract class Ciudadano extends Modelo {
             GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_HABLAR_MAPA);
             estado = Estado.HABLANDO;
             if (index < frases.length) {
-                if (index < frases.length - 1)
+                if (index < frases.length - 1 && !frases[index].contains("..."))
                     frases[index] += "...";
                 if (index == 0)
                     nivel.setConver(new Conversation(context, this.x, this.y - (altura + 8),
