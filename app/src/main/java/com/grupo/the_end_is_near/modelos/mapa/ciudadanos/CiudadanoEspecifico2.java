@@ -10,8 +10,8 @@ import com.grupo.the_end_is_near.graficos.Sprite;
  * Created by sergiocueto on 12/12/2016.
  */
 
-public class Rigoverto extends Ciudadano {
-    public Rigoverto(Context context, double x, double y) {
+public class CiudadanoEspecifico2 extends Ciudadano {
+    public CiudadanoEspecifico2(Context context, double x, double y) {
         super(context, x, y, 41, 29);
 
         nombre = "Rigoverto";

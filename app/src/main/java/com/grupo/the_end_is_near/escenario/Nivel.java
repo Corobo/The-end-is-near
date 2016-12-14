@@ -242,7 +242,7 @@ public class Nivel {
 
                 buenasGentes.add(PaisanosFactory.getMariPepa(context, xCentroAbajoTileMa, yCentroAbajoTileMa));
                 return new Tile(CargadorGraficos.cargarDrawable(context,
-                        R.drawable.suelo_verde_1), Tile.PASABLE);
+                        R.drawable.suelo_piedra), Tile.PASABLE);
             case '9':
                 // Ciudadano Rigoverto
                 int xCentroAbajoTileRi = x * Tile.ancho + Tile.ancho;

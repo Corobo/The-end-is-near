@@ -254,7 +254,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         marcador1 = new Marcador(context, 0.75, 0);
         marcador2 = new Marcador(context, 3.5, 1.5);
         marcador3 = new Marcador(context, 3.5, -0.7);
-        cargarNivel(Maps.WORLD2);
+        cargarNivel(Maps.DEFAULT_WORLD);
         combate = new Combate(context);
     }
 

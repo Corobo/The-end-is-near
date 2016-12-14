@@ -37,6 +37,7 @@ public class Generico extends Ciudadano {
                         CargadorGraficos.cargarDrawable(context, R.drawable.aldeano3),
                         ancho, altura,
                         1, 1, true);
+                break;
             case 3:
                 sprite = new Sprite(
                         CargadorGraficos.cargarDrawable(context, R.drawable.aldeana1),

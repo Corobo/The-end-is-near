@@ -13,12 +13,12 @@ import com.grupo.the_end_is_near.modelos.mapa.Conversation;
  * Created by sergiocueto on 08/12/2016.
  */
 
-public class Manolo extends Ciudadano {
+public class CiudadanoPuerta extends Ciudadano {
     // para gestionar el desplazamiento de manolete
     private int desplazamiento;
     private boolean moverse;
 
-    public Manolo(Context context, double x, double y) {
+    public CiudadanoPuerta(Context context, double x, double y) {
         super(context, x, y, 40, 40);
 
         desplazamiento = 0;

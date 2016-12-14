@@ -10,9 +10,9 @@ import com.grupo.the_end_is_near.graficos.Sprite;
  * Created by sergiocueto on 08/12/2016.
  */
 
-public class MariPepa extends Ciudadano {
+public class CiudadanoPuzzle extends Ciudadano {
 
-    public MariPepa(Context context, double x, double y) {
+    public CiudadanoPuzzle(Context context, double x, double y) {
         super(context, x, y, 41, 29);
 
         nombre = "MariPepa";

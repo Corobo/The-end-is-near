@@ -206,9 +206,14 @@ public class Combate {
      * El usuario deja el combate
      */
     public void huir() {
-        GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_HUIR_COMBATE);
-        terminaCombate();
-        turno = Turno.JUGADOR;
+        if(!jefe) {
+            GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_HUIR_COMBATE);
+            terminaCombate();
+            turno = Turno.JUGADOR;
+        }else{
+            GameView.nivel.ganoJefe=0;
+            terminaCombate();
+        }
     }
 
     /**
@@ -374,6 +379,8 @@ public class Combate {
      * @param esBoss
      */
     public void iniciaCombate(boolean esBoss){
+        if(enemigos.size()>0)
+            enemigos.clear();
         GameView.gestorAudio.reproducirSonido(GestorAudio.SONIDO_INICIO_COMBATE);
         GameView.nivel.nivelPausado=true;
         GameView.nivel.pararJugador();
